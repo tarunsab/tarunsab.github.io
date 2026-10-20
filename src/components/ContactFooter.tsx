@@ -41,11 +41,14 @@ export const ContactFooter: React.FC = () => {
           {/* Dennis Snellenberg Profile Avatar + "Let's work together" */}
           <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-normal tracking-tight text-white leading-[1.05]">
             <span className="flex items-center gap-4 flex-wrap">
-              <span className="inline-block w-14 h-14 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-white/20 shrink-0">
+              <span className="inline-block w-14 h-14 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-white/20 shrink-0 bg-[#141517]">
                 <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
+                  src="./images/tarun-portrait.jpg"
                   alt="Tarun Sabbineni"
                   className="w-full h-full object-cover grayscale"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = "https://avatars.githubusercontent.com/u/15095734?v=4";
+                  }}
                 />
               </span>
               <span>Let’s work</span>

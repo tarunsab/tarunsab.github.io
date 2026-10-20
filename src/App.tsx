@@ -1,3 +1,4 @@
+import { Preloader } from './components/Preloader';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { HomeIntro } from './components/HomeIntro';
@@ -10,7 +11,10 @@ import { ContactFooter } from './components/ContactFooter';
 export function App() {
   return (
     <div className="min-h-screen bg-white text-[#1C1D20] selection:bg-[#455CE9] selection:text-white">
-      {/* Top Navbar & Floating Menu */}
+      {/* Dennis Snellenberg Exact Signature Preloader */}
+      <Preloader />
+
+      {/* Top Navbar & Floating Magnetic Menu */}
       <Navbar />
 
       <main>
@@ -29,7 +33,7 @@ export function App() {
         {/* Fun & Interactive 3D Canvas Travel Atlas */}
         <TravelAtlas />
 
-        {/* Authentic About & Interests (No music/fluff) */}
+        {/* Authentic About & Interests */}
         <AboutSection />
       </main>
 

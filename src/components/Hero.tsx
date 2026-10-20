@@ -24,22 +24,26 @@ export const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Hero Center Personal Image */}
+      {/* Hero Center Personal Image (Tarun's authentic portrait) */}
       <div className="relative z-10 flex-1 flex items-center justify-center px-6">
-        <div className="relative w-full max-w-md sm:max-w-lg aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl border border-white/10 group">
+        <div className="relative w-full max-w-sm sm:max-w-md aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl border border-white/10 group bg-[#141517]">
           <img
-            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1200&q=85"
+            src="./images/tarun-portrait.jpg"
             alt="Tarun Sabbineni"
-            className="w-full h-full object-cover grayscale contrast-110 group-hover:scale-105 transition-transform duration-700 opacity-90"
+            className="w-full h-full object-cover grayscale contrast-110 group-hover:scale-105 transition-transform duration-700 opacity-95"
+            onError={(e) => {
+              // Fallback to direct github avatar if local relative path needs absolute
+              (e.currentTarget as HTMLImageElement).src = "https://avatars.githubusercontent.com/u/15095734?v=4";
+            }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1C1D20] via-transparent to-transparent opacity-80" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1C1D20]/60 via-transparent to-transparent pointer-events-none" />
         </div>
       </div>
 
       {/* Hero Bottom Information & Subtitle */}
       <div className="relative z-20 max-w-7xl mx-auto px-8 sm:px-16 w-full flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 mb-8">
         <div className="flex items-center gap-3">
-          {/* Dennis signature 14px up-right arrow */}
+          {/* Dennis signature up-right arrow */}
           <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center shrink-0">
             <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2.77 0H12V9.23M12 0L0 12" stroke="white" strokeWidth="1.75" />
