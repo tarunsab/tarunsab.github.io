@@ -8,42 +8,31 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
-        serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        display: ['"Playfair Display"', 'Georgia', 'serif'],
+        sans: ['"Neue Montreal"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+        display: ['"Neue Montreal"', '-apple-system', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
       },
       colors: {
-        canvas: {
-          dark: '#0E0F12',
-          light: '#F8F7F4',
-        },
-        surface: {
-          DEFAULT: '#16181D',
-          hover: '#1F2229',
-          light: '#F0EEE9',
-        },
-        luxury: {
-          gold: '#C5A880',
-          champagne: '#E8E1D5',
-          platinum: '#E5E7EB',
-          sand: '#DFD7C7',
-          graphite: '#25262B',
+        dennis: {
+          dark: '#1C1D20',
+          darker: '#141517',
+          light: '#FFFFFF',
+          gray: '#999D9E',
+          lightgray: '#E9EAEB',
+          offwhite: '#F4F4F4',
+          blue: '#455CE9',
+          bluedark: '#334BD3',
+          border: 'rgba(28, 29, 32, 0.175)',
+          borderLight: 'rgba(255, 255, 255, 0.175)',
         },
       },
       animation: {
-        'marquee': 'marquee 30s linear infinite',
-        'marquee-reverse': 'marquee-reverse 30s linear infinite',
-        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'marquee': 'marquee 22s linear infinite',
       },
       keyframes: {
         marquee: {
           '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-50%)' },
-        },
-        'marquee-reverse': {
-          '0%': { transform: 'translateX(-50%)' },
-          '100%': { transform: 'translateX(0%)' },
         },
       },
     },

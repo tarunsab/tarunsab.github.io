@@ -2,92 +2,197 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --canvas-bg: #0E0F12;
-    --canvas-text: #F8F7F4;
-    --accent-gold: #C5A880;
-    --surface-dark: #16181D;
-    --border-subtle: rgba(255, 255, 255, 0.08);
-  }
-
-  html {
-    scroll-behavior: smooth;
-    background-color: #0E0F12;
-    color: #F8F7F4;
-  }
-
-  body {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #0E0F12;
-    color: #F8F7F4;
-    overflow-x: hidden;
-  }
-
-  /* Custom subtle scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #0E0F12;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #282A30;
-    border-radius: 9999px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #C5A880;
-  }
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('/fonts/NeueMontreal-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
 }
 
-/* Dennis Snellenberg Magnetic & Smooth Typography Effects */
-.font-display {
-  font-family: 'Playfair Display', Georgia, serif;
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('/fonts/NeueMontreal-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
 
-.font-mono-clean {
-  font-family: 'JetBrains Mono', monospace;
-  letter-spacing: 0.05em;
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('/fonts/NeueMontreal-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
 }
 
-/* Subtle film grain background overlay */
-.bg-noise {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
-  background-size: 24px 24px;
+:root {
+  --color-dark: #1C1D20;
+  --color-dark-dark: #141517;
+  --color-white: #FFFFFF;
+  --color-blue: #455CE9;
+  --color-blue-dark: #334BD3;
+  --color-gray: #999D9E;
+  --color-lightgray: #E9EAEB;
+  --color-border: rgba(28, 29, 32, 0.175);
+  --color-border-light: rgba(255, 255, 255, 0.175);
 }
 
-/* Dennis-style smooth marquee */
-@keyframes marquee {
+html {
+  scroll-behavior: smooth;
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #1C1D20;
+}
+
+body {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #FFFFFF;
+  color: #1C1D20;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom minimal scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #1C1D20;
+}
+::-webkit-scrollbar-thumb {
+  background: #455CE9;
+  border-radius: 3px;
+}
+
+/* Dennis Snellenberg Spinning Digital Globe */
+.digital-ball {
+  width: 4.8em;
+  height: 4.8em;
+  background: #455CE9;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(69, 92, 233, 0.35);
+  transition: transform 0.4s ease;
+}
+
+.digital-ball:hover {
+  transform: scale(1.08);
+}
+
+@keyframes globeRotate {
+  0%   { transform: translate(-50%, -50%) rotate(15deg); }
+  50%  { transform: translate(-50%, -50%) rotate(-15deg); }
+  100% { transform: translate(-50%, -50%) rotate(15deg); }
+}
+
+.globe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2.8em;
+  height: 2.8em;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.globe-wrap {
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(30deg);
+  animation: globeRotate 5.4s cubic-bezier(0.35, 0, 0.65, 1) infinite;
+  overflow: hidden;
+  box-shadow: inset 0px 0px 0px .12em #FFFFFF;
+}
+
+.globe-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  box-shadow: inset 0px 0px 0px .06em rgba(255, 255, 255, 0.7);
+}
+
+.globe-circle-1 { width: 100%; height: 100%; }
+.globe-circle-2 { width: 68%; height: 100%; }
+.globe-circle-3 { width: 34%; height: 100%; }
+.globe-circle-hor {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 60%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  box-shadow: inset 0px 0px 0px .06em rgba(255, 255, 255, 0.7);
+}
+.globe-circle-middle {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* Dennis Snellenberg Big Name Marquee */
+@keyframes marqueeScroll {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
 }
 
-.animate-marquee {
+.name-marquee-inner {
   display: flex;
-  width: max-content;
-  animation: marquee 35s linear infinite;
+  white-space: nowrap;
+  animation: marqueeScroll 24s linear infinite;
+  will-change: transform;
 }
 
-.animate-marquee:hover {
+.name-marquee-inner:hover {
   animation-play-state: paused;
 }
 
-/* Luxury button glow & transitions */
-.btn-magnetic {
-  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+/* Dennis Snellenberg Magnetic Circular Buttons */
+.btn-round {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s ease;
 }
 
-.btn-magnetic:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px -10px rgba(197, 168, 128, 0.25);
+.btn-round:hover {
+  transform: scale(1.06);
 }
 
-/* Image zoom hover effect */
-.img-luxury-zoom {
-  transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1), filter 0.5s ease;
+/* Dennis Snellenberg Curved Footer Scoop */
+.footer-rounded-div {
+  position: relative;
+  height: 100px;
+  width: 100%;
+  overflow: hidden;
+  background: #FFFFFF;
 }
 
-.img-luxury-zoom:hover {
-  transform: scale(1.04);
+.footer-rounded-div .rounded-div {
+  position: absolute;
+  height: 750%;
+  width: 150%;
+  left: -25%;
+  top: 0;
+  border-radius: 50%;
+  background: #1C1D20;
 }

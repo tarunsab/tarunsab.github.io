@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { MapPin, Calendar, Maximize2, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { curatedPhotos } from '../data/siteData';
 import { PhotoCategory } from '../types';
 
@@ -7,14 +7,14 @@ export const PhotographySection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<PhotoCategory>('all');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-  const filteredPhotos = curatedPhotos.filter((photo) => {
+  const filteredPhotos = curatedPhotos.filter((p) => {
     if (activeCategory === 'all') return true;
-    return photo.category === activeCategory;
+    return p.category === activeCategory;
   });
 
   const currentPhoto = lightboxIndex !== null ? filteredPhotos[lightboxIndex] : null;
 
-  // Keyboard navigation for lightbox
+  // Keyboard navigation
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (lightboxIndex === null) return;
@@ -34,201 +34,133 @@ export const PhotographySection: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
-  // Lock scroll when lightbox is open
-  useEffect(() => {
-    if (lightboxIndex !== null) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [lightboxIndex]);
-
   const categories: { label: string; value: PhotoCategory }[] = [
     { label: 'All Collections', value: 'all' },
     { label: 'Landscapes', value: 'landscapes' },
     { label: 'Architecture', value: 'architecture' },
-    { label: 'Travel & Urban', value: 'travel' },
+    { label: 'Travel', value: 'travel' },
   ];
 
   return (
-    <section id="photography" className="py-24 sm:py-32 border-b border-white/10 bg-[#0E0F12]">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8">
+    <section id="photography" className="bg-white text-[#1C1D20] py-24 sm:py-32 px-8 sm:px-16 border-b border-[#1C1D20]/10">
+      <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-white/10 pb-8">
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 text-xs font-mono-clean text-[#C5A880] uppercase tracking-widest">
-              <span className="w-2 h-2 rounded-full bg-[#C5A880]" />
-              <span>02 / Creative Portfolio</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white font-sans uppercase">
-              Selected <span className="font-display italic font-normal text-[#E8E1D5] lowercase">Photography</span>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-8 border-b border-[#1C1D20]/15 mb-12">
+          <div>
+            <span className="text-xs uppercase tracking-widest text-[#999D9E] font-medium block mb-2">
+              Visual Archive
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-[#1C1D20]">
+              Selected Photography
             </h2>
           </div>
 
-          <div className="text-right flex flex-col items-start md:items-end">
-            <p className="text-xs font-mono-clean text-[#88898C] uppercase tracking-wider">
-              Medium Format & 35mm Prime Optics
-            </p>
-            <p className="text-sm text-[#E8E1D5] font-light">
-              Curated travel, alpine landscapes & structural geometry
-            </p>
-          </div>
-        </div>
-
-        {/* Filter Controls Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-10 pb-4">
+          {/* Category Filter Pills */}
           <div className="flex flex-wrap items-center gap-2">
-            {categories.map((cat) => (
+            {categories.map((c) => (
               <button
-                key={cat.value}
-                onClick={() => setActiveCategory(cat.value)}
-                className={`px-4 py-2 rounded-full text-xs uppercase tracking-wider font-medium transition-all duration-300 ${
-                  activeCategory === cat.value
-                    ? 'bg-[#E8E1D5] text-[#0E0F12] shadow-md'
-                    : 'bg-white/[0.04] text-[#88898C] hover:text-white hover:bg-white/[0.08]'
+                key={c.value}
+                onClick={() => setActiveCategory(c.value)}
+                className={`px-5 py-2 rounded-full text-xs uppercase tracking-wider transition-all duration-300 ${
+                  activeCategory === c.value
+                    ? 'bg-[#1C1D20] text-white'
+                    : 'bg-[#F4F4F4] text-[#1C1D20] hover:bg-[#E9EAEB]'
                 }`}
               >
-                {cat.label}
+                {c.label}
               </button>
             ))}
           </div>
-
-          <span className="text-xs font-mono-clean text-[#88898C]">
-            Showing {filteredPhotos.length} curated frames
-          </span>
         </div>
 
-        {/* Photography Grid: Aristide Benoist Editorial Masonry / Layout */}
+        {/* Dennis-style Editorial Photography Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredPhotos.map((photo, index) => (
+          {filteredPhotos.map((photo, idx) => (
             <div
               key={photo.id}
-              onClick={() => setLightboxIndex(index)}
+              onClick={() => setLightboxIndex(idx)}
               className="group cursor-pointer flex flex-col space-y-3"
             >
-              {/* Image Frame with luxury hover treatment */}
-              <div className="relative overflow-hidden rounded-2xl bg-[#16181D] aspect-[4/3] sm:aspect-[4/5] border border-white/10">
+              <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-[#F1F1F1] relative shadow-sm border border-[#1C1D20]/5">
                 <img
                   src={photo.url}
                   alt={photo.title}
                   loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
-
-                {/* Subtle vignette & hover overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300 flex flex-col justify-between p-6">
-                  <div className="flex justify-between items-start">
-                    <span className="px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[10px] font-mono-clean text-white/90 uppercase tracking-widest">
-                      {photo.category}
-                    </span>
-                    <div className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Maximize2 className="w-3.5 h-3.5" />
-                    </div>
-                  </div>
-
-                  {/* Caption revealed on hover */}
-                  <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                    <div className="flex items-center gap-1.5 text-xs text-[#C5A880] font-mono-clean mb-1">
-                      <MapPin className="w-3 h-3" />
-                      <span>{photo.location}</span>
-                    </div>
-                    <h3 className="text-lg font-display text-white font-medium leading-snug">
-                      {photo.title}
-                    </h3>
+                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-full bg-[#455CE9] text-white flex items-center justify-center text-xs uppercase tracking-widest font-normal shadow-lg">
+                    View
                   </div>
                 </div>
               </div>
 
-              {/* Sub-card metadata strip */}
-              <div className="flex items-center justify-between text-xs font-mono-clean text-[#88898C] px-1">
-                <span>{photo.country}</span>
-                <span className="text-[#C5A880]">{photo.year}</span>
+              <div className="flex items-center justify-between text-sm pt-1">
+                <h4 className="font-normal text-[#1C1D20] group-hover:text-[#455CE9] transition-colors">
+                  {photo.title}
+                </h4>
+                <span className="text-xs text-[#999D9E] font-mono">
+                  {photo.country} · {photo.year}
+                </span>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Full-Screen Immersive Lightbox */}
+      {/* Dennis Snellenberg Full-Screen Lightbox */}
       {currentPhoto && lightboxIndex !== null && (
-        <div className="fixed inset-0 z-50 bg-[#0E0F12]/95 backdrop-blur-xl flex flex-col justify-between p-4 sm:p-8 animate-fadeIn">
-          {/* Lightbox Top Bar */}
-          <div className="flex items-center justify-between text-xs font-mono-clean text-[#88898C] border-b border-white/10 pb-4">
-            <div className="flex items-center gap-3">
-              <span className="text-[#C5A880] font-bold">
-                0{lightboxIndex + 1} / 0{filteredPhotos.length}
-              </span>
-              <span className="hidden sm:inline text-white/40">|</span>
-              <span className="hidden sm:inline text-white font-sans">{currentPhoto.title}</span>
-            </div>
-
+        <div className="fixed inset-0 z-50 bg-[#1C1D20]/98 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-12 text-white animate-fadeIn">
+          {/* Lightbox Header */}
+          <div className="flex items-center justify-between pb-4 border-b border-white/15">
+            <span className="text-xs font-mono text-[#999D9E] uppercase tracking-widest">
+              0{lightboxIndex + 1} / 0{filteredPhotos.length} — {currentPhoto.title}
+            </span>
             <button
               onClick={() => setLightboxIndex(null)}
-              className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+              className="p-3 rounded-full bg-white/10 hover:bg-[#455CE9] transition-colors"
               aria-label="Close Lightbox"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Lightbox Main Stage */}
-          <div className="relative flex-1 flex items-center justify-center my-4 overflow-hidden">
-            {/* Prev Button */}
+          {/* Lightbox Image Container */}
+          <div className="relative flex-1 flex items-center justify-center my-6">
             <button
               onClick={() => setLightboxIndex(lightboxIndex > 0 ? lightboxIndex - 1 : filteredPhotos.length - 1)}
-              className="absolute left-2 sm:left-6 z-10 p-3 rounded-full bg-black/60 hover:bg-[#C5A880] hover:text-[#0E0F12] text-white border border-white/20 transition-all duration-300"
-              aria-label="Previous Photo"
+              className="absolute left-2 sm:left-6 p-4 rounded-full bg-black/40 hover:bg-[#455CE9] transition-colors text-white"
+              aria-label="Previous"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
 
-            {/* Displayed Image */}
-            <div className="max-w-5xl max-h-[75vh] p-2 flex flex-col items-center justify-center">
-              <img
-                src={currentPhoto.url}
-                alt={currentPhoto.title}
-                className="max-h-[70vh] w-auto max-w-full object-contain rounded-lg shadow-2xl border border-white/10"
-              />
-            </div>
+            <img
+              src={currentPhoto.url}
+              alt={currentPhoto.title}
+              className="max-h-[72vh] max-w-full object-contain rounded-xl shadow-2xl"
+            />
 
-            {/* Next Button */}
             <button
               onClick={() => setLightboxIndex(lightboxIndex < filteredPhotos.length - 1 ? lightboxIndex + 1 : 0)}
-              className="absolute right-2 sm:right-6 z-10 p-3 rounded-full bg-black/60 hover:bg-[#C5A880] hover:text-[#0E0F12] text-white border border-white/20 transition-all duration-300"
-              aria-label="Next Photo"
+              className="absolute right-2 sm:right-6 p-4 rounded-full bg-black/40 hover:bg-[#455CE9] transition-colors text-white"
+              aria-label="Next"
             >
               <ChevronRight className="w-6 h-6" />
             </button>
           </div>
 
-          {/* Lightbox Bottom Metadata Drawer */}
-          <div className="bg-[#141519] border border-white/10 rounded-xl p-4 sm:p-6 max-w-4xl mx-auto w-full">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/5 pb-3">
-              <div>
-                <h3 className="text-lg font-display text-white">{currentPhoto.title}</h3>
-                <p className="text-xs text-[#88898C] font-mono-clean flex items-center gap-2 mt-0.5">
-                  <MapPin className="w-3.5 h-3.5 text-[#C5A880]" />
-                  <span>{currentPhoto.location}, {currentPhoto.country}</span>
-                  <span>·</span>
-                  <Calendar className="w-3.5 h-3.5 text-[#C5A880]" />
-                  <span>{currentPhoto.year}</span>
-                </p>
-              </div>
-
-              {currentPhoto.camera && (
-                <div className="text-xs font-mono-clean text-right text-[#C5A880] bg-white/[0.03] px-3 py-1.5 rounded-lg border border-white/5">
-                  <div>{currentPhoto.camera}</div>
-                  <div className="text-[10px] text-[#88898C]">{currentPhoto.lens}</div>
-                </div>
-              )}
+          {/* Lightbox Footer Info */}
+          <div className="max-w-3xl mx-auto w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-white/15 pt-4 text-xs font-mono text-[#999D9E]">
+            <div>
+              <p className="text-white text-sm font-sans">{currentPhoto.location}, {currentPhoto.country}</p>
+              <p className="mt-0.5">{currentPhoto.caption}</p>
             </div>
-
-            <p className="text-xs sm:text-sm text-[#E5E7EB] font-light mt-3 leading-relaxed">
-              {currentPhoto.caption}
-            </p>
+            {currentPhoto.camera && (
+              <div className="text-right shrink-0">
+                <span className="text-white">{currentPhoto.camera}</span> · {currentPhoto.lens}
+              </div>
+            )}
           </div>
         </div>
       )}
