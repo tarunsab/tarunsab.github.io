@@ -1,52 +1,98 @@
 import React from 'react';
+import { Activity, Compass, Coffee, Keyboard } from 'lucide-react';
 
 export const AboutSection: React.FC = () => {
-  return (
-    <section id="about" className="bg-white dark:bg-[#141517] text-[#1C1D20] dark:text-white py-24 sm:py-36 px-8 sm:px-16 border-b border-[#1C1D20]/10 dark:border-white/10 transition-colors">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 sm:gap-16 items-start">
-        {/* Left Column: Heading */}
-        <div className="lg:col-span-5 space-y-4">
-          <span className="text-xs uppercase tracking-widest text-[#7D8085] dark:text-[#999D9E] font-medium block">
-            Background & Leadership
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-[#1C1D20] dark:text-white leading-tight">
-            Engineering scale, quiet lenses, and court discipline.
-          </h2>
-        </div>
+  const passions = [
+    {
+      icon: Activity,
+      title: 'Competitive Tennis',
+      subtitle: 'All-court baseline endurance & Wimbledon regular',
+      description: 'Lawn and hardcourt tactical geometry, topspin depth, and weekend league play across London clubs.'
+    },
+    {
+      icon: Compass,
+      title: 'Cartography & Slow Travel',
+      subtitle: '21 nations traversed on foot with prime optics',
+      description: 'Chasing architectural silhouettes from Lisbon to Kyoto, alpine sunrise ridgelines in Zermatt, and coral gradients in the Maldives.'
+    },
+    {
+      icon: Keyboard,
+      title: 'Mechanical Craft & Hardware',
+      subtitle: 'Custom ergonomic split keyboards & tactile tolerances',
+      description: 'Hand-lubricated mechanical switches, custom keycap profiles, and an obsession with clean ergonomic desktop setups.'
+    },
+    {
+      icon: Coffee,
+      title: 'Specialty Coffee Chemistry',
+      subtitle: '9-bar espresso pressure profiling & V60 pourovers',
+      description: 'Single-origin Ethiopian and Colombian roasts, precise extraction ratios, and morning sensory rituals.'
+    }
+  ];
 
-        {/* Right Column: Clean Editorial Text */}
-        <div className="lg:col-span-7 space-y-12">
-          <div className="space-y-6 text-base sm:text-lg text-[#55565A] dark:text-[#999D9E] font-light leading-relaxed">
+  return (
+    <section id="about" className="bg-white dark:bg-[#141517] text-[#1C1D20] dark:text-white py-24 sm:py-36 px-6 sm:px-12 lg:px-16 border-b border-[#1C1D20]/10 dark:border-white/10 transition-colors">
+      <div className="max-w-7xl mx-auto space-y-16">
+        
+        {/* Top Split Header */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 sm:gap-16 items-start">
+          <div className="lg:col-span-5 space-y-4">
+            <span className="text-xs uppercase tracking-[0.2em] text-[#7D8085] dark:text-[#999D9E] font-medium block">
+              05 / Identity & Philosophy
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-[#1C1D20] dark:text-white leading-tight">
+              Engineering scale, quiet lenses, and court discipline.
+            </h2>
+          </div>
+
+          <div className="lg:col-span-7 space-y-6 text-base sm:text-lg text-[#55565A] dark:text-[#999D9E] font-light leading-relaxed">
             <p>
               I am a Software Engineering Manager at <span className="text-[#1C1D20] dark:text-white font-normal">Barclays</span> in London, leading developer experience and platform engineering teams. My work centers on pruning cognitive overhead for thousands of distributed engineers through declarative golden paths, high-throughput observability, and automated deployment guardrails.
             </p>
             <p>
-              Away from the terminal, I pursue travel and landscape photography across 21 countries. I work primarily with medium format and 35mm prime optics, seeking deliberate architectural geometries, quiet alpine ridges, and unposed human movement.
+              Away from the terminal, I pursue travel and landscape photography across 21 countries. I work primarily with full-frame and prime optics, seeking deliberate architectural geometries, quiet alpine ridges, and unposed human movement.
             </p>
           </div>
+        </div>
 
-          {/* Understated Interest Rows */}
-          <div className="border-t border-[#1C1D20]/15 dark:border-white/15 pt-8">
-            <span className="text-xs uppercase tracking-widest text-[#7D8085] dark:text-[#999D9E] font-medium block mb-6">
-              Things I value
+        {/* Beyond Work / Life & Discipline Grid */}
+        <div className="pt-8 border-t border-[#1C1D20]/15 dark:border-white/15">
+          <div className="flex items-center justify-between mb-8">
+            <span className="text-xs uppercase tracking-widest text-[#7D8085] dark:text-[#999D9E] font-medium">
+              Beyond The Build • Craft & Discipline
             </span>
+            <span className="text-xs font-mono text-[#7D8085] dark:text-[#999D9E] hidden sm:inline">
+              Personal Interests
+            </span>
+          </div>
 
-            <div className="divide-y divide-[#1C1D20]/10 dark:divide-white/10">
-              <div className="py-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
-                <span className="text-base text-[#1C1D20] dark:text-white font-normal">Lawn & Hardcourt Tennis</span>
-                <span className="text-sm text-[#7D8085] dark:text-[#999D9E] font-light">Tactical geometry, one-handed backhands & weekend league play</span>
-              </div>
-              <div className="py-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
-                <span className="text-base text-[#1C1D20] dark:text-white font-normal">Slow Geographies</span>
-                <span className="text-sm text-[#7D8085] dark:text-[#999D9E] font-light">21 countries traversed on foot with patience and prime lenses</span>
-              </div>
-              <div className="py-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
-                <span className="text-base text-[#1C1D20] dark:text-white font-normal">Mechanical Horology & Craft</span>
-                <span className="text-sm text-[#7D8085] dark:text-[#999D9E] font-light">Independent watchmaking, spring-drive tolerances & tactile tools</span>
-              </div>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {passions.map((passion, i) => {
+              const Icon = passion.icon;
+              return (
+                <div
+                  key={i}
+                  className="p-6 rounded-3xl bg-[#F4F4F6] dark:bg-[#18191B] border border-[#1C1D20]/10 dark:border-white/10 flex flex-col justify-between hover:border-[#455CE9]/40 transition-colors"
+                >
+                  <div>
+                    <div className="w-10 h-10 rounded-2xl bg-white dark:bg-white/10 flex items-center justify-center text-[#455CE9] mb-5 shadow-sm">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <h4 className="text-lg font-medium text-[#1C1D20] dark:text-white mb-1">
+                      {passion.title}
+                    </h4>
+                    <p className="text-xs text-[#455CE9] font-mono mb-3">
+                      {passion.subtitle}
+                    </p>
+                    <p className="text-xs text-[#55565A] dark:text-[#999D9E] leading-relaxed">
+                      {passion.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
+
       </div>
     </section>
   );

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import worldMap from '@svg-maps/world';
 import createGlobe from 'cobe';
 import { 
   Shuffle, 
@@ -9,6 +10,7 @@ import {
   MapPin, 
   Grid, 
   Globe2, 
+  Map as MapIcon,
   ArrowUpRight
 } from 'lucide-react';
 import { visitedCountries } from '../data/siteData';
@@ -40,48 +42,76 @@ const destinationMeta: Record<string, { airportCode: string; airportName: string
   usa: { airportCode: 'JFK', airportName: 'John F. Kennedy New York', flightDuration: '7h 45m', distance: '5,570 km', localScript: 'United States of America' }
 };
 
+// Precise SVG centroid coordinates on the 1010 x 666 world map projection
+const countryCentroids: Record<string, { cx: number; cy: number }> = {
+  gb: { cx: 230, cy: 135 },
+  fr: { cx: 236, cy: 154 },
+  be: { cx: 242, cy: 144 },
+  nl: { cx: 242, cy: 139 },
+  ch: { cx: 247, cy: 152 },
+  de: { cx: 248, cy: 138 },
+  es: { cx: 216, cy: 172 },
+  pt: { cx: 204, cy: 178 },
+  gr: { cx: 271, cy: 172 },
+  bg: { cx: 274, cy: 161 },
+  hr: { cx: 258, cy: 156 },
+  me: { cx: 263, cy: 161 },
+  li: { cx: 249, cy: 152 },
+  it: { cx: 254, cy: 160 },
+  in: { cx: 348, cy: 215 },
+  sg: { cx: 401, cy: 258 },
+  my: { cx: 400, cy: 250 },
+  ae: { cx: 326, cy: 202 },
+  mv: { cx: 346, cy: 262 },
+  id: { cx: 420, cy: 275 },
+  us: { cx: 120, cy: 220 }
+};
+
 export const TravelAtlas: React.FC = () => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
-  // Default to Switzerland for rich visuals
+  // Selected destination (default to Switzerland for rich photography)
   const [selectedCountry, setSelectedCountry] = useState<CountryDestination>(visitedCountries[4]);
-  const [activeView, setActiveView] = useState<'globe' | 'archive'>('globe');
+  // View mode: 'panoramic' (see whole world at once), 'globe' (3D), 'archive' (passport stamps)
+  const [activeView, setActiveView] = useState<'panoramic' | 'globe' | 'archive'>('panoramic');
+  const [mapZoom, setMapZoom] = useState<'world' | 'europe' | 'asia' | 'americas'>('world');
   const [selectedRegion, setSelectedRegion] = useState<string>('all');
-  const [isDragging, setIsDragging] = useState(false);
+  const [hoveredCountryId, setHoveredCountryId] = useState<string | null>(null);
 
+  // 3D Globe Refs
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pointerInteracting = useRef<number | null>(null);
   const pointerInteractionMovement = useRef(0);
-
-  // Smooth rotation angles
-  const currentPhi = useRef(-1.71); // initial Switzerland phi
-  const currentTheta = useRef(0.81); // initial Switzerland theta
+  const currentPhi = useRef(-1.71);
+  const currentTheta = useRef(0.81);
   const targetPhi = useRef(-1.71);
   const targetTheta = useRef(0.81);
 
-  // Compute target angles when selected country changes
+  // Map 2-letter codes for quick lookup
+  const visitedCodesMap = useRef(
+    new Map(visitedCountries.map((c) => [c.code.toLowerCase(), c]))
+  );
+
+  // Compute 3D target angles when selected country changes
   useEffect(() => {
     const lonRad = (selectedCountry.lng * Math.PI) / 180;
     const latRad = (selectedCountry.lat * Math.PI) / 180;
-    
-    // Exact mathematical formula to center the destination facing the camera
     targetPhi.current = -lonRad - Math.PI / 2;
     targetTheta.current = Math.max(-0.75, Math.min(0.75, latRad));
   }, [selectedCountry]);
 
-  // Mount 3D WebGL Globe with Cobe
+  // Mount 3D WebGL Globe if in globe view
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (activeView !== 'globe' || !canvasRef.current) return;
 
-    // Map all 21 countries to markers
     const markers = visitedCountries.map((c) => {
       const isSelected = c.id === selectedCountry.id;
       return {
         location: [c.lat, c.lng] as [number, number],
         size: isSelected ? 0.08 : 0.035,
         color: isSelected 
-          ? [0.27, 0.36, 0.91] as [number, number, number] // electric blue #455CE9
+          ? [0.27, 0.36, 0.91] as [number, number, number]
           : isDark 
             ? [0.85, 0.88, 0.92] as [number, number, number] 
             : [0.18, 0.19, 0.22] as [number, number, number],
@@ -89,10 +119,9 @@ export const TravelAtlas: React.FC = () => {
       };
     });
 
-    // Create 3D Flight Arc from London to active destination
     const arcs = selectedCountry.id !== 'gbr' ? [
       {
-        from: [51.5074, -0.1278] as [number, number], // London LHR
+        from: [51.5074, -0.1278] as [number, number],
         to: [selectedCountry.lat, selectedCountry.lng] as [number, number],
         color: [0.27, 0.36, 0.91] as [number, number, number]
       }
@@ -123,14 +152,12 @@ export const TravelAtlas: React.FC = () => {
       });
 
       const loop = () => {
-        // If user is not dragging with mouse/touch, smoothly interpolate to target country
         if (pointerInteracting.current === null) {
           let diffPhi = (targetPhi.current - currentPhi.current) % (Math.PI * 2);
           if (diffPhi > Math.PI) diffPhi -= Math.PI * 2;
           if (diffPhi < -Math.PI) diffPhi += Math.PI * 2;
 
           if (Math.abs(diffPhi) < 0.005 && Math.abs(targetTheta.current - currentTheta.current) < 0.005) {
-            // Idle ambient drift once arrived
             targetPhi.current += 0.0015;
             currentPhi.current += 0.0015;
           } else {
@@ -156,15 +183,15 @@ export const TravelAtlas: React.FC = () => {
         if (globe) globe.destroy();
       };
     } catch (err) {
-      console.warn("WebGL globe initialisation fallback:", err);
+      console.warn("WebGL globe fallback:", err);
       return () => {
         cancelAnimationFrame(animId);
         if (globe) globe.destroy();
       };
     }
-  }, [isDark, selectedCountry]);
+  }, [activeView, isDark, selectedCountry]);
 
-  // Index navigation
+  // Stepper
   const currentIndex = visitedCountries.findIndex((c) => c.id === selectedCountry.id);
 
   const handleNext = () => {
@@ -180,6 +207,14 @@ export const TravelAtlas: React.FC = () => {
   const handleShuffle = () => {
     const randomIdx = Math.floor(Math.random() * visitedCountries.length);
     setSelectedCountry(visitedCountries[randomIdx]);
+  };
+
+  const activeMeta = destinationMeta[selectedCountry.id] || {
+    airportCode: selectedCountry.code,
+    airportName: selectedCountry.name,
+    flightDuration: 'Direct',
+    distance: 'Variable',
+    localScript: selectedCountry.name
   };
 
   const regions = [
@@ -199,13 +234,27 @@ export const TravelAtlas: React.FC = () => {
     return c.region.includes(selectedRegion);
   });
 
-  const activeMeta = destinationMeta[selectedCountry.id] || {
-    airportCode: selectedCountry.code,
-    airportName: selectedCountry.name,
-    flightDuration: 'Direct',
-    distance: 'Variable',
-    localScript: selectedCountry.name
+  // Calculate ViewBox for Panoramic Map
+  const getViewBox = () => {
+    switch (mapZoom) {
+      case 'europe':
+        return '180 80 140 120';
+      case 'asia':
+        return '280 140 180 150';
+      case 'americas':
+        return '30 140 160 140';
+      case 'world':
+      default:
+        return '0 0 1010 666';
+    }
   };
+
+  // Flight arc calculations on flat map
+  const londonCoords = countryCentroids['gb'];
+  const targetCoords = countryCentroids[selectedCountry.code.toLowerCase()] || { cx: 247, cy: 152 };
+  const midX = (londonCoords.cx + targetCoords.cx) / 2;
+  const midY = Math.min(londonCoords.cy, targetCoords.cy) - Math.abs(targetCoords.cx - londonCoords.cx) * 0.22 - 25;
+  const flightPathD = `M ${londonCoords.cx} ${londonCoords.cy} Q ${midX} ${midY} ${targetCoords.cx} ${targetCoords.cy}`;
 
   return (
     <section 
@@ -214,16 +263,16 @@ export const TravelAtlas: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto">
         
-        {/* Section Header: Dennis Snellenberg Editorial Typography */}
+        {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-[#1C1D20]/15 dark:border-white/15 mb-14">
           <div>
             <div className="flex items-center gap-3 mb-3">
               <span className="text-xs uppercase tracking-[0.2em] text-[#7D8085] dark:text-[#999D9E] font-medium">
-                04 / Cartography & Expeditions
+                04 / Cartography & Global Expeditions
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#455CE9]" />
               <span className="text-xs font-mono text-[#455CE9] uppercase">
-                London (LHR) Departure Base
+                London Base • 21 Destinations Worldwide
               </span>
             </div>
 
@@ -233,8 +282,20 @@ export const TravelAtlas: React.FC = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            {/* View Mode Switcher */}
+            {/* View Mode Switcher: Panoramic (See all at once) vs 3D Globe vs Archive */}
             <div className="p-1 rounded-full bg-[#EAECEF] dark:bg-white/10 flex items-center text-xs font-normal">
+              <button
+                onClick={() => setActiveView('panoramic')}
+                className={`px-4 py-1.5 rounded-full transition-all flex items-center gap-1.5 ${
+                  activeView === 'panoramic'
+                    ? 'bg-[#1C1D20] dark:bg-white text-white dark:text-[#1C1D20] shadow-sm font-medium'
+                    : 'text-[#6A6C70] dark:text-white/70 hover:text-[#1C1D20]'
+                }`}
+                title="See the whole world at once"
+              >
+                <MapIcon className="w-3.5 h-3.5" />
+                <span>Panoramic World Map</span>
+              </button>
               <button
                 onClick={() => setActiveView('globe')}
                 className={`px-4 py-1.5 rounded-full transition-all flex items-center gap-1.5 ${
@@ -272,99 +333,226 @@ export const TravelAtlas: React.FC = () => {
         </div>
 
         {/* ------------------------------------------------------------------------- */}
-        {/* VIEW 1: THE 3D CELESTIAL GLOBE & ARISTIDE BENOIST TRAVEL DOSSIER */}
+        {/* VIEW 1: PANORAMIC WORLD MAP — SEE THE WHOLE WORLD AT ONCE */}
         {/* ------------------------------------------------------------------------- */}
-        {activeView === 'globe' && (
+        {activeView === 'panoramic' && (
           <div className="space-y-12">
             
-            {/* The Main Stage: Split Layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* The Panoramic Map & Dossier Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
               
-              {/* LEFT: 3D Interactive WebGL Globe Stage */}
-              <div className="lg:col-span-7 relative flex flex-col items-center justify-center min-h-[500px] sm:min-h-[580px] rounded-3xl bg-[#F0F1F4] dark:bg-[#18191B] border border-[#1C1D20]/10 dark:border-white/10 p-6 sm:p-10 overflow-hidden shadow-sm">
+              {/* LEFT: Complete Panoramic Geographic Vector World Map */}
+              <div className="lg:col-span-7 flex flex-col justify-between rounded-3xl bg-[#F0F1F4] dark:bg-[#18191B] border border-[#1C1D20]/10 dark:border-white/10 p-5 sm:p-7 shadow-sm relative overflow-hidden">
                 
-                {/* HUD Header on Globe */}
-                <div className="w-full flex items-center justify-between text-xs text-[#7D8085] dark:text-[#999D9E] z-10 mb-2 font-mono">
+                {/* Top Controls on Map */}
+                <div className="flex items-center justify-between mb-4 text-xs font-mono text-[#7D8085] dark:text-[#999D9E]">
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#455CE9] animate-ping" />
+                    <span className="w-2 h-2 rounded-full bg-[#455CE9] animate-pulse" />
                     <span className="uppercase tracking-wider">
-                      Origin: LHR (51.5°N, 0.1°W)
+                      {mapZoom === 'world' ? 'Global Panoramic View' : `Regional Focus: ${mapZoom.toUpperCase()}`}
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-2 bg-white/70 dark:bg-black/40 backdrop-blur-md px-3 py-1 rounded-full border border-black/5 dark:border-white/5">
-                    <Compass className="w-3 h-3 text-[#455CE9]" />
-                    <span>
-                      {selectedCountry.lat.toFixed(2)}°N, {selectedCountry.lng.toFixed(2)}°E
-                    </span>
+                  {/* Zoom Presets */}
+                  <div className="flex items-center gap-1.5 bg-white/70 dark:bg-black/40 backdrop-blur-md p-1 rounded-full border border-black/5 dark:border-white/5 text-[11px]">
+                    <button
+                      onClick={() => setMapZoom('world')}
+                      className={`px-3 py-1 rounded-full transition-all ${
+                        mapZoom === 'world' 
+                          ? 'bg-[#455CE9] text-white font-medium' 
+                          : 'text-[#6A6C70] dark:text-white/70 hover:text-[#1C1D20]'
+                      }`}
+                    >
+                      Whole World
+                    </button>
+                    <button
+                      onClick={() => setMapZoom('europe')}
+                      className={`px-3 py-1 rounded-full transition-all ${
+                        mapZoom === 'europe' 
+                          ? 'bg-[#455CE9] text-white font-medium' 
+                          : 'text-[#6A6C70] dark:text-white/70 hover:text-[#1C1D20]'
+                      }`}
+                    >
+                      Europe (14)
+                    </button>
+                    <button
+                      onClick={() => setMapZoom('asia')}
+                      className={`px-3 py-1 rounded-full transition-all ${
+                        mapZoom === 'asia' 
+                          ? 'bg-[#455CE9] text-white font-medium' 
+                          : 'text-[#6A6C70] dark:text-white/70 hover:text-[#1C1D20]'
+                      }`}
+                    >
+                      Asia & ME (6)
+                    </button>
+                    <button
+                      onClick={() => setMapZoom('americas')}
+                      className={`px-3 py-1 rounded-full transition-all ${
+                        mapZoom === 'americas' 
+                          ? 'bg-[#455CE9] text-white font-medium' 
+                          : 'text-[#6A6C70] dark:text-white/70 hover:text-[#1C1D20]'
+                      }`}
+                    >
+                      Americas (1)
+                    </button>
                   </div>
                 </div>
 
-                {/* The WebGL Canvas */}
-                <div 
-                  className={`relative w-[340px] h-[340px] sm:w-[480px] sm:h-[480px] flex items-center justify-center cursor-grab active:cursor-grabbing select-none transition-transform duration-300 ${
-                    isDragging ? 'scale-[1.02]' : ''
-                  }`}
-                  onPointerDown={(e) => {
-                    pointerInteracting.current = e.clientX - pointerInteractionMovement.current;
-                    setIsDragging(true);
-                  }}
-                  onPointerUp={() => {
-                    pointerInteracting.current = null;
-                    setIsDragging(false);
-                  }}
-                  onPointerOut={() => {
-                    pointerInteracting.current = null;
-                    setIsDragging(false);
-                  }}
-                  onMouseMove={(e) => {
-                    if (pointerInteracting.current !== null) {
-                      const delta = e.clientX - pointerInteracting.current;
-                      pointerInteractionMovement.current = delta;
-                      targetPhi.current += delta * 0.005;
-                      pointerInteracting.current = e.clientX;
-                    }
-                  }}
-                  onTouchStart={(e) => {
-                    if (e.touches[0]) {
-                      pointerInteracting.current = e.touches[0].clientX - pointerInteractionMovement.current;
-                      setIsDragging(true);
-                    }
-                  }}
-                  onTouchEnd={() => {
-                    pointerInteracting.current = null;
-                    setIsDragging(false);
-                  }}
-                  onTouchMove={(e) => {
-                    if (pointerInteracting.current !== null && e.touches[0]) {
-                      const delta = e.touches[0].clientX - pointerInteracting.current;
-                      pointerInteractionMovement.current = delta;
-                      targetPhi.current += delta * 0.005;
-                      pointerInteracting.current = e.touches[0].clientX;
-                    }
-                  }}
-                >
-                  <canvas
-                    ref={canvasRef}
-                    style={{ width: '100%', height: '100%', contain: 'layout paint size', opacity: 1 }}
-                    className="w-full h-full"
-                  />
+                {/* The SVG Panoramic Map Container */}
+                <div className="relative w-full aspect-[1010/580] rounded-2xl overflow-hidden bg-white dark:bg-[#141517] border border-[#1C1D20]/10 dark:border-white/5 shadow-inner select-none">
+                  
+                  <svg
+                    viewBox={getViewBox()}
+                    className="w-full h-full object-cover transition-all duration-700 ease-out"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <defs>
+                      <linearGradient id="flightArcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#1C1D20" stopOpacity="0.3" />
+                        <stop offset="100%" stopColor="#455CE9" stopOpacity="1" />
+                      </linearGradient>
+                      <filter id="glowEffect" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="3" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                      </filter>
+                    </defs>
 
-                  {/* Atmospheric Glow Aura Ring */}
-                  <div className="absolute inset-0 rounded-full pointer-events-none ring-1 ring-[#455CE9]/20 shadow-[0_0_80px_rgba(69,92,233,0.15)]" />
+                    {/* Subtle Cartographic Lat/Long Grid Lines */}
+                    <g stroke="currentColor" strokeWidth="0.3" className="text-black/[0.04] dark:text-white/[0.04]">
+                      <line x1="0" y1="333" x2="1010" y2="333" />
+                      <line x1="0" y1="180" x2="1010" y2="180" />
+                      <line x1="0" y1="480" x2="1010" y2="480" />
+                      <line x1="505" y1="0" x2="505" y2="666" />
+                      <line x1="250" y1="0" x2="250" y2="666" />
+                      <line x1="750" y1="0" x2="750" y2="666" />
+                    </g>
+
+                    {/* All 256 Real Geographic World Countries */}
+                    <g>
+                      {(worldMap.locations as Array<{ id: string; name: string; path: string }>).map((location) => {
+                        const code = location.id.toLowerCase();
+                        const visitedData = visitedCodesMap.current.get(code);
+                        const isVisited = !!visitedData;
+                        const isSelected = visitedData?.id === selectedCountry.id;
+                        const isHovered = hoveredCountryId === code;
+
+                        return (
+                          <path
+                            key={location.id}
+                            d={location.path}
+                            id={`country-${location.id}`}
+                            onClick={() => {
+                              if (visitedData) {
+                                setSelectedCountry(visitedData);
+                              }
+                            }}
+                            onMouseEnter={() => {
+                              if (visitedData) setHoveredCountryId(code);
+                            }}
+                            onMouseLeave={() => setHoveredCountryId(null)}
+                            className={`transition-all duration-300 ${
+                              isVisited
+                                ? isSelected
+                                  ? 'fill-[#455CE9] stroke-[#3548BE] dark:stroke-[#6378F7] stroke-[1.5] cursor-pointer drop-shadow-md'
+                                  : isHovered
+                                    ? 'fill-[#3548BE] dark:fill-[#586EF5] stroke-white dark:stroke-black stroke-[1] cursor-pointer'
+                                    : 'fill-[#455CE9]/80 dark:fill-[#455CE9]/70 hover:fill-[#455CE9] stroke-[#3548BE]/40 dark:stroke-[#6378F7]/50 stroke-[0.75] cursor-pointer'
+                                : 'fill-[#EAECEF] dark:fill-[#202226] stroke-[#D6D9DE] dark:stroke-[#2B2E33] stroke-[0.4] pointer-events-none'
+                            }`}
+                          >
+                            <title>{location.name} {isVisited ? '(Visited)' : ''}</title>
+                          </path>
+                        );
+                      })}
+                    </g>
+
+                    {/* Animated Flight Arc from London to Active Destination */}
+                    {selectedCountry.id !== 'gbr' && targetCoords && (
+                      <g>
+                        {/* Glow underlay */}
+                        <path
+                          d={flightPathD}
+                          fill="none"
+                          stroke="#455CE9"
+                          strokeWidth="3.5"
+                          strokeOpacity="0.3"
+                          strokeLinecap="round"
+                          className="blur-[2px]"
+                        />
+                        {/* Crisp Flight Vector Arc */}
+                        <path
+                          d={flightPathD}
+                          fill="none"
+                          stroke="url(#flightArcGrad)"
+                          strokeWidth="1.75"
+                          strokeDasharray="4 3"
+                          strokeLinecap="round"
+                        />
+                      </g>
+                    )}
+
+                    {/* Centroid Pins for Visited Destinations */}
+                    {visitedCountries.map((c) => {
+                      const coords = countryCentroids[c.code.toLowerCase()];
+                      if (!coords) return null;
+                      const isSelected = c.id === selectedCountry.id;
+
+                      return (
+                        <g 
+                          key={`pin-${c.id}`} 
+                          className="cursor-pointer"
+                          onClick={() => setSelectedCountry(c)}
+                        >
+                          {isSelected && (
+                            <circle
+                              cx={coords.cx}
+                              cy={coords.cy}
+                              r="8"
+                              fill="#455CE9"
+                              fillOpacity="0.25"
+                              className="animate-ping"
+                            />
+                          )}
+                          <circle
+                            cx={coords.cx}
+                            cy={coords.cy}
+                            r={isSelected ? 4 : 2}
+                            fill={isSelected ? '#FFFFFF' : '#455CE9'}
+                            stroke={isSelected ? '#455CE9' : '#FFFFFF'}
+                            strokeWidth="1.2"
+                          />
+                        </g>
+                      );
+                    })}
+
+                    {/* London Home Pin */}
+                    <g>
+                      <circle cx={londonCoords.cx} cy={londonCoords.cy} r="4.5" fill="#1C1D20" stroke="#FFFFFF" strokeWidth="1.5" />
+                      <circle cx={londonCoords.cx} cy={londonCoords.cy} r="1.5" fill="#455CE9" />
+                    </g>
+                  </svg>
+
+                  {/* Panoramic Badge Overlay */}
+                  <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white font-mono text-[10px] flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#455CE9]" />
+                    <span>21 Countries Illuminated Across All Continents</span>
+                  </div>
+
+                  <div className="absolute bottom-3 right-3 px-3 py-1 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md text-[10px] font-mono text-[#1C1D20] dark:text-white border border-black/5 dark:border-white/5">
+                    Click any highlighted territory
+                  </div>
                 </div>
 
-                {/* HUD Footer on Globe */}
-                <div className="w-full flex items-center justify-between text-xs text-[#7D8085] dark:text-[#999D9E] z-10 mt-2 font-mono">
+                {/* Footer on Map Card */}
+                <div className="w-full flex items-center justify-between text-xs text-[#7D8085] dark:text-[#999D9E] z-10 mt-3 font-mono">
                   <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#1C1D20]/40 dark:bg-white/40" />
-                    <span>DRAG GLOBE TO ROTATE</span>
+                    <span>Base: London LHR (51.5°N, 0.1°W)</span>
                   </div>
-
-                  <div className="text-right">
-                    <span>Active Route: LHR ✈ {activeMeta.airportCode}</span>
+                  <div>
+                    <span>Selected: {selectedCountry.name} ({activeMeta.airportCode})</span>
                   </div>
                 </div>
+
               </div>
 
               {/* RIGHT: Aristide Benoist Editorial Travel Dossier */}
@@ -413,10 +601,8 @@ export const TravelAtlas: React.FC = () => {
                       loading="lazy"
                     />
 
-                    {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
 
-                    {/* Metadata Tag Over Image */}
                     <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-[10px] text-white font-mono flex items-center gap-1.5 border border-white/15">
                       <MapPin className="w-3 h-3 text-[#455CE9]" />
                       <span>{selectedCountry.region}</span>
@@ -431,7 +617,6 @@ export const TravelAtlas: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* ISO Code Badge */}
                     <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded bg-white/20 backdrop-blur-md text-white font-mono text-xs font-bold border border-white/20">
                       {selectedCountry.code}
                     </div>
@@ -477,7 +662,7 @@ export const TravelAtlas: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Interactive Passport Visa Stamp (Custom SVG Badge) */}
+                  {/* Interactive Passport Visa Stamp */}
                   <div className="pt-4 border-t border-[#1C1D20]/10 dark:border-white/10 flex items-center justify-between">
                     <div className="inline-flex items-center gap-3 px-3 py-2 rounded-xl border border-[#455CE9]/30 bg-[#455CE9]/5 dark:bg-[#455CE9]/10 transform -rotate-1">
                       <div className="w-8 h-8 rounded-full border border-dashed border-[#455CE9] flex items-center justify-center font-mono text-[10px] font-bold text-[#455CE9]">
@@ -520,12 +705,8 @@ export const TravelAtlas: React.FC = () => {
 
             </div>
 
-            {/* --------------------------------------------------------------------- */}
-            {/* DESTINATION FILMSTRIP RIBBON: Click any pill to swoop the 3D globe */}
-            {/* --------------------------------------------------------------------- */}
+            {/* Destination Filmstrip Ribbon */}
             <div className="pt-6">
-              
-              {/* Regional Category Filters */}
               <div className="flex items-center gap-2 overflow-x-auto pb-4 no-scrollbar">
                 {regions.map((reg) => (
                   <button
@@ -542,7 +723,6 @@ export const TravelAtlas: React.FC = () => {
                 ))}
               </div>
 
-              {/* Scrollable Destination Pills */}
               <div className="flex items-center gap-2.5 overflow-x-auto py-3 no-scrollbar">
                 {filteredCountries.map((c) => {
                   const isCurrent = c.id === selectedCountry.id;
@@ -569,14 +749,165 @@ export const TravelAtlas: React.FC = () => {
                   );
                 })}
               </div>
-
             </div>
 
           </div>
         )}
 
         {/* ------------------------------------------------------------------------- */}
-        {/* VIEW 2: THE COLLECTOR'S PASSPORT ARCHIVE (All 21 Visited Destinations) */}
+        {/* VIEW 2: 3D CELESTIAL GLOBE (Interactive WebGL Sphere) */}
+        {/* ------------------------------------------------------------------------- */}
+        {activeView === 'globe' && (
+          <div className="space-y-12">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              
+              <div className="lg:col-span-7 relative flex flex-col items-center justify-center min-h-[500px] sm:min-h-[580px] rounded-3xl bg-[#F0F1F4] dark:bg-[#18191B] border border-[#1C1D20]/10 dark:border-white/10 p-6 sm:p-10 overflow-hidden shadow-sm">
+                
+                <div className="w-full flex items-center justify-between text-xs text-[#7D8085] dark:text-[#999D9E] z-10 mb-2 font-mono">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#455CE9] animate-ping" />
+                    <span className="uppercase tracking-wider">
+                      Origin: LHR (51.5°N, 0.1°W)
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 bg-white/70 dark:bg-black/40 backdrop-blur-md px-3 py-1 rounded-full border border-black/5 dark:border-white/5">
+                    <Compass className="w-3 h-3 text-[#455CE9]" />
+                    <span>
+                      {selectedCountry.lat.toFixed(2)}°N, {selectedCountry.lng.toFixed(2)}°E
+                    </span>
+                  </div>
+                </div>
+
+                <div 
+                  className="relative w-[340px] h-[340px] sm:w-[480px] sm:h-[480px] flex items-center justify-center cursor-grab active:cursor-grabbing select-none"
+                  onPointerDown={(e) => {
+                    pointerInteracting.current = e.clientX - pointerInteractionMovement.current;
+                  }}
+                  onPointerUp={() => {
+                    pointerInteracting.current = null;
+                  }}
+                  onPointerOut={() => {
+                    pointerInteracting.current = null;
+                  }}
+                  onMouseMove={(e) => {
+                    if (pointerInteracting.current !== null) {
+                      const delta = e.clientX - pointerInteracting.current;
+                      pointerInteractionMovement.current = delta;
+                      targetPhi.current += delta * 0.005;
+                      pointerInteracting.current = e.clientX;
+                    }
+                  }}
+                  onTouchStart={(e) => {
+                    if (e.touches[0]) {
+                      pointerInteracting.current = e.touches[0].clientX - pointerInteractionMovement.current;
+                    }
+                  }}
+                  onTouchEnd={() => {
+                    pointerInteracting.current = null;
+                  }}
+                  onTouchMove={(e) => {
+                    if (pointerInteracting.current !== null && e.touches[0]) {
+                      const delta = e.touches[0].clientX - pointerInteracting.current;
+                      pointerInteractionMovement.current = delta;
+                      targetPhi.current += delta * 0.005;
+                      pointerInteracting.current = e.touches[0].clientX;
+                    }
+                  }}
+                >
+                  <canvas
+                    ref={canvasRef}
+                    style={{ width: '100%', height: '100%', contain: 'layout paint size', opacity: 1 }}
+                    className="w-full h-full"
+                  />
+                  <div className="absolute inset-0 rounded-full pointer-events-none ring-1 ring-[#455CE9]/20 shadow-[0_0_80px_rgba(69,92,233,0.15)]" />
+                </div>
+
+                <div className="w-full flex items-center justify-between text-xs text-[#7D8085] dark:text-[#999D9E] z-10 mt-2 font-mono">
+                  <div className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#1C1D20]/40 dark:bg-white/40" />
+                    <span>DRAG GLOBE TO ROTATE</span>
+                  </div>
+                  <div>
+                    <span>Active Route: LHR ✈ {activeMeta.airportCode}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Dossier Side */}
+              <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
+                <div className="bg-[#F0F1F4] dark:bg-[#18191B] rounded-3xl p-6 sm:p-8 border border-[#1C1D20]/10 dark:border-white/10 shadow-sm relative overflow-hidden">
+                  <div className="flex items-center justify-between gap-4 pb-5 border-b border-[#1C1D20]/10 dark:border-white/10 mb-6">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-full bg-[#455CE9] text-white flex items-center justify-center">
+                        <Plane className="w-3.5 h-3.5 transform -rotate-45" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-mono font-medium tracking-wider text-[#1C1D20] dark:text-white">
+                          LON ➔ {activeMeta.airportCode}
+                        </div>
+                        <div className="text-[10px] text-[#7D8085] dark:text-[#999D9E]">
+                          {activeMeta.airportName}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xs font-mono text-[#455CE9] font-medium">
+                        {activeMeta.distance}
+                      </div>
+                      <div className="text-[10px] text-[#7D8085] dark:text-[#999D9E]">
+                        Flight: {activeMeta.flightDuration}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-6 bg-neutral-200 dark:bg-neutral-800">
+                    <img
+                      src={selectedCountry.photoUrl}
+                      alt={selectedCountry.name}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute bottom-3 left-3 text-white">
+                      <div className="text-[10px] font-mono tracking-widest uppercase opacity-80">
+                        Class of {selectedCountry.yearVisited}
+                      </div>
+                      <div className="text-lg font-medium tracking-tight">
+                        {selectedCountry.name}
+                      </div>
+                    </div>
+                  </div>
+
+                  <h3 className="text-3xl font-normal tracking-tight text-[#1C1D20] dark:text-white mb-2">
+                    {selectedCountry.name}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-[#4A4D52] dark:text-[#C5C8CD] mb-6">
+                    {selectedCountry.travelNotes}
+                  </p>
+
+                  <div className="flex items-center justify-between pt-4 border-t border-[#1C1D20]/10 dark:border-white/10">
+                    <div className="text-xs font-mono text-[#455CE9]">
+                      {activeMeta.localScript}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button onClick={handlePrev} className="w-8 h-8 rounded-full bg-white dark:bg-white/10 flex items-center justify-center">
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+                      <button onClick={handleNext} className="w-8 h-8 rounded-full bg-white dark:bg-white/10 flex items-center justify-center">
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+        {/* ------------------------------------------------------------------------- */}
+        {/* VIEW 3: THE COLLECTOR'S PASSPORT ARCHIVE (21 Destinations) */}
         {/* ------------------------------------------------------------------------- */}
         {activeView === 'archive' && (
           <div>
@@ -596,7 +927,6 @@ export const TravelAtlas: React.FC = () => {
                     className="group bg-[#F0F1F4] dark:bg-[#18191B] rounded-3xl p-6 border border-[#1C1D20]/10 dark:border-white/10 hover:border-[#455CE9]/40 transition-all duration-300 flex flex-col justify-between"
                   >
                     <div>
-                      {/* Top Bar with Stamp and Year */}
                       <div className="flex items-center justify-between pb-4 border-b border-[#1C1D20]/10 dark:border-white/10 mb-4">
                         <div className="flex items-center gap-2">
                           <span className="font-mono text-xs font-bold text-[#455CE9] bg-[#455CE9]/10 px-2 py-0.5 rounded">
@@ -611,7 +941,6 @@ export const TravelAtlas: React.FC = () => {
                         </span>
                       </div>
 
-                      {/* Photo Thumbnail */}
                       <div className="aspect-[16/10] rounded-2xl overflow-hidden mb-4 relative bg-neutral-200 dark:bg-neutral-800">
                         <img
                           src={country.photoUrl}
@@ -624,7 +953,6 @@ export const TravelAtlas: React.FC = () => {
                         </div>
                       </div>
 
-                      {/* Name & Local Script */}
                       <h4 className="text-2xl font-normal tracking-tight text-[#1C1D20] dark:text-white mb-1">
                         {country.name}
                       </h4>
@@ -632,13 +960,11 @@ export const TravelAtlas: React.FC = () => {
                         {meta.localScript} • {country.lat.toFixed(2)}°N, {country.lng.toFixed(2)}°E
                       </p>
 
-                      {/* Travel Notes snippet */}
                       <p className="text-xs text-[#4A4D52] dark:text-[#C5C8CD] line-clamp-2 leading-relaxed mb-4">
                         {country.travelNotes}
                       </p>
                     </div>
 
-                    {/* Bottom Action: Swoop Globe to this destination */}
                     <div className="pt-4 border-t border-[#1C1D20]/10 dark:border-white/10 flex items-center justify-between">
                       <div className="text-[10px] font-mono text-[#7D8085] dark:text-[#999D9E]">
                         {country.highlights[0]}
@@ -646,11 +972,11 @@ export const TravelAtlas: React.FC = () => {
                       <button
                         onClick={() => {
                           setSelectedCountry(country);
-                          setActiveView('globe');
+                          setActiveView('panoramic');
                         }}
                         className="px-3 py-1.5 rounded-full bg-white dark:bg-white/10 hover:bg-[#455CE9] hover:text-white dark:hover:bg-[#455CE9] dark:hover:text-white text-xs font-medium transition-colors flex items-center gap-1.5 border border-black/5 dark:border-white/10"
                       >
-                        <span>Inspect in 3D</span>
+                        <span>View on Map</span>
                         <ArrowUpRight className="w-3 h-3" />
                       </button>
                     </div>
