@@ -38,16 +38,16 @@ export const ContactFooter: React.FC = () => {
             </svg>
           </div>
 
-          {/* Dennis Snellenberg Profile Avatar + "Let's work together" */}
+          {/* Tarun's Authentic LinkedIn Avatar + "Let's work together" */}
           <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-normal tracking-tight text-white leading-[1.05]">
             <span className="flex items-center gap-4 flex-wrap">
               <span className="inline-block w-14 h-14 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-white/20 shrink-0 bg-[#141517]">
                 <img
-                  src="./images/tarun-portrait.jpg"
+                  src="./images/tarun-linkedin.jpg"
                   alt="Tarun Sabbineni"
-                  className="w-full h-full object-cover grayscale"
+                  className="w-full h-full object-cover"
                   onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).src = "https://avatars.githubusercontent.com/u/15095734?v=4";
+                    (e.currentTarget as HTMLImageElement).src = "./images/tarun-portrait.jpg";
                   }}
                 />
               </span>

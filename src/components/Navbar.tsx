@@ -8,7 +8,7 @@ export const Navbar: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 120);
+      setIsScrolled(window.scrollY > 80);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -24,34 +24,34 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      {/* Top Header Bar (Dennis Snellenberg format) */}
-      <header className="absolute top-0 left-0 right-0 z-30 py-8 px-8 sm:px-16 flex items-center justify-between text-white">
+      {/* Light Theme Header Top Bar */}
+      <header className="absolute top-0 left-0 right-0 z-30 py-8 px-8 sm:px-16 flex items-center justify-between text-[#1C1D20]">
         <a
           href="#"
-          className="group flex items-center gap-1.5 text-base sm:text-lg font-normal tracking-tight hover:opacity-80 transition-opacity"
+          className="group flex items-center gap-1.5 text-base sm:text-lg font-normal tracking-tight hover:opacity-75 transition-opacity"
         >
           <span className="text-sm">©</span>
-          <span className="font-light text-white/70">Code & Lens by</span>
-          <span className="font-medium text-white transition-transform group-hover:translate-x-0.5">
+          <span className="font-light text-[#7D8085]">Code & Lens by</span>
+          <span className="font-medium text-[#1C1D20] transition-transform group-hover:translate-x-0.5">
             {personalBio.name}
           </span>
         </a>
 
         {/* Right Desktop Nav Links */}
         <nav className="hidden md:flex items-center gap-8 text-base font-normal">
-          <a href="#work" className="text-white hover:text-[#455CE9] transition-colors py-1">
+          <a href="#work" className="text-[#1C1D20] hover:text-[#455CE9] transition-colors py-1">
             Work
           </a>
-          <a href="#photography" className="text-white hover:text-[#455CE9] transition-colors py-1">
+          <a href="#photography" className="text-[#1C1D20] hover:text-[#455CE9] transition-colors py-1">
             Photography
           </a>
-          <a href="#atlas" className="text-white hover:text-[#455CE9] transition-colors py-1">
+          <a href="#atlas" className="text-[#1C1D20] hover:text-[#455CE9] transition-colors py-1">
             Travel Atlas
           </a>
-          <a href="#about" className="text-white hover:text-[#455CE9] transition-colors py-1">
+          <a href="#about" className="text-[#1C1D20] hover:text-[#455CE9] transition-colors py-1">
             About
           </a>
-          <a href="#contact" className="text-white hover:text-[#455CE9] transition-colors py-1">
+          <a href="#contact" className="text-[#1C1D20] hover:text-[#455CE9] transition-colors py-1">
             Contact
           </a>
         </nav>
@@ -68,7 +68,7 @@ export const Navbar: React.FC = () => {
           className={`group w-16 h-16 sm:w-20 sm:h-20 rounded-full flex flex-col items-center justify-center transition-all duration-300 shadow-2xl border ${
             mobileMenuOpen
               ? 'bg-[#455CE9] text-white border-transparent'
-              : 'bg-[#1C1D20] text-white hover:bg-[#455CE9] border-white/15'
+              : 'bg-[#1C1D20] text-white hover:bg-[#455CE9] border-black/10'
           }`}
           aria-label="Toggle Navigation"
         >
