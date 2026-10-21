@@ -7,9 +7,9 @@ export const TakeSwitcher: React.FC = () => {
   const [showInfo, setShowInfo] = useState(false);
 
   const options: { id: WebsiteTake; label: string; tag: string }[] = [
-    { id: 'dennis', label: 'Dennis Minimal', tag: 'Preferred' },
-    { id: 'editorial', label: 'Editorial Atelier', tag: 'Aristide' },
-    { id: 'explorer', label: 'Horizon Explorer', tag: 'Panoramic' }
+    { id: 'dennis', label: '1. Dennis Minimal', tag: 'Preferred' },
+    { id: 'editorial', label: '2. Oliur Luxury Bento', tag: 'Dark Gold' },
+    { id: 'explorer', label: '3. Aristide Exhibition', tag: 'Curator' }
   ];
 
   return (
@@ -21,18 +21,21 @@ export const TakeSwitcher: React.FC = () => {
           <div className="text-xs font-mono font-medium text-[#455CE9] uppercase tracking-wider mb-1">
             {takeNames[take].title}
           </div>
-          <div className="text-xs font-normal text-[#55565A] dark:text-[#999D9E] leading-relaxed">
+          <div className="text-[11px] font-mono text-[#7D8085] dark:text-[#999D9E] mb-1">
+            {takeNames[take].subtitle}
+          </div>
+          <div className="text-xs font-normal text-[#55565A] dark:text-[#C5C8CD] leading-relaxed">
             {takeNames[take].description}
           </div>
         </div>
       )}
 
       {/* Floating Pill Switcher */}
-      <div className="p-1.5 rounded-full bg-white/90 dark:bg-[#1C1D20]/90 backdrop-blur-2xl border border-black/10 dark:border-white/15 shadow-2xl flex items-center gap-1.5 transition-all">
+      <div className="p-1.5 rounded-full bg-white/95 dark:bg-[#1C1D20]/95 backdrop-blur-2xl border border-black/10 dark:border-white/15 shadow-2xl flex items-center gap-1.5 transition-all">
         
         <div className="px-3 py-1 flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider text-[#7D8085] dark:text-[#999D9E] hidden md:flex border-r border-black/10 dark:border-white/10 pr-3">
           <Sparkles className="w-3 h-3 text-[#455CE9]" />
-          <span>Curated Takes</span>
+          <span>3 Distinct Takes</span>
         </div>
 
         {options.map((opt) => {
@@ -41,14 +44,14 @@ export const TakeSwitcher: React.FC = () => {
             <button
               key={opt.id}
               onClick={() => setTake(opt.id)}
-              className={`px-3.5 sm:px-4 py-1.5 rounded-full text-xs transition-all duration-300 flex items-center gap-1.5 ${
+              className={`px-3 sm:px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${
                 isActive
-                  ? 'bg-[#1C1D20] dark:bg-white text-white dark:text-[#1C1D20] font-medium shadow-md'
+                  ? 'bg-[#1C1D20] dark:bg-white text-white dark:text-[#1C1D20] shadow-md scale-[1.02]'
                   : 'text-[#55565A] dark:text-[#C5C8CD] hover:text-[#1C1D20] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10'
               }`}
             >
               <span>{opt.label}</span>
-              {isActive && <Check className="w-3 h-3" />}
+              {isActive && <Check className="w-3 h-3 text-[#455CE9]" />}
             </button>
           );
         })}
@@ -58,7 +61,7 @@ export const TakeSwitcher: React.FC = () => {
           onClick={() => setShowInfo(!showInfo)}
           className="w-7 h-7 rounded-full bg-black/5 dark:bg-white/10 hover:bg-[#455CE9] hover:text-white text-[#7D8085] dark:text-[#999D9E] flex items-center justify-center transition-colors ml-1"
           aria-label="Toggle Take Info"
-          title="Explain current design take"
+          title="Explain active design take"
         >
           <Info className="w-3.5 h-3.5" />
         </button>

@@ -14,17 +14,17 @@ export const takeNames: Record<WebsiteTake, { title: string; subtitle: string; d
   dennis: {
     title: 'Take 1: Dennis Snellenberg Purity',
     subtitle: 'Minimalist Motion & Monochrome Luxury',
-    description: 'Iconic wireframe hanger, pure name marquee, 3D celestial globe, and floating cursor thumbnails.'
+    description: 'Iconic wireframe hanger, centered portrait card, contained TARUN SABBINENI marquee, 3D dot-matrix globe, and curved scoop footer.'
   },
   editorial: {
-    title: 'Take 2: Aristide Benoist Atelier',
-    subtitle: 'High-Fashion Editorial & Fine Art Photography',
-    description: 'Magazine typography, film stock metadata, archival visual darkroom, and vintage visa stamps.'
+    title: 'Take 2: Oliur / Dark Luxury Bento',
+    subtitle: 'Obsidian & Champagne Gold Atelier',
+    description: 'Executive darkroom aesthetic, camera rangefinder frame, Apple-style 6-cell bento grid, and high-contrast luxury typography.'
   },
   explorer: {
-    title: 'Take 3: Horizon Explorer',
-    subtitle: 'Panoramic World & Platform Engineering',
-    description: 'See the whole world at once, interactive camera aperture dial, Barclays DevEx pillars, and flight telemetry.'
+    title: 'Take 3: Aristide Benoist Exhibition',
+    subtitle: 'Full-Screen Curated Chapter Storyboard',
+    description: 'Radical editorial layout with fixed curator sidebar on the left and interactive full-viewport exhibition chapters on the right.'
   }
 };
 
@@ -34,7 +34,7 @@ export const TakeProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (saved === 'dennis' || saved === 'editorial' || saved === 'explorer') {
       return saved;
     }
-    return 'dennis'; // Default to user's preferred Dennis version
+    return 'dennis'; // Default to Dennis
   });
 
   useEffect(() => {
