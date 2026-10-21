@@ -7,9 +7,10 @@ export const TakeSwitcher: React.FC = () => {
   const [showInfo, setShowInfo] = useState(false);
 
   const options: { id: WebsiteTake; label: string; tag: string }[] = [
-    { id: 'dennis', label: '1. Dennis Minimal', tag: 'Preferred' },
-    { id: 'editorial', label: '2. Oliur Luxury Bento', tag: 'Dark Gold' },
-    { id: 'explorer', label: '3. Aristide Exhibition', tag: 'Curator' }
+    { id: 'sepia-dennis', label: '1. Sepia Dennis', tag: 'Preferred' },
+    { id: 'monocle', label: '2. Editorial Monocle', tag: 'Broadsheet' },
+    { id: 'darkroom', label: '3. Kinetic Darkroom', tag: 'Amber' },
+    { id: 'horizon', label: '4. Horizon Atelier', tag: 'Spectrum' }
   ];
 
   return (
@@ -17,25 +18,25 @@ export const TakeSwitcher: React.FC = () => {
       
       {/* Information Flyout */}
       {showInfo && (
-        <div className="mb-3 p-4 rounded-2xl bg-white/95 dark:bg-[#1C1D20]/95 backdrop-blur-xl border border-black/10 dark:border-white/15 shadow-2xl max-w-sm text-center animate-fadeIn text-[#1C1D20] dark:text-white">
+        <div className="mb-3 p-4 rounded-2xl bg-[#F5F2EB]/95 dark:bg-[#1A1917]/95 backdrop-blur-xl border border-black/10 dark:border-white/15 shadow-2xl max-w-sm text-center animate-fadeIn text-[#1C1B18] dark:text-[#F5F2EB]">
           <div className="text-xs font-mono font-medium text-[#455CE9] uppercase tracking-wider mb-1">
             {takeNames[take].title}
           </div>
-          <div className="text-[11px] font-mono text-[#7D8085] dark:text-[#999D9E] mb-1">
+          <div className="text-[11px] font-mono text-[#7D7A74] mb-1">
             {takeNames[take].subtitle}
           </div>
-          <div className="text-xs font-normal text-[#55565A] dark:text-[#C5C8CD] leading-relaxed">
+          <div className="text-xs font-normal text-[#5A5751] dark:text-[#C5C2BA] leading-relaxed">
             {takeNames[take].description}
           </div>
         </div>
       )}
 
       {/* Floating Pill Switcher */}
-      <div className="p-1.5 rounded-full bg-white/95 dark:bg-[#1C1D20]/95 backdrop-blur-2xl border border-black/10 dark:border-white/15 shadow-2xl flex items-center gap-1.5 transition-all">
+      <div className="p-1.5 rounded-full bg-[#FAF8F5]/95 dark:bg-[#181715]/95 backdrop-blur-2xl border border-black/10 dark:border-white/15 shadow-2xl flex items-center gap-1.5 transition-all">
         
-        <div className="px-3 py-1 flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider text-[#7D8085] dark:text-[#999D9E] hidden md:flex border-r border-black/10 dark:border-white/10 pr-3">
+        <div className="px-3 py-1 flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider text-[#7D7A74] hidden md:flex border-r border-black/10 dark:border-white/10 pr-3">
           <Sparkles className="w-3 h-3 text-[#455CE9]" />
-          <span>3 Distinct Takes</span>
+          <span>4 Sepia Takes</span>
         </div>
 
         {options.map((opt) => {
@@ -46,8 +47,8 @@ export const TakeSwitcher: React.FC = () => {
               onClick={() => setTake(opt.id)}
               className={`px-3 sm:px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${
                 isActive
-                  ? 'bg-[#1C1D20] dark:bg-white text-white dark:text-[#1C1D20] shadow-md scale-[1.02]'
-                  : 'text-[#55565A] dark:text-[#C5C8CD] hover:text-[#1C1D20] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10'
+                  ? 'bg-[#1C1B18] dark:bg-white text-white dark:text-[#1C1B18] shadow-md scale-[1.02]'
+                  : 'text-[#5A5751] dark:text-[#C5C2BA] hover:text-[#1C1B18] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10'
               }`}
             >
               <span>{opt.label}</span>
@@ -59,9 +60,9 @@ export const TakeSwitcher: React.FC = () => {
         {/* Info Toggle */}
         <button
           onClick={() => setShowInfo(!showInfo)}
-          className="w-7 h-7 rounded-full bg-black/5 dark:bg-white/10 hover:bg-[#455CE9] hover:text-white text-[#7D8085] dark:text-[#999D9E] flex items-center justify-center transition-colors ml-1"
+          className="w-7 h-7 rounded-full bg-black/5 dark:bg-white/10 hover:bg-[#455CE9] hover:text-white text-[#7D7A74] flex items-center justify-center transition-colors ml-1"
           aria-label="Toggle Take Info"
-          title="Explain active design take"
+          title="Explain active take"
         >
           <Info className="w-3.5 h-3.5" />
         </button>

@@ -2,9 +2,10 @@ import { ThemeProvider } from './context/ThemeContext';
 import { TakeProvider, useTake } from './context/TakeContext';
 import { Preloader } from './components/Preloader';
 import { Navbar } from './components/Navbar';
-import { DennisTake } from './views/DennisTake';
-import { LuxuryTake } from './views/LuxuryTake';
-import { ExhibitionTake } from './views/ExhibitionTake';
+import { SepiaDennisTake } from './views/SepiaDennisTake';
+import { MonocleTake } from './views/MonocleTake';
+import { DarkroomTake } from './views/DarkroomTake';
+import { HorizonAtelierTake } from './views/HorizonAtelierTake';
 import { TakeSwitcher } from './components/TakeSwitcher';
 
 function AppContent() {
@@ -15,28 +16,22 @@ function AppContent() {
       {/* Multilingual Preloader with Hindi, Telugu, English, Gujarati */}
       <Preloader />
 
-      {/* Take 1: Dennis Snellenberg Purity (Classic Dennis layout with Navbar) */}
-      {take === 'dennis' && (
-        <>
-          <Navbar />
-          <DennisTake />
-        </>
-      )}
+      {/* Top Navbar with Light/Dark Switcher */}
+      <Navbar />
 
-      {/* Take 2: Oliur / Dark Luxury Bento (Executive Atelier) */}
-      {take === 'editorial' && (
-        <>
-          <Navbar />
-          <LuxuryTake />
-        </>
-      )}
+      {/* Option 1: Sepia Dennis (Pure Dennis Motion in Warm Sepia) */}
+      {take === 'sepia-dennis' && <SepiaDennisTake />}
 
-      {/* Take 3: Aristide Benoist Exhibition (Full-Screen Chapter Storyboard) */}
-      {take === 'explorer' && (
-        <ExhibitionTake />
-      )}
+      {/* Option 2: Editorial Monocle (Broadsheet Plates) */}
+      {take === 'monocle' && <MonocleTake />}
 
-      {/* Floating 3 Distinct Takes Switcher */}
+      {/* Option 3: Kinetic Darkroom (Warm Amber Sepia Safelight) */}
+      {take === 'darkroom' && <DarkroomTake />}
+
+      {/* Option 4: Horizon Atelier (Full Spectrum Synthesis) */}
+      {take === 'horizon' && <HorizonAtelierTake />}
+
+      {/* Floating 4 Takes Switcher */}
       <TakeSwitcher />
     </div>
   );

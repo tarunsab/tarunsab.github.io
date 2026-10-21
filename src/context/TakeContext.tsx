@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type WebsiteTake = 'dennis' | 'editorial' | 'explorer';
+export type WebsiteTake = 'sepia-dennis' | 'monocle' | 'darkroom' | 'horizon';
 
 interface TakeContextType {
   take: WebsiteTake;
@@ -11,30 +11,35 @@ interface TakeContextType {
 const TakeContext = createContext<TakeContextType | undefined>(undefined);
 
 export const takeNames: Record<WebsiteTake, { title: string; subtitle: string; description: string }> = {
-  dennis: {
-    title: 'Take 1: Dennis Snellenberg Purity',
-    subtitle: 'Minimalist Motion & Monochrome Luxury',
-    description: 'Iconic wireframe hanger, centered portrait card, contained TARUN SABBINENI marquee, 3D dot-matrix globe, and curved scoop footer.'
+  'sepia-dennis': {
+    title: 'Option 1: Sepia Dennis (Pure Synthesis)',
+    subtitle: 'Dennis Snellenberg Motion in Warm Linen Sepia',
+    description: 'The exact Dennis hero, spinning wireframe globe, centered LinkedIn card, name marquee, and 3D globe—bathed in warm sepia linen.'
   },
-  editorial: {
-    title: 'Take 2: Oliur / Dark Luxury Bento',
-    subtitle: 'Obsidian & Champagne Gold Atelier',
-    description: 'Executive darkroom aesthetic, camera rangefinder frame, Apple-style 6-cell bento grid, and high-contrast luxury typography.'
+  'monocle': {
+    title: 'Option 2: Editorial Monocle (Broadsheet)',
+    subtitle: 'Classic Broadsheet Typography & Archival Plates',
+    description: 'Magazine-grade editorial typography, dual-column broadsheet intro, passport plates, and Dennis motion details.'
   },
-  explorer: {
-    title: 'Take 3: Aristide Benoist Exhibition',
-    subtitle: 'Full-Screen Curated Chapter Storyboard',
-    description: 'Radical editorial layout with fixed curator sidebar on the left and interactive full-viewport exhibition chapters on the right.'
+  'darkroom': {
+    title: 'Option 3: Kinetic Darkroom (Amber Sepia)',
+    subtitle: 'Warm Darkroom Safelight & Medium Format Focus',
+    description: 'Deep bistre & warm amber palette, film negative frame, camera optics inventory, and glowing flight corridors.'
+  },
+  'horizon': {
+    title: 'Option 4: Horizon Atelier (Full Spectrum)',
+    subtitle: 'Luminous Alabaster Sepia with Interactive Pillars',
+    description: 'Perspective discipline switcher, Barclays platform engineering pillars, panoramic world atlas, and Dennis curved footer.'
   }
 };
 
 export const TakeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [take, setTakeState] = useState<WebsiteTake>(() => {
     const saved = localStorage.getItem('tarun-take') as WebsiteTake;
-    if (saved === 'dennis' || saved === 'editorial' || saved === 'explorer') {
+    if (saved === 'sepia-dennis' || saved === 'monocle' || saved === 'darkroom' || saved === 'horizon') {
       return saved;
     }
-    return 'dennis'; // Default to Dennis
+    return 'sepia-dennis'; // Default to Option 1: Sepia Dennis
   });
 
   useEffect(() => {

@@ -82,8 +82,8 @@ export const PhotographySection: React.FC = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            {/* Field Gear Button (Shown in Editorial or Explorer takes) */}
-            {(take === 'explorer' || take === 'editorial') && (
+            {/* Field Gear Button (Shown in Horizon or Darkroom takes) */}
+            {(take === 'horizon' || take === 'darkroom') && (
               <button
                 onClick={() => setShowGear(!showGear)}
                 className="px-4 py-2 rounded-full bg-white dark:bg-white/10 hover:bg-[#455CE9] hover:text-white dark:hover:bg-[#455CE9] dark:hover:text-white text-[#1C1D20] dark:text-white border border-[#1C1D20]/10 dark:border-white/10 transition-all text-xs font-normal flex items-center gap-2 shadow-sm"

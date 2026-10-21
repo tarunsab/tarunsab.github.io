@@ -77,18 +77,17 @@ export const TravelAtlas: React.FC = () => {
   const [selectedCountry, setSelectedCountry] = useState<CountryDestination>(visitedCountries[4]);
   
   // Active view: 'globe' (preferred 3D) vs 'panoramic' (whole world) vs 'archive' (passport stamps)
-  // Default based on active take, but user can click to switch anytime
   const [activeView, setActiveView] = useState<'globe' | 'panoramic' | 'archive'>(() => {
-    if (take === 'dennis') return 'globe';
-    if (take === 'editorial') return 'archive';
-    return 'panoramic';
+    if (take === 'monocle') return 'archive';
+    if (take === 'horizon') return 'panoramic';
+    return 'globe'; // Default to 3D Globe
   });
 
   // Sync default view when take changes
   useEffect(() => {
-    if (take === 'dennis') setActiveView('globe');
-    else if (take === 'editorial') setActiveView('archive');
-    else if (take === 'explorer') setActiveView('panoramic');
+    if (take === 'monocle') setActiveView('archive');
+    else if (take === 'horizon') setActiveView('panoramic');
+    else setActiveView('globe');
   }, [take]);
 
   const [selectedRegion, setSelectedRegion] = useState<string>('all');

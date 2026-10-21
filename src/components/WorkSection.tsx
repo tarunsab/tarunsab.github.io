@@ -99,8 +99,8 @@ export const WorkSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Engineering Philosophy Pillars (Active in Horizon Explorer Take) */}
-        {take === 'explorer' && (
+        {/* Engineering Philosophy Pillars (Active in Horizon Atelier Take) */}
+        {take === 'horizon' && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fadeIn">
             {engineeringPillars.map((pillar, idx) => {
               const Icon = pillar.icon;
