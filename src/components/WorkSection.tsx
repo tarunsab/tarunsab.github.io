@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Github, ArrowUpRight, CheckCircle2, Layers, ShieldCheck, Terminal, Code2 } from 'lucide-react';
 import { publicProjects } from '../data/siteData';
 import { Project } from '../types';
+import { useTake } from '../context/TakeContext';
 
 export const WorkSection: React.FC = () => {
+  const { take } = useTake();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -56,7 +58,7 @@ export const WorkSection: React.FC = () => {
   return (
     <section id="work" className="bg-white dark:bg-[#141517] text-[#1C1D20] dark:text-white py-24 sm:py-36 px-6 sm:px-12 lg:px-16 border-b border-[#1C1D20]/10 dark:border-white/10 relative transition-colors">
       
-      {/* Floating Cursor Thumbnail Preview */}
+      {/* Floating Cursor Thumbnail Preview (Dennis Signature) */}
       {hoveredProject && (
         <div
           className="fixed pointer-events-none z-50 hidden lg:block -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300"
@@ -75,7 +77,7 @@ export const WorkSection: React.FC = () => {
           </div>
 
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-[#455CE9] text-white flex items-center justify-center text-xs uppercase tracking-widest font-normal shadow-lg">
-            Inspect
+            View
           </div>
         </div>
       )}
@@ -93,42 +95,44 @@ export const WorkSection: React.FC = () => {
             </h2>
           </div>
           <p className="text-sm text-[#7D8085] dark:text-[#999D9E] max-w-md font-normal">
-            Software Engineering Manager leading Developer Experience & Platform Engineering at Barclays. Curated public open-source implementations.
+            Software Engineering Manager leading Developer Experience & Platform Engineering at Barclays. Curated public GitHub implementations.
           </p>
         </div>
 
-        {/* Engineering Philosophy Pillars */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {engineeringPillars.map((pillar, idx) => {
-            const Icon = pillar.icon;
-            return (
-              <div
-                key={idx}
-                className="p-6 rounded-2xl bg-[#F4F4F6] dark:bg-[#18191B] border border-[#1C1D20]/10 dark:border-white/10 flex flex-col justify-between hover:border-[#455CE9]/40 transition-colors"
-              >
-                <div>
-                  <div className="w-9 h-9 rounded-xl bg-white dark:bg-white/10 flex items-center justify-center text-[#455CE9] mb-4 shadow-sm">
-                    <Icon className="w-4 h-4" />
+        {/* Engineering Philosophy Pillars (Active in Horizon Explorer Take) */}
+        {take === 'explorer' && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fadeIn">
+            {engineeringPillars.map((pillar, idx) => {
+              const Icon = pillar.icon;
+              return (
+                <div
+                  key={idx}
+                  className="p-6 rounded-2xl bg-[#F4F4F6] dark:bg-[#18191B] border border-[#1C1D20]/10 dark:border-white/10 flex flex-col justify-between hover:border-[#455CE9]/40 transition-colors"
+                >
+                  <div>
+                    <div className="w-9 h-9 rounded-xl bg-white dark:bg-white/10 flex items-center justify-center text-[#455CE9] mb-4 shadow-sm">
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <h4 className="text-base font-medium tracking-tight text-[#1C1D20] dark:text-white mb-2">
+                      {pillar.title}
+                    </h4>
+                    <p className="text-xs text-[#55565A] dark:text-[#999D9E] leading-relaxed">
+                      {pillar.description}
+                    </p>
                   </div>
-                  <h4 className="text-base font-medium tracking-tight text-[#1C1D20] dark:text-white mb-2">
-                    {pillar.title}
-                  </h4>
-                  <p className="text-xs text-[#55565A] dark:text-[#999D9E] leading-relaxed">
-                    {pillar.description}
-                  </p>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
 
         {/* Projects Subheader */}
-        <div className="flex items-center justify-between pt-8 pb-4 border-b border-[#1C1D20]/15 dark:border-white/15">
+        <div className="flex items-center justify-between pt-4 pb-4 border-b border-[#1C1D20]/15 dark:border-white/15">
           <span className="text-xs uppercase tracking-widest text-[#7D8085] dark:text-[#999D9E] font-medium">
-            Curated Public Repositories (Public GitHub)
+            Recent Work
           </span>
           <span className="text-xs font-mono text-[#7D8085] dark:text-[#999D9E] hidden sm:inline">
-            Click row to inspect achievements
+            Discipline & Year
           </span>
         </div>
 
