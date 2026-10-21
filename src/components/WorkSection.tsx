@@ -9,7 +9,6 @@ export const WorkSection: React.FC = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [targetPos, setTargetPos] = useState({ x: 0, y: 0 });
 
-  // Smooth lerp mouse tracking for Dennis Snellenberg floating preview
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setTargetPos({ x: e.clientX, y: e.clientY });
@@ -32,7 +31,7 @@ export const WorkSection: React.FC = () => {
   }, [targetPos]);
 
   return (
-    <section id="work" className="bg-white text-[#1C1D20] py-24 sm:py-32 px-8 sm:px-16 border-b border-[#1C1D20]/10 relative">
+    <section id="work" className="bg-white dark:bg-[#141517] text-[#1C1D20] dark:text-white py-24 sm:py-32 px-8 sm:px-16 border-b border-[#1C1D20]/10 dark:border-white/10 relative transition-colors">
       {/* Dennis Snellenberg Floating Cursor Thumbnail & View Button */}
       {hoveredProject && (
         <div
@@ -60,18 +59,18 @@ export const WorkSection: React.FC = () => {
       )}
 
       <div className="max-w-7xl mx-auto">
-        {/* Section Sub-title (Dennis Snellenberg format) */}
-        <div className="flex items-center justify-between pb-8 border-b border-[#1C1D20]/15">
-          <span className="text-xs uppercase tracking-widest text-[#999D9E] font-medium">
+        {/* Section Sub-title */}
+        <div className="flex items-center justify-between pb-8 border-b border-[#1C1D20]/15 dark:border-white/15">
+          <span className="text-xs uppercase tracking-widest text-[#7D8085] dark:text-[#999D9E] font-medium">
             Recent Work
           </span>
-          <span className="text-xs uppercase tracking-widest text-[#999D9E] font-medium hidden sm:inline">
+          <span className="text-xs uppercase tracking-widest text-[#7D8085] dark:text-[#999D9E] font-medium hidden sm:inline">
             Discipline & Year
           </span>
         </div>
 
         {/* Dennis Snellenberg Interactive Project Rows */}
-        <ul className="divide-y divide-[#1C1D20]/15">
+        <ul className="divide-y divide-[#1C1D20]/15 dark:divide-white/15">
           {publicProjects.map((project) => {
             const isSelected = selectedProject?.id === project.id;
             return (
@@ -86,16 +85,16 @@ export const WorkSection: React.FC = () => {
                   className="w-full py-10 sm:py-14 flex flex-col md:flex-row md:items-center justify-between gap-4 text-left transition-all duration-300 group-hover:px-4"
                 >
                   <div className="flex items-baseline gap-6">
-                    <h3 className="text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-[#1C1D20] group-hover:text-[#455CE9] transition-colors">
+                    <h3 className="text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-[#1C1D20] dark:text-white group-hover:text-[#455CE9] transition-colors">
                       {project.title}
                     </h3>
                   </div>
 
                   <div className="flex items-center gap-6">
-                    <p className="text-base sm:text-lg text-[#999D9E] font-normal group-hover:text-[#1C1D20] transition-colors">
+                    <p className="text-base sm:text-lg text-[#7D8085] dark:text-[#999D9E] font-normal group-hover:text-[#1C1D20] dark:group-hover:text-white transition-colors">
                       {project.category} · {project.year}
                     </p>
-                    <div className="w-10 h-10 rounded-full border border-[#1C1D20]/20 flex items-center justify-center text-[#1C1D20] group-hover:bg-[#455CE9] group-hover:text-white group-hover:border-transparent transition-all">
+                    <div className="w-10 h-10 rounded-full border border-[#1C1D20]/20 dark:border-white/20 flex items-center justify-center text-[#1C1D20] dark:text-white group-hover:bg-[#455CE9] group-hover:text-white group-hover:border-transparent transition-all">
                       <ArrowUpRight className="w-4 h-4" />
                     </div>
                   </div>
@@ -103,24 +102,24 @@ export const WorkSection: React.FC = () => {
 
                 {/* Expanded Details Drawer */}
                 {isSelected && (
-                  <div className="pb-12 pt-4 px-4 bg-[#F8F8F8] rounded-2xl p-8 mb-8 border border-[#1C1D20]/10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-fadeIn">
+                  <div className="pb-12 pt-4 px-4 bg-[#F4F4F6] dark:bg-[#1C1D20] rounded-2xl p-8 mb-8 border border-[#1C1D20]/10 dark:border-white/10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-fadeIn">
                     <div className="lg:col-span-7 space-y-4">
                       <div className="flex items-center gap-2">
                         <span className="text-xs uppercase tracking-widest text-[#455CE9] font-medium">
                           {project.role} · {project.category}
                         </span>
                       </div>
-                      <p className="text-base text-[#1C1D20] font-light leading-relaxed">
+                      <p className="text-base text-[#1C1D20] dark:text-white font-light leading-relaxed">
                         {project.description}
                       </p>
 
                       <div className="space-y-2 pt-2">
-                        <span className="text-xs uppercase tracking-widest text-[#999D9E] block font-medium">
+                        <span className="text-xs uppercase tracking-widest text-[#7D8085] dark:text-[#999D9E] block font-medium">
                           Key Achievements
                         </span>
                         <ul className="space-y-2">
                           {project.achievements.map((ach, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-[#55565A]">
+                            <li key={i} className="flex items-start gap-2 text-sm text-[#55565A] dark:text-[#999D9E]">
                               <CheckCircle2 className="w-4 h-4 text-[#455CE9] shrink-0 mt-0.5" />
                               <span>{ach}</span>
                             </li>
@@ -132,7 +131,7 @@ export const WorkSection: React.FC = () => {
                         {project.techStack.map((tech) => (
                           <span
                             key={tech}
-                            className="px-3 py-1 rounded-full bg-white border border-[#1C1D20]/10 text-xs text-[#1C1D20] font-mono"
+                            className="px-3 py-1 rounded-full bg-white dark:bg-white/10 border border-[#1C1D20]/10 dark:border-white/10 text-xs text-[#1C1D20] dark:text-white font-mono"
                           >
                             {tech}
                           </span>
@@ -144,7 +143,7 @@ export const WorkSection: React.FC = () => {
                           href={project.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1C1D20] text-white hover:bg-[#455CE9] text-xs uppercase tracking-widest font-normal transition-colors"
+                          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1C1D20] dark:bg-white text-white dark:text-[#1C1D20] hover:bg-[#455CE9] dark:hover:bg-[#455CE9] dark:hover:text-white text-xs uppercase tracking-widest font-normal transition-colors"
                         >
                           <Github className="w-4 h-4" />
                           <span>View on GitHub</span>
@@ -153,7 +152,7 @@ export const WorkSection: React.FC = () => {
                     </div>
 
                     <div className="lg:col-span-5">
-                      <div className="aspect-[4/3] rounded-xl overflow-hidden border border-[#1C1D20]/10 shadow-lg">
+                      <div className="aspect-[4/3] rounded-xl overflow-hidden border border-[#1C1D20]/10 dark:border-white/10 shadow-lg">
                         <img
                           src={project.previewImage}
                           alt={project.title}
@@ -174,10 +173,10 @@ export const WorkSection: React.FC = () => {
             href="https://github.com/sabbineni"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-round px-8 py-5 rounded-full border border-[#1C1D20]/25 text-[#1C1D20] hover:bg-[#1C1D20] hover:text-white transition-all text-sm uppercase tracking-widest flex items-center gap-3"
+            className="btn-round px-8 py-5 rounded-full border border-[#1C1D20]/25 dark:border-white/25 text-[#1C1D20] dark:text-white hover:bg-[#1C1D20] hover:text-white dark:hover:bg-white dark:hover:text-[#1C1D20] transition-all text-sm uppercase tracking-widest flex items-center gap-3"
           >
             <span>More work</span>
-            <span className="w-5 h-5 rounded-full bg-[#E9EAEB] text-[#1C1D20] text-xs flex items-center justify-center font-mono">
+            <span className="w-5 h-5 rounded-full bg-[#EAECEF] dark:bg-white/20 text-[#1C1D20] dark:text-white text-xs flex items-center justify-center font-mono">
               4
             </span>
           </a>

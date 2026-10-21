@@ -1,423 +1,421 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Shuffle, ArrowUpRight, Plane } from 'lucide-react';
+import React, { useState } from 'react';
+import { Shuffle, Plane, ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from 'lucide-react';
 import { visitedCountries } from '../data/siteData';
 import { CountryDestination } from '../types';
 
 export const TravelAtlas: React.FC = () => {
-  const [selectedCountry, setSelectedCountry] = useState<CountryDestination>(visitedCountries[4]); // Switzerland by default
-  const [activeTab, setActiveTab] = useState<'globe' | 'passport'>('globe');
-  const [selectedRegion, setSelectedRegion] = useState<string>('all');
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<CountryDestination>(visitedCountries[4]); // Switzerland default
+  const [mapZoom, setMapZoom] = useState<'world' | 'europe'>('world');
+  const [activeTab, setActiveTab] = useState<'map' | 'stamps'>('map');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // Globe rotation state
-  const rotationRef = useRef({ phi: 0.6, theta: 0.8 });
-  const isDraggingRef = useRef(false);
-  const previousMousePositionRef = useRef({ x: 0, y: 0 });
+  const currentIndex = visitedCountries.findIndex((c) => c.id === selectedCountry.id);
 
-  // Filter countries by region
-  const filteredCountries = visitedCountries.filter((c) => {
-    if (selectedRegion === 'all') return true;
-    return c.region.toLowerCase().includes(selectedRegion.toLowerCase());
-  });
-
-  // Pick random country & spin
-  const handleRandomCountry = () => {
-    const randomIndex = Math.floor(Math.random() * visitedCountries.length);
-    const country = visitedCountries[randomIndex];
-    setSelectedCountry(country);
-
-    // Target rotation based on lat/lng
-    const targetTheta = (country.lng * Math.PI) / 180 + Math.PI / 2;
-    const targetPhi = (country.lat * Math.PI) / 180;
-    rotationRef.current = { phi: -targetPhi, theta: -targetTheta };
+  const handleNext = () => {
+    const nextIdx = (currentIndex + 1) % visitedCountries.length;
+    setSelectedCountry(visitedCountries[nextIdx]);
+    if (visitedCountries[nextIdx].region.includes('Europe')) {
+      // keep zoom if appropriate
+    }
   };
 
-  // 3D Canvas Interactive Particle Globe
-  useEffect(() => {
-    if (activeTab !== 'globe') return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+  const handlePrev = () => {
+    const prevIdx = (currentIndex - 1 + visitedCountries.length) % visitedCountries.length;
+    setSelectedCountry(visitedCountries[prevIdx]);
+  };
 
-    let animationFrameId: number;
+  const handleShuffle = () => {
+    const randomIdx = Math.floor(Math.random() * visitedCountries.length);
+    setSelectedCountry(visitedCountries[randomIdx]);
+  };
 
-    // Handle high DPI
-    const dpr = window.devicePixelRatio || 1;
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    ctx.scale(dpr, dpr);
+  // Convert lat/lng to map coordinates (1000 x 500 Mercator space)
+  const getCoordinates = (lat: number, lng: number) => {
+    const x = ((lng + 180) / 360) * 1000;
+    const y = ((90 - lat) / 180) * 500;
+    return { x, y };
+  };
 
-    const radius = Math.min(width, height) * 0.42;
-    const centerX = width / 2;
-    const centerY = height / 2;
+  const londonCoord = getCoordinates(51.5074, -0.1278);
+  const selectedCoord = getCoordinates(selectedCountry.lat, selectedCountry.lng);
 
-    // Generate globe surface points (dots)
-    const DOTS_COUNT = 380;
-    const dots: { phi: number; theta: number }[] = [];
-    for (let i = 0; i < DOTS_COUNT; i++) {
-      const phi = Math.acos(-1 + (2 * i) / DOTS_COUNT) - Math.PI / 2;
-      const theta = Math.sqrt(DOTS_COUNT * Math.PI) * phi;
-      dots.push({ phi, theta });
-    }
-
-    // Convert lat/lng to 3D point on sphere
-    const latLngToVector = (lat: number, lng: number, r: number) => {
-      const phi = (lat * Math.PI) / 180;
-      const theta = (lng * Math.PI) / 180;
-
-      // Apply current rotation
-      const currentTheta = theta + rotationRef.current.theta;
-      const currentPhi = phi + rotationRef.current.phi;
-
-      const x = r * Math.cos(currentPhi) * Math.sin(currentTheta);
-      const y = -r * Math.sin(currentPhi);
-      const z = r * Math.cos(currentPhi) * Math.cos(currentTheta);
-
-      return { x, y, z };
-    };
-
-    const render = () => {
-      ctx.clearRect(0, 0, width, height);
-
-      // Auto-spin if not dragging
-      if (!isDraggingRef.current) {
-        rotationRef.current.theta += 0.003;
-      }
-
-      // Draw faint globe sphere glow
-      const gradient = ctx.createRadialGradient(
-        centerX,
-        centerY,
-        radius * 0.7,
-        centerX,
-        centerY,
-        radius * 1.05
-      );
-      gradient.addColorStop(0, 'rgba(69, 92, 233, 0.03)');
-      gradient.addColorStop(0.85, 'rgba(69, 92, 233, 0.08)');
-      gradient.addColorStop(1, 'rgba(69, 92, 233, 0)');
-      ctx.fillStyle = gradient;
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius * 1.05, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Draw wireframe outline ring
-      ctx.strokeStyle = 'rgba(28, 29, 32, 0.12)';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-      ctx.stroke();
-
-      // Render surface dots
-      dots.forEach((dot) => {
-        const curTheta = dot.theta + rotationRef.current.theta;
-        const curPhi = dot.phi + rotationRef.current.phi;
-
-        const x = radius * Math.cos(curPhi) * Math.sin(curTheta);
-        const y = -radius * Math.sin(curPhi);
-        const z = radius * Math.cos(curPhi) * Math.cos(curTheta);
-
-        if (z > 0) {
-          const alpha = (z / radius) * 0.45;
-          ctx.fillStyle = `rgba(28, 29, 32, ${alpha})`;
-          ctx.beginPath();
-          ctx.arc(centerX + x, centerY + y, 1.2, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      });
-
-      // Render London Home Pin
-      const london = latLngToVector(51.5074, -0.1278, radius);
-      if (london.z > 0) {
-        ctx.fillStyle = '#1C1D20';
-        ctx.beginPath();
-        ctx.arc(centerX + london.x, centerY + london.y, 4, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // Render 21 Visited Destination Pins
-      visitedCountries.forEach((country) => {
-        const pt = latLngToVector(country.lat, country.lng, radius);
-        const isSelected = selectedCountry.id === country.id;
-
-        if (pt.z > 0) {
-          const depthAlpha = pt.z / radius;
-
-          // Draw Flight Arc from London to Selected Country
-          if (isSelected && london.z > -radius * 0.2) {
-            ctx.strokeStyle = '#455CE9';
-            ctx.lineWidth = 2;
-            ctx.setLineDash([4, 4]);
-            ctx.beginPath();
-            ctx.moveTo(centerX + london.x, centerY + london.y);
-            const midX = (london.x + pt.x) / 2;
-            const midY = (london.y + pt.y) / 2 - 40;
-            ctx.quadraticCurveTo(centerX + midX, centerY + midY, centerX + pt.x, centerY + pt.y);
-            ctx.stroke();
-            ctx.setLineDash([]);
-          }
-
-          // Pin marker
-          if (isSelected) {
-            // Pulsing highlight ring
-            ctx.strokeStyle = '#455CE9';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(centerX + pt.x, centerY + pt.y, 10, 0, Math.PI * 2);
-            ctx.stroke();
-
-            ctx.fillStyle = '#455CE9';
-            ctx.beginPath();
-            ctx.arc(centerX + pt.x, centerY + pt.y, 5, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Label
-            ctx.font = '500 12px "Neue Montreal", sans-serif';
-            ctx.fillStyle = '#1C1D20';
-            ctx.fillText(country.name, centerX + pt.x + 12, centerY + pt.y + 4);
-          } else {
-            ctx.fillStyle = `rgba(69, 92, 233, ${Math.max(0.2, depthAlpha)})`;
-            ctx.beginPath();
-            ctx.arc(centerX + pt.x, centerY + pt.y, 3.5, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        }
-      });
-
-      animationFrameId = requestAnimationFrame(render);
-    };
-
-    render();
-
-    // Mouse interaction: Drag to rotate
-    const handleMouseDown = (e: MouseEvent) => {
-      isDraggingRef.current = true;
-      previousMousePositionRef.current = { x: e.clientX, y: e.clientY };
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDraggingRef.current) return;
-      const deltaX = e.clientX - previousMousePositionRef.current.x;
-      const deltaY = e.clientY - previousMousePositionRef.current.y;
-
-      rotationRef.current.theta += deltaX * 0.006;
-      rotationRef.current.phi = Math.max(-1.2, Math.min(1.2, rotationRef.current.phi + deltaY * 0.006));
-
-      previousMousePositionRef.current = { x: e.clientX, y: e.clientY };
-    };
-
-    const handleMouseUp = () => {
-      isDraggingRef.current = false;
-    };
-
-    canvas.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      canvas.removeEventListener('mousedown', handleMouseDown);
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [activeTab, selectedCountry]);
+  const filteredCountries = visitedCountries.filter(
+    (c) =>
+      c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      c.region.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <section id="atlas" className="bg-white text-[#1C1D20] py-24 sm:py-32 px-8 sm:px-16 border-b border-[#1C1D20]/10">
+    <section id="atlas" className="bg-white dark:bg-[#141517] text-[#1C1D20] dark:text-white py-24 sm:py-32 px-8 sm:px-16 border-b border-[#1C1D20]/10 dark:border-white/10 transition-colors">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-[#1C1D20]/15 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-[#1C1D20]/15 dark:border-white/15 mb-12">
           <div>
-            <span className="text-xs uppercase tracking-widest text-[#999D9E] font-medium block mb-2">
-              Exploration & Cartography
+            <span className="text-xs uppercase tracking-widest text-[#7D8085] dark:text-[#999D9E] font-medium block mb-2">
+              Cartography & Exploration
             </span>
-            <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-[#1C1D20]">
-              Travel Atlas <span className="text-base text-[#455CE9] font-mono ml-3 font-normal">21 Countries Explored</span>
+            <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-[#1C1D20] dark:text-white">
+              Travel Atlas <span className="text-base text-[#455CE9] font-mono ml-3 font-normal">21 Visited Destinations</span>
             </h2>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             {/* View Mode Toggle */}
-            <div className="p-1 rounded-full bg-[#F4F4F4] flex items-center text-xs font-normal">
+            <div className="p-1 rounded-full bg-[#F4F4F6] dark:bg-white/10 flex items-center text-xs font-normal">
               <button
-                onClick={() => setActiveTab('globe')}
+                onClick={() => setActiveTab('map')}
                 className={`px-4 py-1.5 rounded-full transition-all ${
-                  activeTab === 'globe' ? 'bg-[#1C1D20] text-white shadow-sm' : 'text-[#6A6C70] hover:text-[#1C1D20]'
+                  activeTab === 'map'
+                    ? 'bg-[#1C1D20] dark:bg-white text-white dark:text-[#1C1D20] shadow-sm font-medium'
+                    : 'text-[#6A6C70] dark:text-white/70 hover:text-[#1C1D20]'
                 }`}
               >
-                3D Interactive Globe
+                Interactive Map
               </button>
               <button
-                onClick={() => setActiveTab('passport')}
+                onClick={() => setActiveTab('stamps')}
                 className={`px-4 py-1.5 rounded-full transition-all ${
-                  activeTab === 'passport' ? 'bg-[#1C1D20] text-white shadow-sm' : 'text-[#6A6C70] hover:text-[#1C1D20]'
+                  activeTab === 'stamps'
+                    ? 'bg-[#1C1D20] dark:bg-white text-white dark:text-[#1C1D20] shadow-sm font-medium'
+                    : 'text-[#6A6C70] dark:text-white/70 hover:text-[#1C1D20]'
                 }`}
               >
                 Passport Stamps (21)
               </button>
             </div>
 
-            {/* Random Destination Button */}
+            {/* Shuffle Button */}
             <button
-              onClick={handleRandomCountry}
-              className="p-2.5 rounded-full bg-[#F4F4F4] hover:bg-[#455CE9] hover:text-white transition-colors text-[#1C1D20]"
-              title="Spin to random destination"
-              aria-label="Spin to random destination"
+              onClick={handleShuffle}
+              className="px-3.5 py-1.5 rounded-full bg-[#F4F4F6] dark:bg-white/10 hover:bg-[#455CE9] hover:text-white transition-colors text-xs font-normal flex items-center gap-1.5"
+              title="Jump to random destination"
             >
-              <Shuffle className="w-4 h-4" />
+              <Shuffle className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Random</span>
             </button>
           </div>
         </div>
 
-        {/* 3D Interactive Globe Mode */}
-        {activeTab === 'globe' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* 3D Canvas Globe Viewport */}
-            <div className="lg:col-span-7 flex flex-col items-center">
-              <div className="relative w-full aspect-square max-w-[540px] cursor-grab active:cursor-grabbing select-none flex items-center justify-center">
-                <canvas ref={canvasRef} className="w-full h-full" />
-                <div className="absolute bottom-2 text-center text-xs uppercase tracking-widest text-[#999D9E] font-medium pointer-events-none">
-                  Click and drag to spin globe · Click destination to inspect
+        {/* Tab 1: Interactive Map View */}
+        {activeTab === 'map' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
+            {/* Vector World Map Stage */}
+            <div className="lg:col-span-8 rounded-3xl bg-[#F4F4F6] dark:bg-[#1C1D20] p-4 sm:p-6 border border-[#1C1D20]/10 dark:border-white/10 shadow-sm relative overflow-hidden">
+              {/* Map Controls Top Bar */}
+              <div className="flex items-center justify-between mb-3 text-xs text-[#7D8085] dark:text-[#999D9E]">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#455CE9] animate-pulse" />
+                  <span className="font-mono uppercase tracking-wider">
+                    {mapZoom === 'world' ? 'Global View' : 'Europe Cluster Focus'}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setMapZoom(mapZoom === 'world' ? 'europe' : 'world')}
+                    className="px-3 py-1 rounded-full bg-white dark:bg-white/10 text-xs font-medium text-[#1C1D20] dark:text-white hover:bg-[#455CE9] hover:text-white transition-colors border border-black/5 dark:border-white/5 flex items-center gap-1"
+                  >
+                    {mapZoom === 'world' ? <ZoomIn className="w-3 h-3" /> : <ZoomOut className="w-3 h-3" />}
+                    <span>{mapZoom === 'world' ? 'Zoom Europe (14)' : 'Zoom World'}</span>
+                  </button>
                 </div>
               </div>
 
-              {/* Horizontal Country Quick Pills */}
-              <div className="w-full overflow-x-auto flex items-center gap-2 pt-6 pb-2 scrollbar-none">
-                {visitedCountries.map((country) => (
+              {/* The SVG Interactive Map */}
+              <div className="relative w-full aspect-[2/1] rounded-2xl overflow-hidden bg-white dark:bg-[#141517] border border-[#1C1D20]/10 dark:border-white/5 shadow-inner select-none">
+                <svg
+                  viewBox={mapZoom === 'world' ? '0 0 1000 500' : '440 60 210 130'}
+                  className="w-full h-full object-cover transition-all duration-700 ease-out"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <linearGradient id="flightGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#1C1D20" stopOpacity="0.4" />
+                      <stop offset="100%" stopColor="#455CE9" stopOpacity="1" />
+                    </linearGradient>
+                  </defs>
+
+                  {/* Grid Lines */}
+                  <g stroke="currentColor" strokeWidth="0.5" className="text-black/[0.04] dark:text-white/[0.04]">
+                    <line x1="0" y1="250" x2="1000" y2="250" />
+                    <line x1="500" y1="0" x2="500" y2="500" />
+                    <circle cx="500" cy="250" r="230" fill="none" />
+                  </g>
+
+                  {/* World Continents Vector Outlines */}
+                  <g className="fill-[#EAECEF] dark:fill-[#222428] stroke-[#D5D8DC] dark:stroke-[#303338]" strokeWidth="0.75">
+                    {/* North America */}
+                    <path d="M 100 60 Q 180 50 250 80 Q 280 130 230 200 Q 180 230 150 170 Q 100 120 100 60 Z" />
+                    {/* South America */}
+                    <path d="M 260 230 Q 330 250 320 320 Q 290 410 250 440 Q 240 350 250 270 Z" />
+                    {/* Europe */}
+                    <path d="M 460 80 Q 550 60 570 130 Q 530 180 480 170 Q 440 140 460 80 Z" />
+                    {/* Africa */}
+                    <path d="M 450 180 Q 560 180 570 270 Q 540 380 480 390 Q 430 300 450 180 Z" />
+                    {/* Asia */}
+                    <path d="M 570 60 Q 840 50 860 160 Q 810 240 690 240 Q 600 200 570 110 Z" />
+                    {/* Australia & Oceania */}
+                    <path d="M 770 310 Q 880 300 870 390 Q 790 410 750 370 Z" />
+                  </g>
+
+                  {/* Flight Path Arc from London to Selected Country */}
+                  {selectedCountry.id !== 'gbr' && (
+                    <g>
+                      <path
+                        d={`M ${londonCoord.x} ${londonCoord.y} Q ${(londonCoord.x + selectedCoord.x) / 2} ${
+                          Math.min(londonCoord.y, selectedCoord.y) - 35
+                        } ${selectedCoord.x} ${selectedCoord.y}`}
+                        fill="none"
+                        stroke="#455CE9"
+                        strokeWidth={mapZoom === 'world' ? "2" : "1"}
+                        strokeDasharray="4 4"
+                        className="animate-pulse"
+                      />
+                    </g>
+                  )}
+
+                  {/* London Home Base Pin */}
+                  <g transform={`translate(${londonCoord.x}, ${londonCoord.y})`}>
+                    <circle r={mapZoom === 'world' ? "4" : "2"} fill="#1C1D20" className="dark:fill-white" />
+                  </g>
+
+                  {/* 21 Visited Destination Pins (Fully Clickable!) */}
+                  {visitedCountries.map((country) => {
+                    const coord = getCoordinates(country.lat, country.lng);
+                    const isSelected = selectedCountry.id === country.id;
+                    const r = mapZoom === 'world' ? (isSelected ? 6 : 3.5) : (isSelected ? 3.5 : 2);
+
+                    return (
+                      <g
+                        key={country.id}
+                        transform={`translate(${coord.x}, ${coord.y})`}
+                        onClick={() => setSelectedCountry(country)}
+                        className="cursor-pointer group"
+                      >
+                        {/* Huge transparent click area for easy tap & click */}
+                        <circle r={mapZoom === 'world' ? "18" : "8"} fill="transparent" />
+
+                        {/* Pulsing highlight ring on selected */}
+                        {isSelected && (
+                          <circle
+                            r={mapZoom === 'world' ? "12" : "6"}
+                            fill="none"
+                            stroke="#455CE9"
+                            strokeWidth="1.5"
+                            className="animate-ping"
+                          />
+                        )}
+
+                        {/* Core Pin Dot */}
+                        <circle
+                          r={r}
+                          fill={isSelected ? "#455CE9" : "#1C1D20"}
+                          className={`transition-all duration-300 group-hover:scale-150 ${
+                            isSelected ? 'dark:fill-[#455CE9]' : 'dark:fill-white'
+                          }`}
+                        />
+
+                        {/* Country Code Label */}
+                        <text
+                          x="0"
+                          y={mapZoom === 'world' ? (isSelected ? -9 : -6) : (isSelected ? -5 : -3)}
+                          textAnchor="middle"
+                          fill={isSelected ? "#455CE9" : "currentColor"}
+                          fontSize={mapZoom === 'world' ? (isSelected ? "10" : "8") : "5"}
+                          fontWeight={isSelected ? "bold" : "normal"}
+                          fontFamily="sans-serif"
+                          className="pointer-events-none select-none text-[#1C1D20] dark:text-white"
+                        >
+                          {country.code}
+                        </text>
+                      </g>
+                    );
+                  })}
+                </svg>
+
+                {/* Map Bottom Hint */}
+                <div className="absolute bottom-2 left-4 text-[10px] uppercase tracking-widest text-[#7D8085] dark:text-[#999D9E] font-mono pointer-events-none">
+                  Click any country pin to inspect destination
+                </div>
+              </div>
+
+              {/* Quick Country Pills Scroll */}
+              <div className="mt-4 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+                {visitedCountries.map((c) => (
                   <button
-                    key={country.id}
-                    onClick={() => {
-                      setSelectedCountry(country);
-                      const targetTheta = (country.lng * Math.PI) / 180 + Math.PI / 2;
-                      const targetPhi = (country.lat * Math.PI) / 180;
-                      rotationRef.current = { phi: -targetPhi, theta: -targetTheta };
-                    }}
+                    key={c.id}
+                    onClick={() => setSelectedCountry(c)}
                     className={`px-3.5 py-1.5 rounded-full text-xs font-normal whitespace-nowrap transition-all ${
-                      selectedCountry.id === country.id
-                        ? 'bg-[#455CE9] text-white font-medium shadow-md scale-105'
-                        : 'bg-[#F4F4F4] text-[#1C1D20] hover:bg-[#E9EAEB]'
+                      selectedCountry.id === c.id
+                        ? 'bg-[#455CE9] text-white font-medium shadow-md'
+                        : 'bg-white dark:bg-white/5 text-[#1C1D20] dark:text-white hover:bg-[#EAECEF] dark:hover:bg-white/10'
                     }`}
                   >
-                    {country.name}
+                    {c.name}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Selected Country Polaroid / Destination Card */}
-            <div className="lg:col-span-5">
-              <div className="bg-[#F8F8F8] rounded-3xl p-8 border border-[#1C1D20]/10 shadow-lg space-y-6">
-                <div className="aspect-[4/3] rounded-2xl overflow-hidden relative shadow-sm">
-                  <img
-                    src={selectedCountry.photoUrl}
-                    alt={selectedCountry.name}
-                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                  />
-                  <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-mono">
-                    {selectedCountry.yearVisited}
-                  </div>
-                  <div className="absolute bottom-4 left-4 flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-[#1C1D20] text-xs font-medium">
-                    <Plane className="w-3.5 h-3.5 text-[#455CE9]" />
-                    <span>Flight from London</span>
-                  </div>
+            {/* Country Detail Inspector Card (With Prev/Next Controls) */}
+            <div className="lg:col-span-4 bg-[#F4F4F6] dark:bg-[#1C1D20] rounded-3xl p-6 sm:p-8 border border-[#1C1D20]/10 dark:border-white/10 shadow-sm space-y-6">
+              {/* Photo Frame */}
+              <div className="aspect-[4/3] rounded-2xl overflow-hidden relative shadow-sm bg-black/10">
+                <img
+                  src={selectedCountry.photoUrl}
+                  alt={selectedCountry.name}
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                />
+                <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-mono">
+                  {selectedCountry.yearVisited}
                 </div>
-
-                <div>
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-3xl font-normal text-[#1C1D20] tracking-tight">
-                      {selectedCountry.name}
-                    </h3>
-                    <span className="text-xs font-mono text-[#999D9E]">
-                      {selectedCountry.lat.toFixed(1)}°N, {selectedCountry.lng.toFixed(1)}°E
-                    </span>
-                  </div>
-                  <p className="text-sm text-[#55565A] font-light mt-2 leading-relaxed">
-                    {selectedCountry.travelNotes}
-                  </p>
+                <div className="absolute bottom-3 left-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 dark:bg-black/80 backdrop-blur-md text-[#1C1D20] dark:text-white text-xs font-medium">
+                  <Plane className="w-3.5 h-3.5 text-[#455CE9]" />
+                  <span>From London</span>
                 </div>
+              </div>
 
-                <div className="pt-4 border-t border-[#1C1D20]/10">
-                  <span className="text-xs uppercase tracking-widest text-[#999D9E] font-medium block mb-2">
-                    Highlights
+              {/* Title & Coordinates */}
+              <div>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl sm:text-3xl font-normal text-[#1C1D20] dark:text-white tracking-tight">
+                    {selectedCountry.name}
+                  </h3>
+                  <span className="text-xs font-mono text-[#7D8085] dark:text-[#999D9E]">
+                    {selectedCountry.code}
                   </span>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedCountry.highlights.map((h, i) => (
-                      <span
-                        key={i}
-                        className="px-3 py-1 rounded-full bg-white text-xs text-[#1C1D20] border border-[#1C1D20]/10 font-normal"
-                      >
-                        {h}
-                      </span>
-                    ))}
-                  </div>
                 </div>
+                <p className="text-sm text-[#55565A] dark:text-[#999D9E] font-light mt-2 leading-relaxed">
+                  {selectedCountry.travelNotes}
+                </p>
+              </div>
+
+              {/* Highlights */}
+              <div className="pt-3 border-t border-[#1C1D20]/10 dark:border-white/10">
+                <span className="text-xs uppercase tracking-widest text-[#7D8085] dark:text-[#999D9E] font-medium block mb-2">
+                  Exploration Highlights
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {selectedCountry.highlights.map((h, i) => (
+                    <span
+                      key={i}
+                      className="px-2.5 py-1 rounded-md bg-white dark:bg-white/10 text-xs text-[#1C1D20] dark:text-white font-normal"
+                    >
+                      {h}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Stepper Navigation */}
+              <div className="pt-2 flex items-center justify-between border-t border-[#1C1D20]/10 dark:border-white/10">
+                <button
+                  onClick={handlePrev}
+                  className="px-4 py-2 rounded-full border border-[#1C1D20]/15 dark:border-white/15 text-xs text-[#1C1D20] dark:text-white hover:bg-[#455CE9] hover:text-white transition-colors flex items-center gap-1"
+                >
+                  <ChevronLeft className="w-3.5 h-3.5" />
+                  <span>Prev</span>
+                </button>
+                <span className="text-xs font-mono text-[#7D8085] dark:text-[#999D9E]">
+                  {currentIndex + 1} / {visitedCountries.length}
+                </span>
+                <button
+                  onClick={handleNext}
+                  className="px-4 py-2 rounded-full border border-[#1C1D20]/15 dark:border-white/15 text-xs text-[#1C1D20] dark:text-white hover:bg-[#455CE9] hover:text-white transition-colors flex items-center gap-1"
+                >
+                  <span>Next</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
               </div>
             </div>
           </div>
         )}
 
-        {/* Passport Stamp Collection Mode */}
-        {activeTab === 'passport' && (
-          <div className="space-y-8 animate-fadeIn">
-            {/* Region Filter */}
-            <div className="flex flex-wrap items-center gap-2">
-              {['All', 'Europe', 'Asia', 'Middle East', 'Americas'].map((reg) => (
-                <button
-                  key={reg}
-                  onClick={() => setSelectedRegion(reg.toLowerCase())}
-                  className={`px-4 py-2 rounded-full text-xs uppercase tracking-wider transition-colors ${
-                    selectedRegion === reg.toLowerCase()
-                      ? 'bg-[#1C1D20] text-white font-medium'
-                      : 'bg-[#F4F4F4] text-[#1C1D20] hover:bg-[#E9EAEB]'
-                  }`}
-                >
-                  {reg}
-                </button>
-              ))}
-            </div>
-
-            {/* Passport Stamps Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {filteredCountries.map((c) => (
-                <div
-                  key={c.id}
-                  onClick={() => {
-                    setSelectedCountry(c);
-                    setActiveTab('globe');
-                  }}
-                  className="group cursor-pointer p-6 rounded-2xl bg-[#F8F8F8] border border-[#1C1D20]/10 hover:border-[#455CE9] transition-all duration-300 flex flex-col justify-between h-56 relative overflow-hidden"
-                >
-                  {/* Stamp Graphic */}
-                  <div className="flex items-start justify-between">
-                    <div className="w-12 h-12 rounded-full border-2 border-dashed border-[#455CE9]/40 flex items-center justify-center text-xs font-mono font-bold text-[#455CE9] rotate-[-12deg] group-hover:rotate-0 transition-transform">
-                      {c.code}
-                    </div>
-                    <span className="text-xs font-mono text-[#999D9E]">
-                      {c.yearVisited}
-                    </span>
+        {/* Tab 2: Passport Stamps Collection */}
+        {activeTab === 'stamps' && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-16 animate-fadeIn">
+            {visitedCountries.map((c) => (
+              <div
+                key={c.id}
+                onClick={() => {
+                  setSelectedCountry(c);
+                  setActiveTab('map');
+                }}
+                className="group cursor-pointer p-6 rounded-3xl bg-[#F4F4F6] dark:bg-[#1C1D20] border border-[#1C1D20]/10 dark:border-white/10 hover:border-[#455CE9] transition-all flex flex-col justify-between h-52 shadow-sm"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="w-12 h-12 rounded-full border-2 border-dashed border-[#455CE9] flex items-center justify-center font-mono font-bold text-xs text-[#455CE9] rotate-[-10deg] group-hover:rotate-0 transition-transform">
+                    {c.code}
                   </div>
-
-                  <div>
-                    <h4 className="text-xl font-normal text-[#1C1D20] group-hover:text-[#455CE9] transition-colors">
-                      {c.name}
-                    </h4>
-                    <span className="text-xs text-[#999D9E] font-light block mt-0.5">
-                      {c.region}
-                    </span>
-                  </div>
-
-                  <div className="pt-2 border-t border-[#1C1D20]/10 flex items-center justify-between text-xs text-[#6A6C70]">
-                    <span className="truncate max-w-[150px]">{c.highlights[0]}</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 text-[#455CE9] shrink-0" />
-                  </div>
+                  <span className="text-xs font-mono text-[#7D8085] dark:text-[#999D9E]">
+                    {c.yearVisited}
+                  </span>
                 </div>
-              ))}
-            </div>
+
+                <div>
+                  <h4 className="text-xl font-normal text-[#1C1D20] dark:text-white group-hover:text-[#455CE9] transition-colors">
+                    {c.name}
+                  </h4>
+                  <span className="text-xs text-[#7D8085] dark:text-[#999D9E] font-light">
+                    {c.region}
+                  </span>
+                </div>
+
+                <div className="text-xs text-[#455CE9] flex items-center gap-1 font-medium">
+                  <span>View on Map</span>
+                  <Plane className="w-3 h-3" />
+                </div>
+              </div>
+            ))}
           </div>
         )}
+
+        {/* Filterable Full Country Directory List */}
+        <div className="space-y-4 pt-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1C1D20]/10 dark:border-white/10">
+            <span className="text-xs uppercase tracking-widest text-[#7D8085] dark:text-[#999D9E] font-medium">
+              Complete 21 Countries Directory
+            </span>
+
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search destination..."
+              className="px-4 py-1.5 rounded-full bg-[#F4F4F6] dark:bg-white/10 text-xs text-[#1C1D20] dark:text-white placeholder-[#7D8085] focus:outline-none focus:ring-1 focus:ring-[#455CE9] max-w-xs"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {filteredCountries.map((c) => (
+              <button
+                key={c.id}
+                onClick={() => {
+                  setSelectedCountry(c);
+                  setActiveTab('map');
+                  window.location.hash = 'atlas';
+                }}
+                className={`p-3.5 rounded-xl border text-left transition-all flex items-center justify-between ${
+                  selectedCountry.id === c.id
+                    ? 'border-[#455CE9] bg-[#455CE9]/5 dark:bg-[#455CE9]/15'
+                    : 'border-[#1C1D20]/10 dark:border-white/10 hover:border-[#455CE9] bg-transparent'
+                }`}
+              >
+                <div>
+                  <p className="text-sm font-normal text-[#1C1D20] dark:text-white">
+                    {c.name}
+                  </p>
+                  <p className="text-[11px] text-[#7D8085] dark:text-[#999D9E]">
+                    {c.region}
+                  </p>
+                </div>
+                <span className="text-xs font-mono text-[#455CE9]">
+                  {c.code}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

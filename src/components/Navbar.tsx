@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowUpRight, X } from 'lucide-react';
+import { ArrowUpRight, X, Sun, Moon } from 'lucide-react';
 import { personalBio } from '../data/siteData';
+import { useTheme } from '../context/ThemeContext';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,45 +26,78 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      {/* Light Theme Header Top Bar */}
-      <header className="absolute top-0 left-0 right-0 z-30 py-8 px-8 sm:px-16 flex items-center justify-between text-[#1C1D20]">
+      {/* Top Bar Header */}
+      <header className="absolute top-0 left-0 right-0 z-30 py-8 px-8 sm:px-16 flex items-center justify-between text-[#1C1D20] dark:text-white transition-colors">
         <a
           href="#"
           className="group flex items-center gap-1.5 text-base sm:text-lg font-normal tracking-tight hover:opacity-75 transition-opacity"
         >
           <span className="text-sm">©</span>
-          <span className="font-light text-[#7D8085]">Code & Lens by</span>
-          <span className="font-medium text-[#1C1D20] transition-transform group-hover:translate-x-0.5">
+          <span className="font-light text-[#7D8085] dark:text-[#999D9E]">Code & Lens by</span>
+          <span className="font-medium transition-transform group-hover:translate-x-0.5">
             {personalBio.name}
           </span>
         </a>
 
-        {/* Right Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-8 text-base font-normal">
-          <a href="#work" className="text-[#1C1D20] hover:text-[#455CE9] transition-colors py-1">
-            Work
-          </a>
-          <a href="#photography" className="text-[#1C1D20] hover:text-[#455CE9] transition-colors py-1">
-            Photography
-          </a>
-          <a href="#atlas" className="text-[#1C1D20] hover:text-[#455CE9] transition-colors py-1">
-            Travel Atlas
-          </a>
-          <a href="#about" className="text-[#1C1D20] hover:text-[#455CE9] transition-colors py-1">
-            About
-          </a>
-          <a href="#contact" className="text-[#1C1D20] hover:text-[#455CE9] transition-colors py-1">
-            Contact
-          </a>
-        </nav>
+        {/* Right Desktop Nav Links + Theme Switcher */}
+        <div className="hidden md:flex items-center gap-8 text-base font-normal">
+          <nav className="flex items-center gap-8">
+            <a href="#work" className="hover:text-[#455CE9] transition-colors py-1">
+              Work
+            </a>
+            <a href="#photography" className="hover:text-[#455CE9] transition-colors py-1">
+              Photography
+            </a>
+            <a href="#atlas" className="hover:text-[#455CE9] transition-colors py-1">
+              Travel Atlas
+            </a>
+            <a href="#about" className="hover:text-[#455CE9] transition-colors py-1">
+              About
+            </a>
+            <a href="#contact" className="hover:text-[#455CE9] transition-colors py-1">
+              Contact
+            </a>
+          </nav>
+
+          {/* Minimalist Theme Toggle Switch */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full border border-black/10 dark:border-white/15 hover:border-[#455CE9] text-xs transition-colors flex items-center gap-1.5"
+            title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} theme`}
+            aria-label="Toggle Light Dark Theme"
+          >
+            {theme === 'light' ? (
+              <>
+                <Moon className="w-3.5 h-3.5 text-[#1C1D20]" />
+                <span className="text-xs uppercase tracking-wider font-mono">Dark</span>
+              </>
+            ) : (
+              <>
+                <Sun className="w-3.5 h-3.5 text-amber-400" />
+                <span className="text-xs uppercase tracking-wider font-mono">Light</span>
+              </>
+            )}
+          </button>
+        </div>
       </header>
 
-      {/* Dennis Snellenberg Signature Floating Menu Button */}
+      {/* Floating Action Controls on Scroll (Menu + Theme Toggle) */}
       <div
-        className={`fixed top-6 right-6 sm:top-8 sm:right-10 z-50 transition-all duration-500 ${
+        className={`fixed top-6 right-6 sm:top-8 sm:right-10 z-50 flex items-center gap-3 transition-all duration-500 ${
           isScrolled || mobileMenuOpen ? 'opacity-100 scale-100 pointer-events-auto' : 'md:opacity-0 md:scale-75 md:pointer-events-none'
         }`}
       >
+        {/* Floating Theme Toggle Switch */}
+        <button
+          onClick={toggleTheme}
+          className="w-12 h-12 rounded-full bg-white dark:bg-[#1C1D20] text-[#1C1D20] dark:text-white flex items-center justify-center shadow-xl border border-black/10 dark:border-white/15 hover:border-[#455CE9] transition-all"
+          title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} theme`}
+          aria-label="Toggle Light Dark Theme"
+        >
+          {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4 text-amber-400" />}
+        </button>
+
+        {/* Dennis Snellenberg Signature Floating Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className={`group w-16 h-16 sm:w-20 sm:h-20 rounded-full flex flex-col items-center justify-center transition-all duration-300 shadow-2xl border ${
@@ -93,10 +128,19 @@ export const Navbar: React.FC = () => {
         }`}
       >
         <div className="max-w-4xl mx-auto w-full pt-16">
-          <div className="border-b border-white/20 pb-4 mb-8">
+          <div className="flex items-center justify-between border-b border-white/20 pb-4 mb-8">
             <span className="text-xs uppercase tracking-widest text-[#999D9E]">
               Navigation
             </span>
+
+            {/* In-Drawer Theme Switch */}
+            <button
+              onClick={toggleTheme}
+              className="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-[#455CE9] text-xs font-mono flex items-center gap-2 transition-colors"
+            >
+              {theme === 'light' ? <Moon className="w-3.5 h-3.5" /> : <Sun className="w-3.5 h-3.5" />}
+              <span>Switch to {theme === 'light' ? 'Dark' : 'Light'}</span>
+            </button>
           </div>
 
           <ul className="space-y-4 sm:space-y-6">

@@ -1,3 +1,4 @@
+import { ThemeProvider } from './context/ThemeContext';
 import { Preloader } from './components/Preloader';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -10,36 +11,38 @@ import { ContactFooter } from './components/ContactFooter';
 
 export function App() {
   return (
-    <div className="min-h-screen bg-white text-[#1C1D20] selection:bg-[#455CE9] selection:text-white">
-      {/* Dennis Snellenberg Exact Signature Preloader */}
-      <Preloader />
+    <ThemeProvider>
+      <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#141517] text-[#1C1D20] dark:text-white selection:bg-[#455CE9] selection:text-white transition-colors">
+        {/* Multilingual Preloader with Hindi, Telugu, English, Gujarati */}
+        <Preloader />
 
-      {/* Top Navbar & Floating Magnetic Menu */}
-      <Navbar />
+        {/* Top Navbar with Light/Dark Theme Switcher */}
+        <Navbar />
 
-      <main>
-        {/* Dennis Snellenberg Dark Hero */}
-        <Hero />
+        <main>
+          {/* Hero Section */}
+          <Hero />
 
-        {/* Dennis Snellenberg White Home Intro */}
-        <HomeIntro />
+          {/* Home Intro */}
+          <HomeIntro />
 
-        {/* Dennis Snellenberg Recent Work with Floating Mouse Follower */}
-        <WorkSection />
+          {/* Recent Work with Mouse Follower */}
+          <WorkSection />
 
-        {/* Selected Photography */}
-        <PhotographySection />
+          {/* Selected Photography */}
+          <PhotographySection />
 
-        {/* Fun & Interactive 3D Canvas Travel Atlas */}
-        <TravelAtlas />
+          {/* Interactive World Map & Passport Stamps */}
+          <TravelAtlas />
 
-        {/* Authentic About & Interests */}
-        <AboutSection />
-      </main>
+          {/* About Section */}
+          <AboutSection />
+        </main>
 
-      {/* Dennis Snellenberg Curved Footer */}
-      <ContactFooter />
-    </div>
+        {/* Dennis Snellenberg Curved Footer */}
+        <ContactFooter />
+      </div>
+    </ThemeProvider>
   );
 }
 

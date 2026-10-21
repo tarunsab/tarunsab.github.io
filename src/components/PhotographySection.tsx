@@ -14,7 +14,6 @@ export const PhotographySection: React.FC = () => {
 
   const currentPhoto = lightboxIndex !== null ? filteredPhotos[lightboxIndex] : null;
 
-  // Keyboard navigation
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (lightboxIndex === null) return;
@@ -42,15 +41,15 @@ export const PhotographySection: React.FC = () => {
   ];
 
   return (
-    <section id="photography" className="bg-white text-[#1C1D20] py-24 sm:py-32 px-8 sm:px-16 border-b border-[#1C1D20]/10">
+    <section id="photography" className="bg-white dark:bg-[#141517] text-[#1C1D20] dark:text-white py-24 sm:py-32 px-8 sm:px-16 border-b border-[#1C1D20]/10 dark:border-white/10 transition-colors">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-8 border-b border-[#1C1D20]/15 mb-12">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-8 border-b border-[#1C1D20]/15 dark:border-white/15 mb-12">
           <div>
-            <span className="text-xs uppercase tracking-widest text-[#999D9E] font-medium block mb-2">
+            <span className="text-xs uppercase tracking-widest text-[#7D8085] dark:text-[#999D9E] font-medium block mb-2">
               Visual Archive
             </span>
-            <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-[#1C1D20]">
+            <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-[#1C1D20] dark:text-white">
               Selected Photography
             </h2>
           </div>
@@ -63,8 +62,8 @@ export const PhotographySection: React.FC = () => {
                 onClick={() => setActiveCategory(c.value)}
                 className={`px-5 py-2 rounded-full text-xs uppercase tracking-wider transition-all duration-300 ${
                   activeCategory === c.value
-                    ? 'bg-[#1C1D20] text-white'
-                    : 'bg-[#F4F4F4] text-[#1C1D20] hover:bg-[#E9EAEB]'
+                    ? 'bg-[#1C1D20] dark:bg-white text-white dark:text-[#1C1D20] font-medium'
+                    : 'bg-[#F4F4F6] dark:bg-white/10 text-[#1C1D20] dark:text-white hover:bg-[#EAECEF] dark:hover:bg-white/20'
                 }`}
               >
                 {c.label}
@@ -81,7 +80,7 @@ export const PhotographySection: React.FC = () => {
               onClick={() => setLightboxIndex(idx)}
               className="group cursor-pointer flex flex-col space-y-3"
             >
-              <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-[#F1F1F1] relative shadow-sm border border-[#1C1D20]/5">
+              <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-[#EAECEF] dark:bg-[#1C1D20] relative shadow-sm border border-[#1C1D20]/5 dark:border-white/5">
                 <img
                   src={photo.url}
                   alt={photo.title}
@@ -96,10 +95,10 @@ export const PhotographySection: React.FC = () => {
               </div>
 
               <div className="flex items-center justify-between text-sm pt-1">
-                <h4 className="font-normal text-[#1C1D20] group-hover:text-[#455CE9] transition-colors">
+                <h4 className="font-normal text-[#1C1D20] dark:text-white group-hover:text-[#455CE9] transition-colors">
                   {photo.title}
                 </h4>
-                <span className="text-xs text-[#999D9E] font-mono">
+                <span className="text-xs text-[#7D8085] dark:text-[#999D9E] font-mono">
                   {photo.country} · {photo.year}
                 </span>
               </div>
