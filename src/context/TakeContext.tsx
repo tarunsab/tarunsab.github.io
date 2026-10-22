@@ -14,7 +14,7 @@ export const takeNames: Record<WebsiteTake, { title: string; subtitle: string; d
   'sepia-dennis': {
     title: 'Option 1: Sepia Dennis (Pure Synthesis)',
     subtitle: 'Dennis Snellenberg Motion in Warm Linen Sepia',
-    description: 'The exact Dennis hero, spinning wireframe globe, centered LinkedIn card, name marquee, and 3D globe—bathed in warm sepia linen.'
+    description: 'The Dennis hero, spinning wireframe globe, centered LinkedIn card, static editorial nameplate, and 3D globe—bathed in warm sepia linen.'
   },
   'monocle': {
     title: 'Option 2: Editorial Monocle (Broadsheet)',

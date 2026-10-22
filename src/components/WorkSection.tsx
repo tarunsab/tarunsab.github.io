@@ -73,11 +73,7 @@ export const WorkSection: React.FC = () => {
               alt={hoveredProject.title}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-black/20" />
-          </div>
-
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-[#455CE9] text-white flex items-center justify-center text-xs uppercase tracking-widest font-normal shadow-lg">
-            View
+            <div className="absolute inset-0 bg-black/10" />
           </div>
         </div>
       )}

@@ -57,35 +57,23 @@ export const ContactFooter: React.FC = () => {
           </h2>
         </div>
 
-        {/* Full-width Divider Line + Overlapping Big Circular Button */}
-        <div className="relative border-t border-white/20 pt-16 pb-20">
-          {/* Dennis Snellenberg Overlapping Giant Circular Magnetic Button */}
-          <div className="absolute right-0 sm:right-12 top-0 -translate-y-1/2">
-            <a
-              href={`mailto:${personalBio.email}`}
-              className="btn-round w-36 h-36 sm:w-48 sm:h-48 bg-[#455CE9] hover:bg-[#334BD3] text-white rounded-full flex items-center justify-center text-center p-4 transition-all duration-300 shadow-2xl"
-            >
-              <span className="text-sm sm:text-base uppercase tracking-widest font-normal">
-                Get in touch
-              </span>
-            </a>
-          </div>
-
-          {/* Contact Pills */}
+        {/* Full-width Divider Line & Contact Action Links */}
+        <div className="relative border-t border-white/20 pt-10 pb-16">
+          {/* Contact Actions */}
           <div className="flex flex-wrap items-center gap-4">
             <a
               href={`mailto:${personalBio.email}`}
-              className="px-6 py-4 rounded-full border border-white/25 text-white hover:bg-white hover:text-[#1C1D20] transition-colors text-sm font-normal"
+              className="px-6 py-3.5 rounded-full bg-white text-[#1C1D20] hover:bg-[#D97736] hover:text-white transition-colors text-sm font-medium shadow-md"
             >
-              {personalBio.email}
+              Email: {personalBio.email}
             </a>
             <a
               href={personalBio.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-4 rounded-full border border-white/25 text-white hover:bg-white hover:text-[#1C1D20] transition-colors text-sm font-normal"
+              className="px-6 py-3.5 rounded-full border border-white/25 text-white hover:bg-white hover:text-[#1C1D20] transition-colors text-sm font-normal"
             >
-              LinkedIn Profile
+              LinkedIn Profile ↗
             </a>
           </div>
         </div>

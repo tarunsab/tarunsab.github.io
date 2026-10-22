@@ -53,7 +53,7 @@ export const DarkroomTake: React.FC = () => {
             <p className="text-[#F3EFE6]">London LHR • {localTime} GMT</p>
           </div>
 
-          <div className="digital-ball cursor-pointer" title="London Base · 51.5°N">
+          <div className="digital-ball select-none" title="London Base · 51.5°N">
             <div className="globe">
               <div className="globe-wrap">
                 <div className="globe-circle globe-circle-1 !border-[#D97736]" />
@@ -127,20 +127,14 @@ export const DarkroomTake: React.FC = () => {
           </div>
         </div>
 
-        {/* User Preferred Contained Name Marquee */}
-        <div className="w-full overflow-hidden border-t border-white/10 py-3 sm:py-5 bg-[#181714] select-none">
-          <div className="name-marquee-inner flex whitespace-nowrap text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-normal tracking-tight uppercase leading-none text-[#F3EFE6]">
-            <span className="flex items-center">
-              Tarun Sabbineni<span className="mx-6 sm:mx-10 text-[#D97736] font-light">—</span>
+        {/* Static Sub-Border Header Rule (No Scrolling Marquee) */}
+        <div className="w-full border-t border-white/10 py-5 sm:py-6 bg-[#181714] select-none">
+          <div className="max-w-7xl mx-auto px-8 sm:px-16 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <span className="text-xl sm:text-2xl font-light tracking-tight uppercase text-[#F3EFE6]">
+              Tarun Sabbineni
             </span>
-            <span className="flex items-center">
-              Tarun Sabbineni<span className="mx-6 sm:mx-10 text-[#D97736] font-light">—</span>
-            </span>
-            <span className="flex items-center">
-              Tarun Sabbineni<span className="mx-6 sm:mx-10 text-[#D97736] font-light">—</span>
-            </span>
-            <span className="flex items-center">
-              Tarun Sabbineni<span className="mx-6 sm:mx-10 text-[#D97736] font-light">—</span>
+            <span className="text-xs font-mono text-[#8F8A80] tracking-wider uppercase">
+              Research & Quantitative Model Platforms • Vanguard
             </span>
           </div>
         </div>

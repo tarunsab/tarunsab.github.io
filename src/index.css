@@ -146,38 +146,6 @@ body {
   background: rgba(255, 255, 255, 0.7);
 }
 
-/* Dennis Snellenberg Big Name Marquee */
-@keyframes marqueeScroll {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
-}
-
-.name-marquee-inner {
-  display: flex;
-  white-space: nowrap;
-  animation: marqueeScroll 24s linear infinite;
-  will-change: transform;
-}
-
-.name-marquee-inner:hover {
-  animation-play-state: paused;
-}
-
-/* Dennis Snellenberg Magnetic Circular Buttons */
-.btn-round {
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s ease;
-}
-
-.btn-round:hover {
-  transform: scale(1.06);
-}
-
 /* Dennis Snellenberg Curved Footer Scoop */
 .footer-rounded-div {
   position: relative;

@@ -156,12 +156,8 @@ export const PhotographySection: React.FC = () => {
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
 
-                {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full bg-[#455CE9] text-white flex items-center justify-center text-xs uppercase tracking-widest font-normal shadow-lg">
-                    View
-                  </div>
-                </div>
+                {/* Subtle Hover Darkening */}
+                <div className="absolute inset-0 bg-black/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 {/* Location Badge */}
                 <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono text-white/90 border border-white/10 flex items-center gap-2">

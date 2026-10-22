@@ -14,23 +14,9 @@ import { careerMilestones } from '../data/siteData';
 
 export const InteractiveCV: React.FC = () => {
   const [selectedMilestoneId, setSelectedMilestoneId] = useState<string>('vanguard-em');
-  const [filterMode, setFilterMode] = useState<'all' | 'management' | 'asset-mgmt' | 'engineering'>('all');
   const [copied, setCopied] = useState(false);
 
   const selectedMilestone = careerMilestones.find(m => m.id === selectedMilestoneId) || careerMilestones[0];
-
-  const filteredMilestones = careerMilestones.filter(m => {
-    if (filterMode === 'management') {
-      return m.id === 'vanguard-em';
-    }
-    if (filterMode === 'asset-mgmt') {
-      return m.id === 'vanguard-em' || m.id === 'jpmorgan-am';
-    }
-    if (filterMode === 'engineering') {
-      return m.id !== 'imperial-degree';
-    }
-    return true;
-  });
 
   const handleCopySummary = () => {
     const text = `Tarun Sabbineni — Research & Quantitative Model Platform Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM). Previously Software Engineer at JPMorgan (2019 – 2022, including J.P. Morgan Asset Management 2021–2022) and Corporate Technology Intern (2018). 2:1 in Computer Science from Imperial College London. London, UK. https://www.linkedin.com/in/tarun-sabbineni-228419b7/`;
@@ -106,42 +92,8 @@ export const InteractiveCV: React.FC = () => {
 
         {/* Career Epoch Timeline Scrubber */}
         <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono text-[#7D7A74] dark:text-[#8F8A80]">
-            <span className="uppercase tracking-wider">Scrub Career Milestones (2015 – Present):</span>
-            
-            {/* Filter Modes */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
-              <button
-                onClick={() => setFilterMode('all')}
-                className={`px-3 py-1 rounded-full text-[11px] transition-all ${
-                  filterMode === 'all'
-                    ? 'bg-[#1C1B18] dark:bg-white text-white dark:text-[#1C1B18] font-medium'
-                    : 'bg-black/5 dark:bg-white/10 hover:bg-black/10'
-                }`}
-              >
-                All Milestones
-              </button>
-              <button
-                onClick={() => setFilterMode('management')}
-                className={`px-3 py-1 rounded-full text-[11px] transition-all ${
-                  filterMode === 'management'
-                    ? 'bg-[#1C1B18] dark:bg-white text-white dark:text-[#1C1B18] font-medium'
-                    : 'bg-black/5 dark:bg-white/10 hover:bg-black/10'
-                }`}
-              >
-                Engineering Leadership
-              </button>
-              <button
-                onClick={() => setFilterMode('asset-mgmt')}
-                className={`px-3 py-1 rounded-full text-[11px] transition-all ${
-                  filterMode === 'asset-mgmt'
-                    ? 'bg-[#1C1B18] dark:bg-white text-white dark:text-[#1C1B18] font-medium'
-                    : 'bg-black/5 dark:bg-white/10 hover:bg-black/10'
-                }`}
-              >
-                Asset Management
-              </button>
-            </div>
+          <div className="text-xs font-mono text-[#7D7A74] dark:text-[#8F8A80]">
+            <span className="uppercase tracking-wider">Select Career Milestone (2015 – Present):</span>
           </div>
 
           {/* Timeline Bar Track */}
@@ -301,7 +253,7 @@ export const InteractiveCV: React.FC = () => {
           </h4>
 
           <div className="divide-y divide-black/10 dark:divide-white/10 border-t border-b border-black/10 dark:border-white/10">
-            {filteredMilestones.map((item) => (
+            {careerMilestones.map((item) => (
               <div 
                 key={item.id}
                 onClick={() => setSelectedMilestoneId(item.id)}

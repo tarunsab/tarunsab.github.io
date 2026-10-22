@@ -17,15 +17,14 @@ export const HomeIntro: React.FC = () => {
             Leading the Research & Quantitative Model Platform team at Vanguard since Dec 2022 (2 years as EM) following over 3 years building investment systems at J.P. Morgan (Asset Management 2021–2022 & 2019 start). Grounded by Computer Science at Imperial College London (2:1).
           </p>
 
-          {/* Dennis Snellenberg Signature Circular Button */}
-          <div className="pt-4">
+          {/* Direct Action Link */}
+          <div className="pt-2">
             <a
               href="#cv"
-              className="btn-round w-36 h-36 sm:w-44 sm:h-44 bg-[#1C1D20] dark:bg-white text-white dark:text-[#1C1B18] hover:bg-[#D97736] dark:hover:bg-[#D97736] dark:hover:text-white rounded-full flex items-center justify-center text-center p-4 transition-all duration-300 shadow-xl"
+              className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#1C1D20] dark:text-white hover:text-[#D97736] transition-colors border-b border-[#1C1D20]/30 dark:border-white/30 pb-1"
             >
-              <span className="text-sm uppercase tracking-widest font-normal">
-                Explore CV
-              </span>
+              <span>Explore Interactive Career Record</span>
+              <span className="text-sm">↓</span>
             </a>
           </div>
         </div>

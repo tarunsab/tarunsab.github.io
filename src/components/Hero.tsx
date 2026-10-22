@@ -1,15 +1,9 @@
-import React, { useState } from 'react';
-import { Camera, Terminal, Sparkles, ArrowDownRight } from 'lucide-react';
-import { useTake } from '../context/TakeContext';
-
-type DisciplineMode = 'all' | 'engineering' | 'photography';
+import React from 'react';
+import { ArrowDownRight } from 'lucide-react';
 
 export const Hero: React.FC = () => {
-  const { take } = useTake();
-  const [mode, setMode] = useState<DisciplineMode>('all');
-
   return (
-    <header className="relative min-h-[96vh] bg-[#F7F5F0] dark:bg-[#141311] text-[#1C1B18] dark:text-[#F3EFE6] flex flex-col justify-between pt-28 sm:pt-32 pb-0 overflow-hidden border-b border-[#1C1B18]/10 dark:border-white/10 transition-colors">
+    <header className="relative min-h-[90vh] bg-[#F7F5F0] dark:bg-[#141311] text-[#1C1B18] dark:text-[#F3EFE6] flex flex-col justify-between pt-28 sm:pt-32 pb-0 overflow-hidden border-b border-[#1C1B18]/10 dark:border-white/10 transition-colors">
       
       {/* Top Right Hanger with Dennis Snellenberg Spinning Digital Globe */}
       <div className="absolute top-28 right-8 sm:right-16 z-20 flex items-center gap-4">
@@ -18,7 +12,7 @@ export const Hero: React.FC = () => {
           <p className="font-normal text-[#1C1B18] dark:text-[#F3EFE6]">London, United Kingdom</p>
         </div>
 
-        <div className="digital-ball cursor-pointer" title="London, UK · 51.5074° N, 0.1278° W">
+        <div className="digital-ball select-none" title="London, UK · 51.5074° N, 0.1278° W">
           <div className="globe">
             <div className="globe-wrap">
               <div className="globe-circle globe-circle-1" />
@@ -32,49 +26,8 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* Hero Centerpiece: Portrait Card with LinkedIn Display Picture */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 my-4 sm:my-8">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 my-6 sm:my-10">
         
-        {/* Horizon Take Perspective Switcher */}
-        {take === 'horizon' && (
-          <div className="mb-6 p-1 rounded-full bg-white/80 dark:bg-white/10 border border-[#1C1B18]/10 dark:border-white/10 backdrop-blur-md flex items-center shadow-sm animate-fadeIn">
-            <button
-              onClick={() => setMode('all')}
-              className={`px-4 py-1.5 rounded-full text-xs transition-all flex items-center gap-1.5 ${
-                mode === 'all'
-                  ? 'bg-[#1C1B18] dark:bg-white text-white dark:text-[#1C1B18] font-medium shadow-sm'
-                  : 'text-[#6A6C70] dark:text-white/70 hover:text-[#1C1B18]'
-              }`}
-            >
-              <Sparkles className="w-3 h-3" />
-              <span>Full Spectrum</span>
-            </button>
-
-            <button
-              onClick={() => setMode('engineering')}
-              className={`px-4 py-1.5 rounded-full text-xs transition-all flex items-center gap-1.5 ${
-                mode === 'engineering'
-                  ? 'bg-[#455CE9] text-white font-medium shadow-sm'
-                  : 'text-[#6A6C70] dark:text-white/70 hover:text-[#1C1B18]'
-              }`}
-            >
-              <Terminal className="w-3 h-3" />
-              <span>Platform & DevEx</span>
-            </button>
-
-            <button
-              onClick={() => setMode('photography')}
-              className={`px-4 py-1.5 rounded-full text-xs transition-all flex items-center gap-1.5 ${
-                mode === 'photography'
-                  ? 'bg-[#455CE9] text-white font-medium shadow-sm'
-                  : 'text-[#6A6C70] dark:text-white/70 hover:text-[#1C1B18]'
-              }`}
-            >
-              <Camera className="w-3 h-3" />
-              <span>Optics & 21 Nations</span>
-            </button>
-          </div>
-        )}
-
         {/* The Portrait Frame */}
         <div className="relative w-full max-w-[280px] sm:max-w-xs aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border border-black/10 dark:border-white/15 group bg-white dark:bg-[#1D1B18]">
           <img
@@ -99,7 +52,7 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* Dynamic Context Tagline */}
-        <p className="text-xs sm:text-sm text-[#7D7A74] dark:text-[#8F8A80] max-w-xl text-center mt-4 font-light">
+        <p className="text-xs sm:text-sm text-[#7D7A74] dark:text-[#8F8A80] max-w-xl text-center mt-5 font-light leading-relaxed">
           Research and Quantitative Model Platform Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM). Previously engineered investment platforms at J.P. Morgan (Asset Management 2021–2022 & 2019 start) following Computer Science at Imperial College London (2:1).
         </p>
 
@@ -131,20 +84,14 @@ export const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Contained Scrolling Name Marquee */}
-      <div className="w-full overflow-hidden border-t border-[#1C1B18]/15 dark:border-white/10 py-3 sm:py-5 bg-white/70 dark:bg-[#1D1B18]/70 backdrop-blur-sm select-none">
-        <div className="name-marquee-inner flex whitespace-nowrap text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-normal tracking-tight uppercase leading-none text-[#1C1B18] dark:text-[#F3EFE6]">
-          <span className="flex items-center">
-            Tarun Sabbineni<span className="mx-6 sm:mx-10 text-[#1C1B18]/30 dark:text-white/30 font-light">—</span>
+      {/* Static Clean Sub-Border Bar (No Scrolling Marquee) */}
+      <div className="w-full border-t border-[#1C1B18]/15 dark:border-white/10 py-5 sm:py-6 bg-white/40 dark:bg-[#1D1B18]/40 backdrop-blur-sm select-none">
+        <div className="max-w-7xl mx-auto px-8 sm:px-16 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <span className="text-xl sm:text-2xl font-light tracking-tight uppercase text-[#1C1B18] dark:text-[#F3EFE6]">
+            Tarun Sabbineni
           </span>
-          <span className="flex items-center">
-            Tarun Sabbineni<span className="mx-6 sm:mx-10 text-[#1C1B18]/30 dark:text-white/30 font-light">—</span>
-          </span>
-          <span className="flex items-center">
-            Tarun Sabbineni<span className="mx-6 sm:mx-10 text-[#1C1B18]/30 dark:text-white/30 font-light">—</span>
-          </span>
-          <span className="flex items-center">
-            Tarun Sabbineni<span className="mx-6 sm:mx-10 text-[#1C1B18]/30 dark:text-white/30 font-light">—</span>
+          <span className="text-xs font-mono text-[#7D7A74] tracking-wider uppercase">
+            Research & Quantitative Model Platforms • Vanguard London
           </span>
         </div>
       </div>

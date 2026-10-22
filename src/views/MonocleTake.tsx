@@ -59,7 +59,7 @@ export const MonocleTake: React.FC = () => {
 
             {/* Dennis Snellenberg Spinning Digital Globe in Sepia */}
             <div className="flex flex-col items-end gap-3 shrink-0 self-end md:self-auto">
-              <div className="digital-ball cursor-pointer" title="London LHR Base · 51.5074° N">
+              <div className="digital-ball select-none" title="London LHR Base · 51.5074° N">
                 <div className="globe">
                   <div className="globe-wrap">
                     <div className="globe-circle globe-circle-1" />
@@ -113,22 +113,10 @@ export const MonocleTake: React.FC = () => {
 
         </div>
 
-        {/* User Preferred Contained Name Marquee */}
-        <div className="mt-12 -mx-6 sm:-mx-12 lg:-mx-20 overflow-hidden border-t border-b border-[#1E1D1A]/15 py-3 sm:py-4 bg-[#EBE7DF] select-none font-sans">
-          <div className="name-marquee-inner flex whitespace-nowrap text-4xl sm:text-6xl md:text-7xl font-normal tracking-tight uppercase leading-none text-[#1E1D1A]">
-            <span className="flex items-center">
-              Tarun Sabbineni<span className="mx-6 sm:mx-10 text-[#1E1D1A]/30 font-light">—</span>
-            </span>
-            <span className="flex items-center">
-              Tarun Sabbineni<span className="mx-6 sm:mx-10 text-[#1E1D1A]/30 font-light">—</span>
-            </span>
-            <span className="flex items-center">
-              Tarun Sabbineni<span className="mx-6 sm:mx-10 text-[#1E1D1A]/30 font-light">—</span>
-            </span>
-            <span className="flex items-center">
-              Tarun Sabbineni<span className="mx-6 sm:mx-10 text-[#1E1D1A]/30 font-light">—</span>
-            </span>
-          </div>
+        {/* Static Header Rule (No Scrolling Marquee) */}
+        <div className="mt-12 -mx-6 sm:-mx-12 lg:-mx-20 border-t border-b border-[#1E1D1A]/15 py-4 px-6 sm:px-12 lg:px-20 bg-[#EBE7DF] select-none font-sans flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <span className="text-xl sm:text-2xl font-serif text-[#1E1D1A]">Tarun Sabbineni</span>
+          <span className="text-xs font-mono text-[#6E6B64] uppercase tracking-widest">Research & Quantitative Model Platforms • Vanguard</span>
         </div>
       </header>
 
