@@ -46,10 +46,10 @@ export const AboutSection: React.FC = () => {
 
           <div className="lg:col-span-7 space-y-6 text-base sm:text-lg text-[#55565A] dark:text-[#999D9E] font-light leading-relaxed">
             <p>
-              I am a Software Engineering Manager at <span className="text-[#1C1D20] dark:text-white font-normal">Vanguard</span> in London, leading engineering teams building enterprise cloud platforms, resilient distributed systems, and developer velocity tools. I have served as an Engineering Manager for 2 years, having joined Vanguard in December 2022.
+              I am the Research and Quantitative Model Platform Engineering Manager at <span className="text-[#1C1D20] dark:text-white font-normal">Vanguard</span> in London, leading teams building quantitative modeling platforms, distributed research compute infrastructure, and algorithmic pipelines. I have served as an Engineering Manager for 2 years, having joined Vanguard in December 2022.
             </p>
             <p>
-              Prior to Vanguard, I spent over 3 years at <span className="text-[#1C1D20] dark:text-white font-normal">JPMorgan</span> (2019 – 2022), with my final year in <span className="text-[#1C1D20] dark:text-white font-normal">J.P. Morgan Asset Management</span> building portfolio and data services, following a 6-month software engineering internship in 2018. My engineering foundation was forged at <span className="text-[#1C1D20] dark:text-white font-normal">University College London (UCL)</span>, where I earned First Class Honours in Biochemical Engineering.
+              Prior to Vanguard, I spent over 3 years at <span className="text-[#1C1D20] dark:text-white font-normal">JPMorgan</span> (starting in 2019 following a 6-month software engineering internship in 2018), with my final period in <span className="text-[#1C1D20] dark:text-white font-normal">J.P. Morgan Asset Management</span> (2021–2022) building portfolio and market data services. My technical foundation was forged at <span className="text-[#1C1D20] dark:text-white font-normal">Imperial College London</span>, where I graduated with a 2:1 in Computer Science.
             </p>
             <p>
               Away from the codebase, I maintain active personal pursuits in tennis, travel across 21 countries, mechanical keyboards, and landscape photography.

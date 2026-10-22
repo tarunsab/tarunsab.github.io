@@ -80,7 +80,7 @@ export const LuxuryTake: React.FC = () => {
               </h1>
 
               <p className="text-base sm:text-lg text-[#9EA3AE] max-w-xl font-light leading-relaxed">
-                Software Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM) leading enterprise cloud systems. Previously engineered financial platforms at JPMorgan (Asset Management & Corporate Tech) with First Class Honours from UCL.
+                Research & Quantitative Model Platform Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM). Previously engineered financial platforms at JPMorgan (Asset Management 2021–2022 & 2019 start) with a 2:1 in Computer Science from Imperial College London.
               </p>
 
               {/* Action Buttons */}
@@ -182,10 +182,10 @@ export const LuxuryTake: React.FC = () => {
                   </span>
                 </div>
                 <h3 className="text-3xl sm:text-4xl font-light text-white tracking-tight">
-                  Software Engineering Manager at Vanguard
+                  Research & Quant Model Platform EM at Vanguard
                 </h3>
                 <p className="text-sm text-[#9EA3AE] max-w-xl font-light leading-relaxed">
-                  Software Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM) leading enterprise cloud platforms and distributed systems. Prior software engineering at JPMorgan (Asset Management & Corporate Tech) and First Class Honours from UCL.
+                  Research and Quantitative Model Platform Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM). Prior systems engineering at JPMorgan (Asset Management 2021–2022 & 2019 start) and Computer Science from Imperial College London (2:1).
                 </p>
               </div>
 

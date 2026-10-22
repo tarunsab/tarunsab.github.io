@@ -95,7 +95,7 @@ export const WorkSection: React.FC = () => {
             </h2>
           </div>
           <p className="text-sm text-[#7D8085] dark:text-[#999D9E] max-w-md font-normal">
-            Software Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM) with prior systems engineering tenure at J.P. Morgan. Curated technical implementations and open-source architectures.
+            Research & Quantitative Model Platform Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM) with prior systems engineering tenure at J.P. Morgan (Asset Management & Corporate Tech).
           </p>
         </div>
 

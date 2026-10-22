@@ -90,7 +90,7 @@ export const Hero: React.FC = () => {
           {/* Label on Portrait */}
           <div className="absolute bottom-3 left-3 right-3 text-white">
             <div className="text-[10px] font-mono tracking-widest uppercase opacity-80 text-[#D97736]">
-              VANGUARD ENGINEERING LEADERSHIP
+              QUANT & RESEARCH PLATFORMS • VANGUARD
             </div>
             <div className="text-base font-medium tracking-tight">
               Tarun Sabbineni
@@ -99,8 +99,8 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* Dynamic Context Tagline */}
-        <p className="text-xs sm:text-sm text-[#7D7A74] dark:text-[#8F8A80] max-w-lg text-center mt-4 font-light">
-          Software Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM). Previously engineered distributed systems at J.P. Morgan (Asset Management & Corporate Tech) following a First Class Honours engineering degree from UCL.
+        <p className="text-xs sm:text-sm text-[#7D7A74] dark:text-[#8F8A80] max-w-xl text-center mt-4 font-light">
+          Research and Quantitative Model Platform Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM). Previously engineered investment platforms at J.P. Morgan (Asset Management 2021–2022 & 2019 start) following Computer Science at Imperial College London (2:1).
         </p>
 
       </div>
@@ -113,7 +113,7 @@ export const Hero: React.FC = () => {
           </div>
           <div>
             <h4 className="text-xl sm:text-2xl font-light text-[#1C1B18] dark:text-[#F3EFE6] tracking-tight">
-              Software Engineering Manager
+              Quant & Research Platform EM
             </h4>
             <p className="text-sm text-[#7D7A74] dark:text-[#8F8A80] font-light">
               Vanguard • Dec 2022 – Present (2 Years as EM)
@@ -123,10 +123,10 @@ export const Hero: React.FC = () => {
 
         <div className="text-left sm:text-right">
           <h4 className="text-xl sm:text-2xl font-light text-[#1C1B18] dark:text-[#F3EFE6] tracking-tight">
-            Ex-JPMorgan & UCL First Class
+            Ex-JPMorgan & Imperial CS (2:1)
           </h4>
           <p className="text-sm text-[#7D7A74] dark:text-[#8F8A80] font-light">
-            J.P. Morgan Asset Management & Corp Tech (2018–2022)
+            J.P. Morgan Asset Management (2021–2022) & 2019 Start
           </p>
         </div>
       </div>

@@ -97,7 +97,7 @@ export const DarkroomTake: React.FC = () => {
           </div>
 
           <p className="text-xs sm:text-sm text-[#8F8A80] max-w-lg text-center mt-4 font-light">
-            Software Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM). Ex-JPMorgan Asset Management & Corporate Technology • UCL First Class Honours.
+            Research & Quantitative Model Platform Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM). Ex-JPMorgan Asset Management (2021–2022) & Imperial College London Computer Science (2:1).
           </p>
         </div>
 
@@ -109,7 +109,7 @@ export const DarkroomTake: React.FC = () => {
             </div>
             <div>
               <h4 className="text-xl sm:text-2xl font-light text-[#F3EFE6] tracking-tight">
-                Software Engineering Manager
+                Quant & Research Platform EM
               </h4>
               <p className="text-sm text-[#8F8A80] font-light">
                 Vanguard • Dec 2022 – Present (2 Years as EM)
@@ -119,10 +119,10 @@ export const DarkroomTake: React.FC = () => {
 
           <div className="text-left sm:text-right">
             <h4 className="text-xl sm:text-2xl font-light text-[#F3EFE6] tracking-tight">
-              Ex-JPMorgan & UCL Alum
+              Ex-JPMorgan & Imperial CS (2:1)
             </h4>
             <p className="text-sm text-[#8F8A80] font-light">
-              Asset Management & Corporate Technology (2018–2022)
+              Asset Management (2021–2022) & 2019 Full-Time Start
             </p>
           </div>
         </div>
@@ -199,7 +199,7 @@ export const DarkroomTake: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-8">
           <div>
             <h3 className="text-2xl font-light text-[#F3EFE6]">Tarun Sabbineni</h3>
-            <p className="text-xs text-[#8F8A80] font-mono mt-1">Software Engineering Manager @ Vanguard • Ex-JPMorgan • UCL 1st Class</p>
+            <p className="text-xs text-[#8F8A80] font-mono mt-1">Quant & Research Platform EM @ Vanguard • Ex-JPMorgan • Imperial CS 2:1</p>
           </div>
           <div className="flex items-center gap-4">
             <a href="mailto:contact@tarunsabbineni.com" className="px-5 py-2.5 rounded-full bg-[#D97736] text-black font-medium text-xs font-mono hover:bg-white transition-colors flex items-center gap-2">

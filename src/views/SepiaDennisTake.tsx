@@ -17,7 +17,7 @@ export const SepiaDennisTake: React.FC = () => {
       {/* Editorial Home Intro Statement */}
       <HomeIntro />
 
-      {/* Interactive CV & Career Scrubber (Vanguard, JPMorgan, UCL) */}
+      {/* Interactive CV & Career Scrubber (Vanguard, JPMorgan, Imperial) */}
       <InteractiveCV />
 
       {/* Dennis Snellenberg Full-Width Work Rows with Mouse Follower */}

@@ -96,17 +96,17 @@ export const MonocleTake: React.FC = () => {
 
             <div className="lg:col-span-8 font-sans space-y-6 text-base text-[#4A4843] leading-relaxed">
               <p className="text-lg text-[#1E1D1A] font-serif font-normal leading-snug">
-                "Software engineering manager at Vanguard (Dec 2022 – Present; 2 years as EM) with prior engineering background at JPMorgan and UCL First Class Honours."
+                "Research and quantitative model platform engineering manager at Vanguard (Dec 2022 – Present; 2 years as EM) with prior engineering at JPMorgan and 2:1 from Imperial Computer Science."
               </p>
               <p className="text-sm">
-                Leading engineering teams across enterprise cloud platforms and mission-critical distributed financial systems. Prior experience spans over 3 years at JPMorgan Chase across Asset Management and Corporate Technology.
+                Leading the Research & Quantitative Model Platform team across high-performance model infrastructure and distributed financial research systems. Prior experience spans over 3 years at JPMorgan Chase (starting in 2019, with J.P. Morgan Asset Management 2021–2022).
               </p>
               <div className="flex flex-wrap items-center gap-6 pt-2 font-mono text-xs text-[#6E6B64]">
-                <span>Engineering Manager @ Vanguard</span>
+                <span>Quant & Research Platform EM @ Vanguard</span>
                 <span>•</span>
                 <span>Ex-JPMorgan Asset Management</span>
                 <span>•</span>
-                <span>UCL 1st Class Honours</span>
+                <span>Imperial CS 2:1</span>
               </div>
             </div>
           </div>
@@ -290,7 +290,7 @@ export const MonocleTake: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div>
             <h4 className="text-xl font-serif font-normal text-[#1E1D1A]">Tarun Sabbineni</h4>
-            <p className="text-xs font-mono text-[#6E6B64]">Software Engineering Manager @ Vanguard • Ex-JPMorgan • UCL 1st Class</p>
+            <p className="text-xs font-mono text-[#6E6B64]">Quant & Research Platform EM @ Vanguard • Ex-JPMorgan • Imperial CS 2:1</p>
           </div>
           <div className="flex items-center gap-4">
             <a href="mailto:contact@tarunsabbineni.com" className="px-5 py-2.5 rounded-full bg-[#1E1D1A] text-white text-xs font-mono hover:bg-[#B35B3B] transition-colors flex items-center gap-2">

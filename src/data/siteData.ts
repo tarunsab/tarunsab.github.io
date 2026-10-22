@@ -2,23 +2,23 @@ import { Project, Photo, CountryDestination, PersonalInterest, CareerMilestone }
 
 export const personalBio = {
   name: "Tarun Sabbineni",
-  shortTitle: "Software Engineering Manager @ Vanguard",
-  role: "Software Engineering Manager",
-  department: "Enterprise Technology & Systems",
+  shortTitle: "Quant & Research Platform EM @ Vanguard",
+  role: "Research & Quantitative Model Platform Engineering Manager",
+  department: "Research & Quantitative Model Platform Engineering",
   company: "Vanguard",
   location: "London, United Kingdom",
   timezone: "Europe/London",
-  availabilityStatus: "Open for architectural & engineering leadership dialogue",
-  summary: "Software Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM) leading enterprise cloud platforms, distributed systems, and high-velocity engineering teams. Prior experience includes over 3 years at JPMorgan across Asset Management and Corporate Technology, preceded by a 6-month internship in 2018, and First Class Honours from University College London (UCL).",
+  availabilityStatus: "Open for quantitative engineering & leadership dialogue",
+  summary: "Research and Quantitative Model Platform Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM) leading quantitative modeling platforms, research compute infrastructure, and high-performance financial systems. Prior experience spans over 3 years at JPMorgan (2019 – 2022, including J.P. Morgan Asset Management 2021–2022, and a 6-month internship in 2018), and a 2:1 in Computer Science from Imperial College London.",
   email: "contact@tarunsabbineni.com",
   github: "https://github.com/tarunsab",
   linkedin: "https://www.linkedin.com/in/tarun-sabbineni-228419b7/",
-  philosophy: "Empowering teams through clear ownership, building resilient systems that quietly scale, and leading with empathy and technical excellence.",
+  philosophy: "Bridging quantitative rigor and platform engineering: empowering researchers with resilient compute, clean abstractions, and high velocity.",
   stats: [
     { label: "Current Role", value: "Vanguard EM" },
-    { label: "EM Tenure", value: "2 Years" },
-    { label: "JPMorgan Tech", value: "2019 – 2022" },
-    { label: "UCL Degree", value: "1st Class Hons" },
+    { label: "Domain", value: "Quant & Research" },
+    { label: "JPMorgan", value: "2019 – 2022" },
+    { label: "Degree", value: "Imperial CS 2:1" },
   ]
 };
 
@@ -26,34 +26,34 @@ export const careerMilestones: CareerMilestone[] = [
   {
     id: "vanguard-em",
     yearRange: "Dec 2022 – Present",
-    role: "Software Engineering Manager",
+    role: "Research & Quantitative Model Platform Engineering Manager",
     company: "Vanguard",
-    division: "Enterprise Technology & Systems",
+    division: "Research & Quantitative Model Platform Engineering",
     location: "London, United Kingdom",
     badge: "Current Role · 2 Yrs as EM",
-    summary: "Leading high-performing engineering teams at Vanguard since December 2022, serving 2 years as Engineering Manager. Driving enterprise cloud platform architecture, resilient distributed services, developer velocity, and agile delivery across mission-critical asset management systems.",
+    summary: "Leading the Research and Quantitative Model Platform Engineering team at Vanguard since December 2022, serving 2 years as Engineering Manager. Architecting and operating high-performance quantitative modeling platforms, model execution pipelines, distributed research computing grids, and resilient cloud infrastructure that power quantitative investment strategies.",
     achievements: [
-      "Serving as Software Engineering Manager for 2 years: coaching engineers, driving architectural roadmaps, and collaborating with cross-functional leadership",
-      "Architecting robust cloud-native microservices and modern distributed platforms at Vanguard scale",
-      "Championing developer ergonomics, standardized continuous deployment guardrails, and enterprise software reliability",
-      "Scaling agile engineering practices and fostering a culture of continuous learning, psychological safety, and technical craftsmanship"
+      "Leading the Research & Quantitative Model Platform Engineering team for 2 years: setting platform vision, collaborating with quantitative researchers, and mentoring high-calibre systems engineers",
+      "Architecting scalable quantitative model hosting, backtesting engines, and algorithmic calculation grids across enterprise cloud platforms",
+      "Establishing developer velocity, standardized model deployment guardrails, and enterprise reliability for mission-critical investment research",
+      "Fostering cross-disciplinary synergy between quantitative research scientists, portfolio managers, and platform engineers"
     ],
-    skills: ["Engineering Leadership", "Distributed Systems", "Cloud Platforms", "Microservices", "System Architecture", "Agile & Delivery", "Mentorship", "FinTech Scale"],
+    skills: ["Quantitative Platforms", "Model Infrastructure", "Engineering Leadership", "Distributed Systems", "Cloud Compute Grids", "Python", "Java / C++", "FinTech Scale"],
     metrics: [
       { label: "Tenure at Vanguard", value: "Dec 2022 – Present" },
       { label: "Leadership Track", value: "2 Years as EM" },
-      { label: "Engineering Scope", value: "Tier-1 Asset Mgmt" }
+      { label: "Engineering Scope", value: "Quant & Research Platform" }
     ]
   },
   {
     id: "jpmorgan-am",
     yearRange: "2021 – 2022",
     role: "Software Engineer",
-    company: "J.P. Morgan",
-    division: "Asset Management",
+    company: "J.P. Morgan Asset Management",
+    division: "Asset Management Technology",
     location: "London, United Kingdom",
     badge: "Asset Management Tech",
-    summary: "Final year at JPMorgan spent within J.P. Morgan Asset Management technology. Built and modernized multi-asset platforms, high-throughput calculation pipelines, and mission-critical financial applications.",
+    summary: "Spent 2021 to 2022 within J.P. Morgan Asset Management technology after starting at JPMorgan in 2019. Built and modernized multi-asset platforms, high-throughput calculation pipelines, and mission-critical investment management systems.",
     achievements: [
       "Engineered resilient multi-tier financial services and portfolio analytics processing critical market and investment data",
       "Modernized legacy pipeline architectures to cloud-ready event-driven microservices with robust observability",
@@ -62,7 +62,7 @@ export const careerMilestones: CareerMilestone[] = [
     skills: ["Java / Spring Boot", "Python", "Cloud Architecture", "Event-Driven Systems", "Kafka", "SQL / NoSQL", "Asset Management"],
     metrics: [
       { label: "Division", value: "Asset Management" },
-      { label: "Duration", value: "1 Year" },
+      { label: "Tenure", value: "2021 – 2022" },
       { label: "Focus", value: "Portfolio & Data Scale" }
     ]
   },
@@ -73,17 +73,17 @@ export const careerMilestones: CareerMilestone[] = [
     company: "JPMorgan Chase & Co.",
     division: "Corporate Technology & Graduate Program",
     location: "London, United Kingdom",
-    badge: "Full-Time Engineering",
-    summary: "Full-time software engineering role across JPMorgan Chase's Corporate Technology organization. Designed, developed, and maintained core distributed banking platforms and enterprise backend systems.",
+    badge: "Full-Time Start (2019)",
+    summary: "Started full-time at JPMorgan in 2019 across Corporate Technology. Designed, developed, and maintained core distributed banking platforms and enterprise backend systems before transitioning to J.P. Morgan Asset Management in 2021.",
     achievements: [
-      "Built distributed enterprise applications supporting high-volume internal transaction and reporting workloads",
+      "Joined JPMorgan full-time in 2019, building distributed enterprise applications supporting high-volume internal transaction and reporting workloads",
       "Standardized CI/CD automation pipelines, automated test suites, and zero-downtime deployment patterns",
       "Graduated from rigorous software engineering graduate program, actively participating in firmwide technical innovation and hackathons"
     ],
     skills: ["Java", "Spring", "REST APIs", "Microservices", "Docker", "CI/CD", "Automated Testing"],
     metrics: [
-      { label: "Total JPM Tenure", value: "2019 – 2022" },
-      { label: "Domain", value: "Corporate Technology" }
+      { label: "Start at JPMorgan", value: "2019" },
+      { label: "Transition to Asset Mgmt", value: "2021" }
     ]
   },
   {
@@ -98,32 +98,32 @@ export const careerMilestones: CareerMilestone[] = [
     achievements: [
       "Completed intensive 6-month software engineering internship delivering production features for internal engineering teams",
       "Engineered automation scripts and data ingestion utilities that accelerated testing cycles",
-      "Received full-time graduate software engineering offer following standout performance"
+      "Received full-time graduate software engineering offer, returning to JPMorgan in 2019"
     ],
     skills: ["Python", "Java", "Automated Testing", "Git", "Agile Collaboration"],
     metrics: [
       { label: "Internship Duration", value: "6 Months" },
-      { label: "Outcome", value: "Full-Time Return Offer" }
+      { label: "Outcome", value: "Full-Time Return in 2019" }
     ]
   },
   {
-    id: "ucl-degree",
+    id: "imperial-degree",
     yearRange: "2015 – 2018",
-    role: "BEng Biochemical Engineering (First Class Honours)",
-    company: "University College London (UCL)",
-    division: "Faculty of Engineering Sciences",
+    role: "BSc Computer Science (2:1)",
+    company: "Imperial College London",
+    division: "Department of Computing",
     location: "London, United Kingdom",
-    badge: "First Class Honours",
-    summary: "Graduated with First Class Honours from University College London (UCL). Applied rigorous mathematical modeling, bioprocess optimization, fluid dynamics, and algorithmic problem-solving to complex quantitative systems.",
+    badge: "2:1 Honours",
+    summary: "Graduated with a 2:1 in Computer Science from Imperial College London (Department of Computing). Formed a comprehensive technical foundation spanning distributed systems, algorithms, computational mathematics, concurrency, data structures, and compiler architecture.",
     achievements: [
-      "Awarded First Class Honours for academic and experimental engineering excellence",
-      "Mastered computational modeling, biochemical reactor design, and quantitative statistical analysis",
-      "Cultivated deep analytical problem-solving foundation that directly transitioned into scalable software engineering"
+      "Earned 2:1 Honours in Computer Science from Imperial College London's world-renowned Department of Computing",
+      "Mastered distributed systems, high-performance computing, advanced algorithms, and systems programming",
+      "Conducted extensive project work in concurrent programming, database architecture, and algorithmic optimization"
     ],
-    skills: ["Mathematical Modeling", "Statistical Analysis", "Process Optimization", "Scientific Computing"],
+    skills: ["Computer Science", "Algorithms & Complexity", "Distributed Systems", "Concurrency", "Systems Architecture", "Mathematical Modeling"],
     metrics: [
-      { label: "Degree Result", value: "First Class Honours" },
-      { label: "Institution", value: "UCL London" }
+      { label: "Degree Result", value: "2:1 Honours" },
+      { label: "Institution", value: "Imperial College London" }
     ],
     isEducation: true
   }

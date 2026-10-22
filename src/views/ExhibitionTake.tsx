@@ -184,14 +184,14 @@ export const ExhibitionTake: React.FC = () => {
                     I operate at the intersection of enterprise software engineering leadership and thoughtful craft. At <span className="font-medium text-[#1A1A1A]">Vanguard</span> in London, I lead engineering teams focused on building intuitive, resilient internal platforms.
                   </p>
                   <p>
-                    Prior to Vanguard, I spent 2019 to 2022 at JPMorgan (including J.P. Morgan Asset Management) and earned First Class Honours in engineering from UCL.
+                    Prior to Vanguard, I spent 2019 to 2022 at JPMorgan (including J.P. Morgan Asset Management 2021–2022) and earned a 2:1 in Computer Science from Imperial College London.
                   </p>
                   <div className="pt-4 flex items-center gap-3 font-mono text-xs text-[#7A7A7A]">
-                    <span>Role: Engineering Manager @ Vanguard</span>
+                    <span>Role: Quant & Research Platform EM @ Vanguard</span>
                     <span>•</span>
                     <span>Ex-JPMorgan</span>
                     <span>•</span>
-                    <span>UCL 1st Class</span>
+                    <span>Imperial CS 2:1</span>
                   </div>
                 </div>
               </div>

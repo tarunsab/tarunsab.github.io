@@ -27,13 +27,13 @@ export const InteractiveCV: React.FC = () => {
       return m.id === 'vanguard-em' || m.id === 'jpmorgan-am';
     }
     if (filterMode === 'engineering') {
-      return m.id !== 'ucl-degree';
+      return m.id !== 'imperial-degree';
     }
     return true;
   });
 
   const handleCopySummary = () => {
-    const text = `Tarun Sabbineni — Software Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM). Previously Software Engineer at JPMorgan (2019 – 2022, including J.P. Morgan Asset Management) and Corporate Technology Intern (2018). First Class Honours in Biochemical Engineering from University College London (UCL). London, UK. https://www.linkedin.com/in/tarun-sabbineni-228419b7/`;
+    const text = `Tarun Sabbineni — Research & Quantitative Model Platform Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM). Previously Software Engineer at JPMorgan (2019 – 2022, including J.P. Morgan Asset Management 2021–2022) and Corporate Technology Intern (2018). 2:1 in Computer Science from Imperial College London. London, UK. https://www.linkedin.com/in/tarun-sabbineni-228419b7/`;
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
@@ -68,7 +68,7 @@ export const InteractiveCV: React.FC = () => {
             </h2>
 
             <p className="text-sm sm:text-base text-[#5A5751] dark:text-[#C5C2BA] max-w-2xl font-light">
-              Software Engineering Manager at <span className="font-medium text-[#1C1B18] dark:text-white">Vanguard</span> (Dec 2022 – Present; 2 years as EM) with prior software engineering tenure at <span className="font-medium text-[#1C1B18] dark:text-white">JPMorgan</span> across Asset Management and Corporate Technology, and First Class Honours from <span className="font-medium text-[#1C1B18] dark:text-white">UCL</span>.
+              Research & Quantitative Model Platform Engineering Manager at <span className="font-medium text-[#1C1B18] dark:text-white">Vanguard</span> (Dec 2022 – Present; 2 years as EM) with prior software engineering tenure at <span className="font-medium text-[#1C1B18] dark:text-white">JPMorgan</span> (2019 – 2022, including <span className="font-medium text-[#1C1B18] dark:text-white">J.P. Morgan Asset Management</span>), and a 2:1 in Computer Science from <span className="font-medium text-[#1C1B18] dark:text-white">Imperial College London</span>.
             </p>
           </div>
 
