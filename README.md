@@ -1,6 +1,6 @@
 # Tarun Sabbineni — Personal Website
 
-A visually striking, fast personal website uniting software engineering leadership (Developer Experience & Platform Engineering at Barclays) with travel, landscape and architectural photography.
+A visually striking, fast personal website uniting quantitative engineering leadership (Research & Quantitative Model Platform Engineering Manager at Vanguard, ex-JPMorgan, Imperial College London Computer Science 2:1) with Dennis Snellenberg fluid motion and warm Aristide sepia aesthetic.
 
 Built with **React**, **TypeScript**, **Vite**, and **Tailwind CSS**.
 
@@ -20,7 +20,7 @@ Inspired by:
    - Dual identity narrative: Software Engineering Manager + Visual Storyteller
 
 2. **Work & Architecture**:
-   - Career overview as Software Engineering Manager in DevEx & Platform Engineering at Barclays
+   - Career overview as Research & Quantitative Model Platform Engineering Manager at Vanguard
    - 4 core architectural strengths (Platform Engineering, Developer Ergonomics, Distributed Observability, Resilience & Governance)
    - Interactive project table with expandable drawers showing achievements, metrics, tech stack tags, and direct GitHub links
 
