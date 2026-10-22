@@ -89,8 +89,8 @@ export const Hero: React.FC = () => {
 
           {/* Label on Portrait */}
           <div className="absolute bottom-3 left-3 right-3 text-white">
-            <div className="text-[10px] font-mono tracking-widest uppercase opacity-80">
-              DEVELOPER EXPERIENCE & OPTICS
+            <div className="text-[10px] font-mono tracking-widest uppercase opacity-80 text-[#D97736]">
+              VANGUARD ENGINEERING LEADERSHIP
             </div>
             <div className="text-base font-medium tracking-tight">
               Tarun Sabbineni
@@ -99,8 +99,8 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* Dynamic Context Tagline */}
-        <p className="text-xs sm:text-sm text-[#7D7A74] dark:text-[#8F8A80] max-w-md text-center mt-4 font-light">
-          Software engineering leadership in Developer Experience at Barclays, balanced by landscape photography across 21 countries.
+        <p className="text-xs sm:text-sm text-[#7D7A74] dark:text-[#8F8A80] max-w-lg text-center mt-4 font-light">
+          Software Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM). Previously engineered distributed systems at J.P. Morgan (Asset Management & Corporate Tech) following a First Class Honours engineering degree from UCL.
         </p>
 
       </div>
@@ -116,17 +116,17 @@ export const Hero: React.FC = () => {
               Software Engineering Manager
             </h4>
             <p className="text-sm text-[#7D7A74] dark:text-[#8F8A80] font-light">
-              Developer Experience & Platform at Barclays
+              Vanguard • Dec 2022 – Present (2 Years as EM)
             </p>
           </div>
         </div>
 
         <div className="text-left sm:text-right">
           <h4 className="text-xl sm:text-2xl font-light text-[#1C1B18] dark:text-[#F3EFE6] tracking-tight">
-            Landscape & Travel Photographer
+            Ex-JPMorgan & UCL First Class
           </h4>
           <p className="text-sm text-[#7D7A74] dark:text-[#8F8A80] font-light">
-            21 Countries Traversed with Full Frame Optics
+            J.P. Morgan Asset Management & Corp Tech (2018–2022)
           </p>
         </div>
       </div>

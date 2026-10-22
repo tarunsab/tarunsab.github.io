@@ -58,9 +58,9 @@ export const LuxuryTake: React.FC = () => {
             </div>
 
             <div className="hidden sm:flex items-center gap-4">
-              <span>Barclays Platform Leadership</span>
+              <span>Vanguard Engineering Leadership</span>
               <span>•</span>
-              <span className="text-[#C5A880]">21 Nations Traversed</span>
+              <span className="text-[#C5A880]">Ex-JPMorgan Tech</span>
             </div>
           </div>
 
@@ -71,16 +71,16 @@ export const LuxuryTake: React.FC = () => {
             <div className="lg:col-span-7 space-y-8">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-[#C5A880]">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Executive Portfolio & Optical Archive</span>
+                <span>Executive Engineering Portfolio</span>
               </div>
 
               <h1 className="text-5xl sm:text-7xl lg:text-8xl font-light tracking-tight leading-[1.02] text-white">
                 Engineering Scale. <br />
-                <span className="font-serif italic text-[#C5A880]">Capturing</span> Light.
+                <span className="font-serif italic text-[#C5A880]">Leading</span> Teams.
               </h1>
 
               <p className="text-base sm:text-lg text-[#9EA3AE] max-w-xl font-light leading-relaxed">
-                Software Engineering Manager in Developer Experience at Barclays in London, orchestrating self-service internal developer platforms. Balanced by landscape and architectural photography across 21 countries.
+                Software Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM) leading enterprise cloud systems. Previously engineered financial platforms at JPMorgan (Asset Management & Corporate Tech) with First Class Honours from UCL.
               </p>
 
               {/* Action Buttons */}
@@ -137,7 +137,7 @@ export const LuxuryTake: React.FC = () => {
                       Tarun Sabbineni
                     </div>
                     <div className="text-xs text-[#9EA3AE] font-mono">
-                      DevEx & Platform @ Barclays
+                      Engineering Manager @ Vanguard
                     </div>
                   </div>
                 </div>
@@ -166,13 +166,13 @@ export const LuxuryTake: React.FC = () => {
               </h2>
             </div>
             <p className="text-xs font-mono text-[#8C9099]">
-              Engineering Leadership & Photographic Optics at a Glance
+              Engineering Leadership & FinTech Systems at a Glance
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             
-            {/* Cell 1: Barclays Platform Engineering (Spans 8 cols) */}
+            {/* Cell 1: Vanguard Platform Engineering (Spans 8 cols) */}
             <div className="md:col-span-8 p-8 rounded-3xl bg-[#111216] border border-white/10 hover:border-[#C5A880]/40 transition-colors flex flex-col justify-between relative overflow-hidden group">
               <div className="space-y-4 z-10">
                 <div className="flex items-center gap-2">
@@ -182,10 +182,10 @@ export const LuxuryTake: React.FC = () => {
                   </span>
                 </div>
                 <h3 className="text-3xl sm:text-4xl font-light text-white tracking-tight">
-                  Developer Experience & Platform at Barclays
+                  Software Engineering Manager at Vanguard
                 </h3>
                 <p className="text-sm text-[#9EA3AE] max-w-xl font-light leading-relaxed">
-                  Leading platform engineering initiatives across enterprise cloud systems. Establishing self-service internal developer platforms (IDP), standardizing golden paths, and accelerating deployment velocity for thousands of distributed developers.
+                  Software Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM) leading enterprise cloud platforms and distributed systems. Prior software engineering at JPMorgan (Asset Management & Corporate Tech) and First Class Honours from UCL.
                 </p>
               </div>
 

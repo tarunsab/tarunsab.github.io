@@ -7,24 +7,24 @@ export const HomeIntro: React.FC = () => {
         {/* Left Column: Big Statement Headline (Dennis style) */}
         <div className="lg:col-span-8 space-y-6">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-normal leading-[1.18] tracking-tight text-[#1C1D20] dark:text-white">
-            Empowering distributed engineering teams to thrive at enterprise scale. Software Engineering Manager at <span className="font-medium underline decoration-1 underline-offset-8">Barclays</span> shaping developer experience and cloud platforms.
+            Empowering distributed engineering teams to thrive at financial scale. Software Engineering Manager at <span className="font-medium underline decoration-1 underline-offset-8">Vanguard</span> shaping enterprise cloud platforms and developer velocity.
           </h2>
         </div>
 
         {/* Right Column: Narrative + Dennis Snellenberg Magnetic Circular Button */}
         <div className="lg:col-span-4 flex flex-col justify-between h-full space-y-10 pt-2">
           <p className="text-base sm:text-lg text-[#6A6C70] dark:text-[#999D9E] font-light leading-relaxed">
-            The combination of my commitment to platform reliability, developer ergonomics, and the quiet observation of travel photography positions me in a thoughtful place in technical leadership.
+            Leading engineering at Vanguard since Dec 2022 (2 years as EM) following over 3 years building financial platforms at J.P. Morgan across Asset Management and Corporate Technology. Grounded by First Class Honours in engineering from UCL.
           </p>
 
           {/* Dennis Snellenberg Signature Circular Button */}
           <div className="pt-4">
             <a
-              href="#work"
-              className="btn-round w-36 h-36 sm:w-44 sm:h-44 bg-[#1C1D20] dark:bg-white text-white dark:text-[#1C1D20] hover:bg-[#455CE9] dark:hover:bg-[#455CE9] dark:hover:text-white rounded-full flex items-center justify-center text-center p-4 transition-all duration-300 shadow-xl"
+              href="#cv"
+              className="btn-round w-36 h-36 sm:w-44 sm:h-44 bg-[#1C1D20] dark:bg-white text-white dark:text-[#1C1B18] hover:bg-[#D97736] dark:hover:bg-[#D97736] dark:hover:text-white rounded-full flex items-center justify-center text-center p-4 transition-all duration-300 shadow-xl"
             >
               <span className="text-sm uppercase tracking-widest font-normal">
-                Explore Work
+                Explore CV
               </span>
             </a>
           </div>

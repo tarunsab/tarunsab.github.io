@@ -1,6 +1,7 @@
 import React from 'react';
 import { Hero } from '../components/Hero';
 import { HomeIntro } from '../components/HomeIntro';
+import { InteractiveCV } from '../components/InteractiveCV';
 import { WorkSection } from '../components/WorkSection';
 import { PhotographySection } from '../components/PhotographySection';
 import { TravelAtlas } from '../components/TravelAtlas';
@@ -15,6 +16,9 @@ export const SepiaDennisTake: React.FC = () => {
 
       {/* Editorial Home Intro Statement */}
       <HomeIntro />
+
+      {/* Interactive CV & Career Scrubber (Vanguard, JPMorgan, UCL) */}
+      <InteractiveCV />
 
       {/* Dennis Snellenberg Full-Width Work Rows with Mouse Follower */}
       <WorkSection />

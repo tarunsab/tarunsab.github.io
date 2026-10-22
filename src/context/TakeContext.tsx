@@ -29,7 +29,7 @@ export const takeNames: Record<WebsiteTake, { title: string; subtitle: string; d
   'horizon': {
     title: 'Option 4: Horizon Atelier (Full Spectrum)',
     subtitle: 'Luminous Alabaster Sepia with Interactive Pillars',
-    description: 'Perspective discipline switcher, Barclays platform engineering pillars, panoramic world atlas, and Dennis curved footer.'
+    description: 'Perspective discipline switcher, Vanguard engineering pillars, interactive CV, panoramic world atlas, and Dennis curved footer.'
   }
 };
 

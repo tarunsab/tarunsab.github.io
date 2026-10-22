@@ -4,6 +4,7 @@ import {
   Camera, 
   Terminal
 } from 'lucide-react';
+import { InteractiveCV } from '../components/InteractiveCV';
 import { TravelAtlas } from '../components/TravelAtlas';
 
 export const DarkroomTake: React.FC = () => {
@@ -87,7 +88,7 @@ export const DarkroomTake: React.FC = () => {
 
               <div className="absolute bottom-3 left-3 text-white">
                 <div className="text-[10px] font-mono uppercase tracking-widest text-[#D97736]">
-                  BARCLAYS DEVEX & OPTICS
+                  VANGUARD ENGINEERING LEADERSHIP
                 </div>
                 <div className="text-base font-medium">Tarun Sabbineni</div>
               </div>
@@ -95,8 +96,8 @@ export const DarkroomTake: React.FC = () => {
 
           </div>
 
-          <p className="text-xs sm:text-sm text-[#8F8A80] max-w-md text-center mt-4 font-light">
-            Software engineering manager leading developer experience at Barclays, balanced by landscape photography across 21 countries.
+          <p className="text-xs sm:text-sm text-[#8F8A80] max-w-lg text-center mt-4 font-light">
+            Software Engineering Manager at Vanguard (Dec 2022 – Present; 2 years as EM). Ex-JPMorgan Asset Management & Corporate Technology • UCL First Class Honours.
           </p>
         </div>
 
@@ -111,17 +112,17 @@ export const DarkroomTake: React.FC = () => {
                 Software Engineering Manager
               </h4>
               <p className="text-sm text-[#8F8A80] font-light">
-                Developer Experience & Platform at Barclays
+                Vanguard • Dec 2022 – Present (2 Years as EM)
               </p>
             </div>
           </div>
 
           <div className="text-left sm:text-right">
             <h4 className="text-xl sm:text-2xl font-light text-[#F3EFE6] tracking-tight">
-              Landscape & Travel Photographer
+              Ex-JPMorgan & UCL Alum
             </h4>
             <p className="text-sm text-[#8F8A80] font-light">
-              21 Countries Traversed with Full Frame Optics
+              Asset Management & Corporate Technology (2018–2022)
             </p>
           </div>
         </div>
@@ -145,6 +146,11 @@ export const DarkroomTake: React.FC = () => {
         </div>
 
       </header>
+
+      {/* ------------------------------------------------------------- */}
+      {/* INTERACTIVE CV & CAREER TIMELINE */}
+      {/* ------------------------------------------------------------- */}
+      <InteractiveCV />
 
       {/* ------------------------------------------------------------- */}
       {/* OPTICS & FIELD KIT DRAWER */}
@@ -193,7 +199,7 @@ export const DarkroomTake: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-8">
           <div>
             <h3 className="text-2xl font-light text-[#F3EFE6]">Tarun Sabbineni</h3>
-            <p className="text-xs text-[#8F8A80] font-mono mt-1">Developer Experience @ Barclays • Medium Format Photography</p>
+            <p className="text-xs text-[#8F8A80] font-mono mt-1">Software Engineering Manager @ Vanguard • Ex-JPMorgan • UCL 1st Class</p>
           </div>
           <div className="flex items-center gap-4">
             <a href="mailto:contact@tarunsabbineni.com" className="px-5 py-2.5 rounded-full bg-[#D97736] text-black font-medium text-xs font-mono hover:bg-white transition-colors flex items-center gap-2">

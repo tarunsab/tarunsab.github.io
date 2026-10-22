@@ -51,3 +51,19 @@ export interface PersonalInterest {
   hasAudio?: boolean;
   audioTrackName?: string;
 }
+
+export interface CareerMilestone {
+  id: string;
+  yearRange: string;
+  role: string;
+  company: string;
+  division?: string;
+  location: string;
+  badge?: string;
+  summary: string;
+  achievements: string[];
+  skills: string[];
+  metrics?: { label: string; value: string }[];
+  isEducation?: boolean;
+}
+

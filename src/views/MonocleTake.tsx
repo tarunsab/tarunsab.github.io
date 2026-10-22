@@ -5,6 +5,7 @@ import {
   Mail
 } from 'lucide-react';
 import { publicProjects, visitedCountries } from '../data/siteData';
+import { InteractiveCV } from '../components/InteractiveCV';
 
 export const MonocleTake: React.FC = () => {
   const [activeCountryIdx, setActiveCountryIdx] = useState(4); // Switzerland default
@@ -95,17 +96,17 @@ export const MonocleTake: React.FC = () => {
 
             <div className="lg:col-span-8 font-sans space-y-6 text-base text-[#4A4843] leading-relaxed">
               <p className="text-lg text-[#1E1D1A] font-serif font-normal leading-snug">
-                "Software engineering leadership in Developer Experience at Barclays, balanced by landscape photography across 21 countries."
+                "Software engineering manager at Vanguard (Dec 2022 – Present; 2 years as EM) with prior engineering background at JPMorgan and UCL First Class Honours."
               </p>
               <p className="text-sm">
-                Leading platform engineering initiatives across enterprise cloud systems. Establishing self-service internal developer platforms (IDP), standardizing golden paths, and accelerating deployment velocity for thousands of distributed developers.
+                Leading engineering teams across enterprise cloud platforms and mission-critical distributed financial systems. Prior experience spans over 3 years at JPMorgan Chase across Asset Management and Corporate Technology.
               </p>
               <div className="flex flex-wrap items-center gap-6 pt-2 font-mono text-xs text-[#6E6B64]">
-                <span>Manager, DevEx @ Barclays</span>
+                <span>Engineering Manager @ Vanguard</span>
                 <span>•</span>
-                <span>21 Nations Visited</span>
+                <span>Ex-JPMorgan Asset Management</span>
                 <span>•</span>
-                <span>Leica & Sony Optics</span>
+                <span>UCL 1st Class Honours</span>
               </div>
             </div>
           </div>
@@ -130,6 +131,11 @@ export const MonocleTake: React.FC = () => {
           </div>
         </div>
       </header>
+
+      {/* ------------------------------------------------------------- */}
+      {/* INTERACTIVE CV & CAREER DOSSIER */}
+      {/* ------------------------------------------------------------- */}
+      <InteractiveCV />
 
       {/* ------------------------------------------------------------- */}
       {/* BROADSHEET WORK PLATES */}
@@ -284,7 +290,7 @@ export const MonocleTake: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div>
             <h4 className="text-xl font-serif font-normal text-[#1E1D1A]">Tarun Sabbineni</h4>
-            <p className="text-xs font-mono text-[#6E6B64]">Developer Experience @ Barclays • Medium Format Photography</p>
+            <p className="text-xs font-mono text-[#6E6B64]">Software Engineering Manager @ Vanguard • Ex-JPMorgan • UCL 1st Class</p>
           </div>
           <div className="flex items-center gap-4">
             <a href="mailto:contact@tarunsabbineni.com" className="px-5 py-2.5 rounded-full bg-[#1E1D1A] text-white text-xs font-mono hover:bg-[#B35B3B] transition-colors flex items-center gap-2">

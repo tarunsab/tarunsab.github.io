@@ -40,7 +40,7 @@ export const ExhibitionTake: React.FC = () => {
 
   const chapters = [
     { id: 'intro', num: '01', title: 'Introduction & Essence' },
-    { id: 'platform', num: '02', title: 'Platform Architecture (Barclays)' },
+    { id: 'platform', num: '02', title: 'Engineering Leadership (Vanguard)' },
     { id: 'atlas', num: '03', title: '21 Horizons (Expedition Atlas)' },
     { id: 'darkroom', num: '04', title: 'Darkroom Gallery (Optics)' },
     { id: 'beyond', num: '05', title: 'Beyond Work (Craft & Court)' }
@@ -73,7 +73,7 @@ export const ExhibitionTake: React.FC = () => {
           </div>
 
           <p className="text-xs leading-relaxed text-[#555] font-light">
-            Curated digital retrospective detailing software engineering leadership in Developer Experience at Barclays alongside photographic expeditions across 21 nations.
+            Curated digital retrospective detailing software engineering leadership at Vanguard alongside prior engineering at JPMorgan and 21 world destinations.
           </p>
         </div>
 
@@ -181,15 +181,17 @@ export const ExhibitionTake: React.FC = () => {
 
                 <div className="sm:col-span-7 space-y-4 font-sans text-sm text-[#444] leading-relaxed">
                   <p>
-                    I operate at the intersection of enterprise software engineering leadership and fine-art landscape photography. At <span className="font-medium text-[#1A1A1A]">Barclays</span> in London, I lead Developer Experience (DevEx) initiatives focused on building intuitive, resilient internal developer platforms.
+                    I operate at the intersection of enterprise software engineering leadership and thoughtful craft. At <span className="font-medium text-[#1A1A1A]">Vanguard</span> in London, I lead engineering teams focused on building intuitive, resilient internal platforms.
                   </p>
                   <p>
-                    Beyond engineering, my creative work is grounded in deliberate observation. Carrying full-frame and prime optics through 21 countries, I document alpine geometries, quiet architectural forms, and untamed coastlines.
+                    Prior to Vanguard, I spent 2019 to 2022 at JPMorgan (including J.P. Morgan Asset Management) and earned First Class Honours in engineering from UCL.
                   </p>
                   <div className="pt-4 flex items-center gap-3 font-mono text-xs text-[#7A7A7A]">
-                    <span>Focus: DevEx & Platform Engineering</span>
+                    <span>Role: Engineering Manager @ Vanguard</span>
                     <span>•</span>
-                    <span>Optics: Leica & Sony</span>
+                    <span>Ex-JPMorgan</span>
+                    <span>•</span>
+                    <span>UCL 1st Class</span>
                   </div>
                 </div>
               </div>
@@ -203,7 +205,7 @@ export const ExhibitionTake: React.FC = () => {
             <div className="space-y-12 animate-fadeIn font-sans">
               <div className="space-y-2 font-serif">
                 <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#7A7A7A] block">
-                  Chapter 02 / Engineering Leadership @ Barclays
+                  Chapter 02 / Engineering Leadership @ Vanguard
                 </span>
                 <h2 className="text-4xl sm:text-6xl font-normal tracking-tight text-[#1A1A1A]">
                   Developer Experience & Platform Engineering
